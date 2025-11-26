@@ -4,11 +4,6 @@ DECLARE @comment AS VARCHAR(20)
 
 SELECT 'It''s a beautiful day' AS Value;
 
-SELECT 'abc\
-def' AS [ColumnResult];
-
-SELECT 0xAB\
-CD AS HexVal;
 
 /* Outer Comment Start
    /* Inner Comment */
@@ -16,3 +11,19 @@ CD AS HexVal;
 */
 
 SELECT 'Code After Comment' * ALL;
+
+DECLARE @comment AS VARCHAR(20);
+GO
+/*
+SELECT @comment = '/*';
+*/ */
+SELECT @@VERSION AS [Version];
+SELECT 'abc\
+ def' AS [ColumnResult];
+ SELECT 0xabc\
+ def AS [ColumnResult];
+ SeLeCt TOP 5 Name, Age
+ FrOM Persons
+ WHerE Age BETWEEN 20 AND 30
+ OR Name LIKE 'a%'
+ OrDER BY Age DESC;

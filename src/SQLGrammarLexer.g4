@@ -1,321 +1,468 @@
+////
+////lexer grammar SQLGrammarLexer;
+////
+////options {
+////    caseInsensitive = true;
+////}
+//////Modification group
+////UPDATE    : 'UPDATE' ;
+////DELETE   : 'DELETE' ;
+////INSERT   : 'INSERT' ;
+////SET   : 'SET' ;
+////VALUES   : 'VALUES' ;
+////MERGE  : 'MERGE' ;
+////INTO   : 'INTO' ;
+////TRUNCATE    : 'TRUNCATE' ;
+////BULK  : 'BULK' ;
+////IDENTITY_INSERT    :  'IDENTITY_INSERT' ;
+////READTEXT   : 'READTEXT' ;
+////UPDATETEXT    : 'UPDATETEXT' ;
+////WRITETEXT     : 'WRITETEXT' ;
+////
+//////Query group
+////SELECT  :  'SELECT' ;
+////FROM  :  'FROM' ;
+////WHERE  :  'WHERE' ;
+////BY : 'BY' ;
+////GROUP   :  'GROUP' ;
+////HAVING  : 'HAVING' ;
+////UNION    : 'UNION' ;
+////INTERSECT    : 'INTERSECT' ;
+////EXCEPT  : 'EXCEPT' ;
+////ORDER  : 'ORDER' ;
+////DISTINCT    : 'DISTINCT' ;
+////ASC  : 'ASC' ;
+////DESC   : 'DESC' ;
+////OFFSET    : 'OFFSET' ;
+////TOP  : 'TOP' ;
+////JOIN  : 'JOIN' ;
+////ON  : 'ON' ;
+////INNER    : 'INNER' ;
+////OUTER    : 'OUTER' ;
+////LEFT  : 'LEFT' ;
+////RIGHT : 'RIGHT' ;
+////FULL  : 'FULL' ;
+////CROSS   : 'CROSS' ;
+////PERCENT  : 'PERCENT' ;
+////BROWSE    : 'BROWSE' ;
+////COMPUTE    : 'COMPUTE' ;
+////CONTAINS    :  'CONTAINS' ;
+////CONTAINSTABLE     : 'CONTAINSTABLE' ;
+////CURRENT  : 'CURRENT' ;
+////FETCH   : 'FETCH' ;
+////FOR   : 'FOR' ;
+////FREETEXT     :  'FREETEXT' ;
+////FREETEXTTABLE    : 'FREETEXTTABLE' ;
+////IDENTITYCOL     :  'IDENTITYCOL' ;
+////OPENDATASOURCE     :  'OPENDATASOURCE' ;
+////OPENQUERY     :  'OPENQUERY' ;
+////OPENROWSET    : 'OPENROWSET' ;
+////OPENXML    :  'OPENXML' ;
+////OPTION     : 'OPTION' ;
+////OVER  : 'OVER' ;
+////PIVOT : 'PIVOT' ;
+////SEMANTICKEYPHRASETABLE     : 'SEMANTICKEYPHRASETABLE' ;
+////SEMANTICSIMILARITYDETAILSTABLE    :  'SEMANTICSIMILARITYDETAILSTABLE' ;
+////SEMANTICSIMILARITYTABLE    : 'SEMANTICSIMILARITYTABLE' ;
+////TABLESAMPLE    : 'TABLESAMPLE' ;
+////UNPIVOT     : 'UNPIVOT' ;
+////WITH  : 'WITH' ;
+////WITHINGROUP    : 'WITHINGROUP' ;
+////
+//////Logical group
+////ALL :  'ALL' ;
+////ANY  : 'ANY' ;
+////SOME : 'SOME' ;
+////IS  :  'IS' ;
+////AND : 'AND' ;
+////OR   :  'OR' ;
+////NOT  : 'NOT' ;
+////IN  : 'IN' ;
+////BETWEEN  : 'BETWEEN' ;
+////LIKE  : 'LIKE' ;
+////EXISTS  : 'EXISTS' ;
+////NULL  : 'NULL' ;
+////COALESCE    : 'COALESCE' ;
+////CASE  : 'CASE' ;
+////WHEN   : 'WHEN' ;
+////THEN  : 'THEN' ;
+////ELSE  : 'ELSE' ;
+////END  : 'END' ;
+////CONVERT   : 'CONVERT' ;
+////ESCAPE    : 'ESCAPE' ;
+////NULLIF   : 'NULLIF' ;
+////TSEQUAL   :  'TSEQUAL' ;
+////
+//////DDL qroup
+////ALTER  : 'ALTER' ;
+////DROP  : 'DROP' ;
+////CREATE   :  'CREATE' ;
+////TABLE  : 'TABLE' ;
+////VIEW  : 'VIEW' ;
+////INDEX  :  'INDEX' ;
+////DATABASE  : 'DATABASE' ;
+////COLUMN    : 'COLUMN' ;
+////CONSTRAINT    :  'CONSTRAINT' ;
+////KEY  : 'KEY' ;
+////PRIMARY   : 'PRIMARY' ;
+////FOREIGN    : 'FOREIGN' ;
+////REFERENCES    : 'REFERENCES' ;
+////DEFAULT   : 'DEFAULT' ;
+////CHECK  : 'CHECK' ;
+////UNIQUE  : 'UNIQUE' ;
+////IDENTITY    : 'IDENTITY' ;
+////PROCEDURE    :  'PROCEDURE' ;
+////PROC  : 'PROC' ;
+////FUNCTION   : 'FUNCTION' ;
+////SCHEMA   : 'SCHEMA' ;
+////TRIGGER  : 'TRIGGER' ;
+////ADD : 'ADD' ;
+////CASCADE   : 'CASCADE' ;
+////CLUSTERED   :  'CLUSTERED' ;
+////COLLATE   : 'COLLATE' ;
+////DISK    : 'DISK' ;
+////DOUBLE   : 'DOUBLE' ;
+////EXTERNAL    :  'EXTERNAL' ;
+////FILE    : 'FILE' ;
+////FILLFACTOR   :  'FILLFACTOR' ;
+////NATIONAL    :  'NATIONAL' ;
+////NOCHECK    :  'NOCHECK' ;
+////NONCLUSTERED   :  'NONCLUSTERED' ;
+////PRECISION   : 'PRECISION' ;
+////REPLICATION    :  'REPLICATION' ;
+////RESTRICT   : 'RESTRICT' ;
+////ROWGUIDCOL    : 'ROWGUIDCOL' ;
+////RULE  : 'RULE' ;
+////SECURITYAUDIT     :  'SECURITYAUDIT' ;
+////STATISTICS    :  'STATISTICS' ;
+////VARYING     : 'VARYING' ;
+////
+////
+//////TC group
+////DECLARE  : 'DECLARE'   ;
+////AS  : 'AS'  ;
+////AUTHORIZATION    :    'AUTHORIZATION' ;
+////BACKUP   : 'BACKUP' ;
+////RESTORE    :  'RESTORE'   ;
+////CHECKPOINT   :  'CHECKPOINT' ;
+////DBCC  :  'DBCC' ;
+////DENY   :  'DENY'   ;
+////GRANT   : 'GRANT'    ;
+////REVOKE     :  'REVOKE'  ;
+////KILL  :   'KILL' ;
+////RECONFIGURE    :  'RECONFIGURE'   ;
+////SHUTDOWN    :  'SHUTDOWN' ;
+////USE :  'USE'  ;
+////USER :  'USER'  ;
+////SESSION_USER    :  'SESSION_USER' ;
+////SYSTEM_USER      : 'SYSTEM_USER' ;
+////CURRENT_USER     :  'CURRENT_USER' ;
+////CURRENT_DATE     :  'CURRENT_DATE'  ;
+////CURRENT_TIME    : 'CURRENT_TIME' ;
+////CURRENT_TIMESTAMP    :   'CURRENT_TIMESTAMP'  ;
+////BEGIN  : 'BEGIN' ;
+////COMMIT  : 'COMMIT'   ;
+////ROLLBACK  : 'ROLLBACK' ;
+////TRANSACTION   : 'TRANSACTION' ;
+////TRAN   :  'TRAN' ;
+////SAVE    : 'SAVE' ;
+////IF    :  'IF'  ;
+////WHILE   :  'WHILE' ;
+////BREAK   :  'BREAK' ;
+////CONTINUE   : 'CONTINUE' ;
+////GOTO    :  'GOTO' ;
+////RETURN   :  'RETURN' ;
+////WAITFOR   :  'WAITFOR' ;
+////TRY_CONVERT   :  'TRY_CONVERT' ;
+////RAISERROR    :  'RAISERROR' ;
+////PRINT   :  'PRINT' ;
+////EXEC    :  'EXEC' ;
+////EXECUTE   : 'EXECUTE'  ;
+////CLOSE    :  'CLOSE' ;
+////CURSOR    : 'CURSOR' ;
+////DEALLOCATE   : 'DEALLOCATE' ;
+////DISTRIBUTED    : 'DISTRIBUTED' ;
+////DUMP    : 'DUMP' ;
+////ERRLVL   : 'ERRLVL' ;
+////EXIT   : 'EXIT' ;
+////HOLDLOCK    :  'HOLDLOCK' ;
+////LINENO   : 'LINENO' ;
+////LOAD  : 'LOAD' ;
+////OF  : 'OF' ;
+////OFF  : 'OFF' ;
+////OFFSETS    : 'OFFSETS' ;
+////OPEN   :  'OPEN' ;
+////PLAN  : 'PLAN' ;
+////PUBLIC   : 'PUBLIC' ;
+////READ  : 'READ' ;
+////REVERT    :  'REVERT' ;
+////ROWCOUNT    :  'ROWCOUNT' ;
+////SETUSER  :  'SETUSER' ;
+////TEXTSIZE    : 'TEXTSIZE' ;
+////TO     : 'TO' ;
+////// T-SQL Batch Separator
+////GO_COMMAND: 'GO' ; // <-- إضافة
+////
+//////////
+////
+//////Boolean
+////TRUE  : 'TRUE' ;
+////FALSE : 'FALSE' ;
+////
+//////Comments
+////LINE_COMMENT:  '--' ~[\r\n]* -> skip;
+//////BLOCK_COMMENT: '/*' ( BLOCK_COMMENT | . )*? '*/' -> skip ;
+////BLOCK_COMMENT: '/*' .*? '*/' -> skip ;
+////
+////
+//////Operators and Punctuation
+////EQUAL: '=';
+////NOT_EQUAL: '!=' | '<>';
+////LESS: '<';
+////GREATER: '>';
+////LESS_EQUAL: '<=';
+////GREATER_EQUAL: '>=';
+////PLUS: '+' ;
+////MINUS: '-' ;
+////STAR: '*' ;
+////DIV: '/' ;
+////MOD: '%' ;
+////
+////COMMA: ',';
+////SEMICOLON: ';';
+////LPAREN: '(';
+////RPAREN: ')';
+////BRACKET_OPEN: '[' ;
+////BRACKET_CLOSE: ']' ;
+////
+////DOT: '.' ; // <-- إضافة
+////COLON: ':' ; // <-- إضافة
+////
+////// Delimited Identifiers (Priority 1)
+////// T-SQL bracketed identifier (e.g., [Version], [My Table])
+//////DELIMITED_IDENTIFIER_BRACKET: '[' ( ~']' | ']]' )+ ']' ; // <-- إضافة
+////DELIMITED_IDENTIFIER_BRACKET: '[' ( ~[\]\r\n] | ']]' )* ']' ;
+////// ANSI-SQL quoted identifier (e.g., "My Table")
+////DELIMITED_IDENTIFIER_QUOTE: '"' ( ~'"' | '""' )+ '"' ; // <-- إضافة
+////
+//////USER_VARIABLE (Priority 2)
+////USER_VARIABLE: '@' '@'? [a-z_] [a-z0-9_]* ;
+////
+//////IDENTIFIER (Priority 3)
+////IDENTIFIER :[a-z_] [a-z_0-9]* ;
+////
+//////Strings
+////STRING: '\'' ( ~['\r\n] | '\'\'' | '\\' [\r\n]+ )* '\'';
+////HEX_STRING: '0x' ( [0-9a-f] | '\\' [\r\n]+ )+ ;
+////BIT_STRING: '0b' [01]+ ;
+////
+//////Number (Corrected to handle .5 and 5. correctly)
+////NUMBER: [0-9]+ ('.' [0-9]*)? | '.' [0-9]+ ; // <-- تعديل
+////
+//////White spaces
+////WS: [ \t\r\n]+ -> skip;
+////----------------------------------------------------------------------------------------------------------------------------------------
+//
+//
 //
 //lexer grammar SQLGrammarLexer;
 //
-//options {
-//    caseInsensitive = true;
-//}
-////Modification group
-//UPDATE    : 'UPDATE' ;
-//DELETE   : 'DELETE' ;
-//INSERT   : 'INSERT' ;
-//SET   : 'SET' ;
-//VALUES   : 'VALUES' ;
-//MERGE  : 'MERGE' ;
-//INTO   : 'INTO' ;
-//TRUNCATE    : 'TRUNCATE' ;
-//BULK  : 'BULK' ;
-//IDENTITY_INSERT    :  'IDENTITY_INSERT' ;
-//READTEXT   : 'READTEXT' ;
-//UPDATETEXT    : 'UPDATETEXT' ;
-//WRITETEXT     : 'WRITETEXT' ;
 //
-////Query group
-//SELECT  :  'SELECT' ;
-//FROM  :  'FROM' ;
-//WHERE  :  'WHERE' ;
-//BY : 'BY' ;
-//GROUP   :  'GROUP' ;
-//HAVING  : 'HAVING' ;
-//UNION    : 'UNION' ;
-//INTERSECT    : 'INTERSECT' ;
-//EXCEPT  : 'EXCEPT' ;
-//ORDER  : 'ORDER' ;
-//DISTINCT    : 'DISTINCT' ;
-//ASC  : 'ASC' ;
-//DESC   : 'DESC' ;
-//OFFSET    : 'OFFSET' ;
-//TOP  : 'TOP' ;
-//JOIN  : 'JOIN' ;
-//ON  : 'ON' ;
-//INNER    : 'INNER' ;
-//OUTER    : 'OUTER' ;
-//LEFT  : 'LEFT' ;
-//RIGHT : 'RIGHT' ;
-//FULL  : 'FULL' ;
-//CROSS   : 'CROSS' ;
-//PERCENT  : 'PERCENT' ;
-//BROWSE    : 'BROWSE' ;
-//COMPUTE    : 'COMPUTE' ;
-//CONTAINS    :  'CONTAINS' ;
-//CONTAINSTABLE     : 'CONTAINSTABLE' ;
-//CURRENT  : 'CURRENT' ;
-//FETCH   : 'FETCH' ;
-//FOR   : 'FOR' ;
-//FREETEXT     :  'FREETEXT' ;
-//FREETEXTTABLE    : 'FREETEXTTABLE' ;
-//IDENTITYCOL     :  'IDENTITYCOL' ;
-//OPENDATASOURCE     :  'OPENDATASOURCE' ;
-//OPENQUERY     :  'OPENQUERY' ;
-//OPENROWSET    : 'OPENROWSET' ;
-//OPENXML    :  'OPENXML' ;
-//OPTION     : 'OPTION' ;
-//OVER  : 'OVER' ;
-//PIVOT : 'PIVOT' ;
-//SEMANTICKEYPHRASETABLE     : 'SEMANTICKEYPHRASETABLE' ;
-//SEMANTICSIMILARITYDETAILSTABLE    :  'SEMANTICSIMILARITYDETAILSTABLE' ;
-//SEMANTICSIMILARITYTABLE    : 'SEMANTICSIMILARITYTABLE' ;
-//TABLESAMPLE    : 'TABLESAMPLE' ;
-//UNPIVOT     : 'UNPIVOT' ;
-//WITH  : 'WITH' ;
-//WITHINGROUP    : 'WITHINGROUP' ;
+//// 1) CASE-INSENSITIVE LETTER FRAGMENTS
 //
-////Logical group
-//ALL :  'ALL' ;
-//ANY  : 'ANY' ;
-//SOME : 'SOME' ;
-//IS  :  'IS' ;
-//AND : 'AND' ;
-//OR   :  'OR' ;
-//NOT  : 'NOT' ;
-//IN  : 'IN' ;
-//BETWEEN  : 'BETWEEN' ;
-//LIKE  : 'LIKE' ;
-//EXISTS  : 'EXISTS' ;
-//NULL  : 'NULL' ;
-//COALESCE    : 'COALESCE' ;
-//CASE  : 'CASE' ;
-//WHEN   : 'WHEN' ;
-//THEN  : 'THEN' ;
-//ELSE  : 'ELSE' ;
-//END  : 'END' ;
-//CONVERT   : 'CONVERT' ;
-//ESCAPE    : 'ESCAPE' ;
-//NULLIF   : 'NULLIF' ;
-//TSEQUAL   :  'TSEQUAL' ;
+//fragment A: [aA];
+//fragment B: [bB];
+//fragment C: [cC];
+//fragment D: [dD];
+//fragment E: [eE];
+//fragment F: [fF];
+//fragment G: [gG];
+//fragment H: [hH];
+//fragment I: [iI];
+//fragment J: [jJ];
+//fragment K: [kK];
+//fragment L: [lL];
+//fragment M: [mM];
+//fragment N: [nN];
+//fragment O: [oO];
+//fragment P: [pP];
+//fragment Q: [qQ];
+//fragment R: [rR];
+//fragment S: [sS];
+//fragment T: [tT];
+//fragment U: [uU];
+//fragment V: [vV];
+//fragment W: [wW];
+//fragment X: [xX];
+//fragment Y: [yY];
+//fragment Z: [zZ];
 //
-////DDL qroup
-//ALTER  : 'ALTER' ;
-//DROP  : 'DROP' ;
-//CREATE   :  'CREATE' ;
-//TABLE  : 'TABLE' ;
-//VIEW  : 'VIEW' ;
-//INDEX  :  'INDEX' ;
-//DATABASE  : 'DATABASE' ;
-//COLUMN    : 'COLUMN' ;
-//CONSTRAINT    :  'CONSTRAINT' ;
-//KEY  : 'KEY' ;
-//PRIMARY   : 'PRIMARY' ;
-//FOREIGN    : 'FOREIGN' ;
-//REFERENCES    : 'REFERENCES' ;
-//DEFAULT   : 'DEFAULT' ;
-//CHECK  : 'CHECK' ;
-//UNIQUE  : 'UNIQUE' ;
-//IDENTITY    : 'IDENTITY' ;
-//PROCEDURE    :  'PROCEDURE' ;
-//PROC  : 'PROC' ;
-//FUNCTION   : 'FUNCTION' ;
-//SCHEMA   : 'SCHEMA' ;
-//TRIGGER  : 'TRIGGER' ;
-//ADD : 'ADD' ;
-//CASCADE   : 'CASCADE' ;
-//CLUSTERED   :  'CLUSTERED' ;
-//COLLATE   : 'COLLATE' ;
-//DISK    : 'DISK' ;
-//DOUBLE   : 'DOUBLE' ;
-//EXTERNAL    :  'EXTERNAL' ;
-//FILE    : 'FILE' ;
-//FILLFACTOR   :  'FILLFACTOR' ;
-//NATIONAL    :  'NATIONAL' ;
-//NOCHECK    :  'NOCHECK' ;
-//NONCLUSTERED   :  'NONCLUSTERED' ;
-//PRECISION   : 'PRECISION' ;
-//REPLICATION    :  'REPLICATION' ;
-//RESTRICT   : 'RESTRICT' ;
-//ROWGUIDCOL    : 'ROWGUIDCOL' ;
-//RULE  : 'RULE' ;
-//SECURITYAUDIT     :  'SECURITYAUDIT' ;
-//STATISTICS    :  'STATISTICS' ;
-//VARYING     : 'VARYING' ;
+//fragment LETTER: [a-zA-Z];
+//fragment DIGIT: [0-9];
 //
 //
-////TC group
-//DECLARE  : 'DECLARE'   ;
-//AS  : 'AS'  ;
-//AUTHORIZATION    :    'AUTHORIZATION' ;
-//BACKUP   : 'BACKUP' ;
-//RESTORE    :  'RESTORE'   ;
-//CHECKPOINT   :  'CHECKPOINT' ;
-//DBCC  :  'DBCC' ;
-//DENY   :  'DENY'   ;
-//GRANT   : 'GRANT'    ;
-//REVOKE     :  'REVOKE'  ;
-//KILL  :   'KILL' ;
-//RECONFIGURE    :  'RECONFIGURE'   ;
-//SHUTDOWN    :  'SHUTDOWN' ;
-//USE :  'USE'  ;
-//USER :  'USER'  ;
-//SESSION_USER    :  'SESSION_USER' ;
-//SYSTEM_USER      : 'SYSTEM_USER' ;
-//CURRENT_USER     :  'CURRENT_USER' ;
-//CURRENT_DATE     :  'CURRENT_DATE'  ;
-//CURRENT_TIME    : 'CURRENT_TIME' ;
-//CURRENT_TIMESTAMP    :   'CURRENT_TIMESTAMP'  ;
-//BEGIN  : 'BEGIN' ;
-//COMMIT  : 'COMMIT'   ;
-//ROLLBACK  : 'ROLLBACK' ;
-//TRANSACTION   : 'TRANSACTION' ;
-//TRAN   :  'TRAN' ;
-//SAVE    : 'SAVE' ;
-//IF    :  'IF'  ;
-//WHILE   :  'WHILE' ;
-//BREAK   :  'BREAK' ;
-//CONTINUE   : 'CONTINUE' ;
-//GOTO    :  'GOTO' ;
-//RETURN   :  'RETURN' ;
-//WAITFOR   :  'WAITFOR' ;
-//TRY_CONVERT   :  'TRY_CONVERT' ;
-//RAISERROR    :  'RAISERROR' ;
-//PRINT   :  'PRINT' ;
-//EXEC    :  'EXEC' ;
-//EXECUTE   : 'EXECUTE'  ;
-//CLOSE    :  'CLOSE' ;
-//CURSOR    : 'CURSOR' ;
-//DEALLOCATE   : 'DEALLOCATE' ;
-//DISTRIBUTED    : 'DISTRIBUTED' ;
-//DUMP    : 'DUMP' ;
-//ERRLVL   : 'ERRLVL' ;
-//EXIT   : 'EXIT' ;
-//HOLDLOCK    :  'HOLDLOCK' ;
-//LINENO   : 'LINENO' ;
-//LOAD  : 'LOAD' ;
-//OF  : 'OF' ;
-//OFF  : 'OFF' ;
-//OFFSETS    : 'OFFSETS' ;
-//OPEN   :  'OPEN' ;
-//PLAN  : 'PLAN' ;
-//PUBLIC   : 'PUBLIC' ;
-//READ  : 'READ' ;
-//REVERT    :  'REVERT' ;
-//ROWCOUNT    :  'ROWCOUNT' ;
-//SETUSER  :  'SETUSER' ;
-//TEXTSIZE    : 'TEXTSIZE' ;
-//TO     : 'TO' ;
-//// T-SQL Batch Separator
-//GO_COMMAND: 'GO' ; // <-- إضافة
+//// 2) KEYWORDS (CASE-INSENSITIVE)
 //
-////////
+//SELECT : S E L E C T ;
+//FROM   : F R O M ;
+//WHERE  : W H E R E ;
+//AND    : A N D ;
+//OR     : O R ;
+//NOT    : N O T ;
+//NULL   : N U L L ;
+//INSERT : I N S E R T ;
+//INTO   : I N T O ;
+//VALUES : V A L U E S ;
+//UPDATE : U P D A T E ;
+//DELETE : D E L E T E ;
+//SET    : S E T ;
+//JOIN   : J O I N ;
+//INNER  : I N N E R ;
+//LEFT   : L E F T ;
+//RIGHT  : R I G H T ;
+//FULL   : F U L L ;
+//OUTER  : O U T E R ;
+//ON     : O N ;
+//GROUP  : G R O U P ;
+//BY     : B Y ;
+//HAVING : H A V I N G ;
+//ORDER  : O R D E R ;
+//ASC    : A S C ;
+//DESC   : D E S C ;
+//TOP    : T O P ;
+//DISTINCT : D I S T I N C T ;
+//GO     : G O ;
+//ALL    : A L L ; //
+//DECLARE : D E C L A R E ;
+//AS      : A S ;
 //
-////Boolean
-//TRUE  : 'TRUE' ;
-//FALSE : 'FALSE' ;
+//VARCHAR : V A R C H A R ;
+//NVARCHAR: N V A R C H A R ;
+//INT     : I N T ;
+//INTEGER : I N T E G E R ;
+//CHAR    : C H A R ;
+//TEXT    : T E X T ;
+//DATE    : D A T E ;
+//DATETIME: D A T E T I M E ;
 //
-////Comments
-//LINE_COMMENT:  '--' ~[\r\n]* -> skip;
-////BLOCK_COMMENT: '/*' ( BLOCK_COMMENT | . )*? '*/' -> skip ;
-//BLOCK_COMMENT: '/*' .*? '*/' -> skip ;
+//TRUE    : T R U E ;
+//FALSE   : F A L S E ;
 //
 //
-////Operators and Punctuation
-//EQUAL: '=';
-//NOT_EQUAL: '!=' | '<>';
-//LESS: '<';
-//GREATER: '>';
-//LESS_EQUAL: '<=';
-//GREATER_EQUAL: '>=';
-//PLUS: '+' ;
-//MINUS: '-' ;
-//STAR: '*' ;
-//DIV: '/' ;
-//MOD: '%' ;
+//// 3) COMMENTS
 //
-//COMMA: ',';
-//SEMICOLON: ';';
-//LPAREN: '(';
-//RPAREN: ')';
-//BRACKET_OPEN: '[' ;
-//BRACKET_CLOSE: ']' ;
+//LINE_COMMENT: '--' ~[\r\n]* -> skip;
+////BLOCK_COMMENT: '/*' .*? '*/' -> skip;
+//BLOCK_COMMENT: '/*' (BLOCK_COMMENT | .)*? '*/' -> skip;//
 //
-//DOT: '.' ; // <-- إضافة
-//COLON: ':' ; // <-- إضافة
 //
-//// Delimited Identifiers (Priority 1)
-//// T-SQL bracketed identifier (e.g., [Version], [My Table])
-////DELIMITED_IDENTIFIER_BRACKET: '[' ( ~']' | ']]' )+ ']' ; // <-- إضافة
-//DELIMITED_IDENTIFIER_BRACKET: '[' ( ~[\]\r\n] | ']]' )* ']' ;
-//// ANSI-SQL quoted identifier (e.g., "My Table")
-//DELIMITED_IDENTIFIER_QUOTE: '"' ( ~'"' | '""' )+ '"' ; // <-- إضافة
+//// 4) STRINGS
 //
-////USER_VARIABLE (Priority 2)
-//USER_VARIABLE: '@' '@'? [a-z_] [a-z0-9_]* ;
+//// Handle escaped quotes ('') and backslash+newline continuation
+//STRING : '\'' ( ~['\r\n\\] | '\'\'' | '\\' [\r\n]+ )* '\'' ;
 //
-////IDENTIFIER (Priority 3)
-//IDENTIFIER :[a-z_] [a-z_0-9]* ;
+//// Handle backslash+newline continuation for hex strings
+//HEX_STRING : '0x' ( [0-9a-fA-F] | '\\' [\r\n]+ )+ ;
+//BIT_STRING : '0b' [01]+ ;
 //
-////Strings
-//STRING: '\'' ( ~['\r\n] | '\'\'' | '\\' [\r\n]+ )* '\'';
-//HEX_STRING: '0x' ( [0-9a-f] | '\\' [\r\n]+ )+ ;
-//BIT_STRING: '0b' [01]+ ;
 //
-////Number (Corrected to handle .5 and 5. correctly)
-//NUMBER: [0-9]+ ('.' [0-9]*)? | '.' [0-9]+ ; // <-- تعديل
+//// 5) NUMBERS
 //
-////White spaces
-//WS: [ \t\r\n]+ -> skip;
-//----------------------------------------------------------------------------------------------------------------------------------------
-
-
+//NUMBER
+//    : DIGIT+ ('.' DIGIT*)?
+//    | '.' DIGIT+
+//    ;
+//
+//
+//// 6) PUNCTUATION & OPERATORS
+//
+//EQUAL           : '=';
+//NOT_EQUAL       : '!=' | '<>';
+//LESS            : '<';
+//GREATER         : '>';
+//LESS_EQUAL      : '<=';
+//GREATER_EQUAL   : '>=';
+//PLUS            : '+';
+//MINUS           : '-';
+//STAR            : '*';
+//DIV             : '/';
+//MOD             : '%';
+//
+//COMMA           : ',';
+//SEMICOLON       : ';';
+//LPAREN          : '(';
+//RPAREN          : ')';
+//DOT             : '.';
+//COLON           : ':';
+//
+//
+//// 7) BRACKETED IDENTIFIERS (MUST COME BEFORE IDENTIFIER)
+//
+//DELIMITED_IDENTIFIER_BRACKET
+//    : '[' ( ~[\]\r\n] | ']]' )+ ']'
+//    ;
+//
+//DELIMITED_IDENTIFIER_QUOTE
+//    : '"' ( ~["\r\n] | '""' )+ '"'
+//    ;
+//
+//
+//// 8) USER VARIABLES
+//
+//USER_VARIABLE
+//    : '@' '@'? LETTER (LETTER | DIGIT | '_')*
+//    ;
+//
+//
+//// 9) IDENTIFIER (LAST TOKEN)
+//
+//IDENTIFIER
+//    : LETTER (LETTER | DIGIT | '_')*
+//    ;
+//
+//
+//// 10) WHITESPACE
+//
 
 lexer grammar SQLGrammarLexer;
+options {
+    caseInsensitive = true;
+}
 
+fragment A: 'a'; fragment B: 'b'; fragment C: 'c'; fragment D: 'd'; fragment E: 'e';
+fragment F: 'f'; fragment G: 'g'; fragment H: 'h'; fragment I: 'i'; fragment J: 'j';
+fragment K: 'k'; fragment L: 'l'; fragment M: 'm'; fragment N: 'n'; fragment O: 'o';
+fragment P: 'p'; fragment Q: 'q'; fragment R: 'r'; fragment S: 's'; fragment T: 't';
+fragment U: 'u'; fragment V: 'v'; fragment W: 'w'; fragment X: 'x'; fragment Y: 'y';
+fragment Z: 'z';
 
-// 1) CASE-INSENSITIVE LETTER FRAGMENTS
-
-fragment A: [aA];
-fragment B: [bB];
-fragment C: [cC];
-fragment D: [dD];
-fragment E: [eE];
-fragment F: [fF];
-fragment G: [gG];
-fragment H: [hH];
-fragment I: [iI];
-fragment J: [jJ];
-fragment K: [kK];
-fragment L: [lL];
-fragment M: [mM];
-fragment N: [nN];
-fragment O: [oO];
-fragment P: [pP];
-fragment Q: [qQ];
-fragment R: [rR];
-fragment S: [sS];
-fragment T: [tT];
-fragment U: [uU];
-fragment V: [vV];
-fragment W: [wW];
-fragment X: [xX];
-fragment Y: [yY];
-fragment Z: [zZ];
-
-fragment LETTER: [a-zA-Z];
+// تم التعديل: الاعتماد على الأحرف الصغيرة فقط لتجنب تكرار الأحرف (Warning 180)
+fragment LETTER: [a-z];
 fragment DIGIT: [0-9];
+fragment HEX_DIGIT : [0-9a-f] ;
 
-
-// 2) KEYWORDS (CASE-INSENSITIVE)
-
+// 2) ESSENTIAL RESERVED KEYWORDS
+// DML/Query Keywords
 SELECT : S E L E C T ;
 FROM   : F R O M ;
 WHERE  : W H E R E ;
-AND    : A N D ;
-OR     : O R ;
-NOT    : N O T ;
-NULL   : N U L L ;
+GROUP  : G R O U P ;
+BY     : B Y ;
+HAVING : H A V I N G ;
+ORDER  : O R D E R ;
+ASC    : A S C ;
+DESC   : D E S C ;
+UNION  : U N I O N ;
+DISTINCT : D I S T I N C T ;
+TOP    : T O P ;
 INSERT : I N S E R T ;
-INTO   : I N T O ;
-VALUES : V A L U E S ;
-UPDATE : U P D A T E ;
 DELETE : D E L E T E ;
+UPDATE : U P D A T E ;
 SET    : S E T ;
+VALUES : V A L U E S ;
+INTO   : I N T O ;
+
+// Join Keywords
 JOIN   : J O I N ;
 INNER  : I N N E R ;
 LEFT   : L E F T ;
@@ -323,19 +470,48 @@ RIGHT  : R I G H T ;
 FULL   : F U L L ;
 OUTER  : O U T E R ;
 ON     : O N ;
-GROUP  : G R O U P ;
-BY     : B Y ;
-HAVING : H A V I N G ;
-ORDER  : O R D E R ;
-ASC    : A S C ;
-DESC   : D E S C ;
-TOP    : T O P ;
-DISTINCT : D I S T I N C T ;
-GO     : G O ;
-ALL    : A L L ; //
+
+// Logical & Comparison Keywords (المضافة)
+AND    : A N D ;
+OR     : O R ;
+NOT    : N O T ;
+NULL   : N U L L ;
+TRUE   : T R U E ;
+FALSE  : F A L S E ;
+IS     : I S ;
+IN     : I N ;
+LIKE   : L I K E ;
+BETWEEN : B E T W E E N ;
+EXISTS : E X I S T S ;
+
+// DDL Keywords (المضافة)
+CREATE : C R E A T E ;
+ALTER  : A L T E R ;
+DROP   : D R O P ;
+TABLE  : T A B L E ;
+VIEW   : V I E W ;
+INDEX  : I N D E X ;
+CONSTRAINT : C O N S T R A I N T ;
+PRIMARY : P R I M A R Y ;
+FOREIGN : F O R E I G N ;
+KEY    : K E Y ;
+
+// Control Flow & Transaction Keywords (المضافة)
 DECLARE : D E C L A R E ;
 AS      : A S ;
+GO      : G O ;
+BEGIN   : B E G I N ;
+END     : E N D ;
+IF      : I F ;
+ELSE    : E L S E ;
+WHILE   : W H I L E ;
+CASE    : C A S E ;
+WHEN    : W H E N ;
+THEN    : T H E N ;
+COMMIT  : C O M M I T ;
+ROLLBACK : R O L L B A C K ;
 
+// Data Types (المضافة)
 VARCHAR : V A R C H A R ;
 NVARCHAR: N V A R C H A R ;
 INT     : I N T ;
@@ -344,37 +520,68 @@ CHAR    : C H A R ;
 TEXT    : T E X T ;
 DATE    : D A T E ;
 DATETIME: D A T E T I M E ;
+DECIMAL : D E C I M A L ;
+MONEY   : M O N E Y ;
+BIT     : B I T ;
 
-TRUE    : T R U E ;
-FALSE   : F A L S E ;
-
-
-// 3) COMMENTS
-
+// 3) COMMENTS (Correct Recursive Rule)
+// القاعدة الصحيحة لتجاهل التعليقات المتداخلة
 LINE_COMMENT: '--' ~[\r\n]* -> skip;
-//BLOCK_COMMENT: '/*' .*? '*/' -> skip;
-BLOCK_COMMENT: '/*' (BLOCK_COMMENT | .)*? '*/' -> skip;//
+BLOCK_COMMENT: '/*' (BLOCK_COMMENT | .)*? '*/' -> skip;
 
 
-// 4) STRINGS
+// 4) LITERALS (STRINGS)
 
-// Handle escaped quotes ('') and backslash+newline continuation
-STRING : '\'' ( ~['\r\n\\] | '\'\'' | '\\' [\r\n]+ )* '\'' ;
+// fragment لتعريف متتالية الاستمرار: خط مائل معكوس يتبعه كسر سطر.
+fragment LINE_CONTINUATION : '\\' [\r\n]+;
 
-// Handle backslash+newline continuation for hex strings
-HEX_STRING : '0x' ( [0-9a-fA-F] | '\\' [\r\n]+ )+ ;
-BIT_STRING : '0b' [01]+ ;
+// STRING: تحتوي على إجراء Java لحذف محارف الاستمرار وتنظيف الاقتباسات المزدوجة
+STRING
+    : '\'' ( ~['\r\n] | '\'\'' | LINE_CONTINUATION )* '\''
+      {
+        // ===============================================================
+        // التعديل الأول: تنظيف الـ Token Text (Java)
+        // ===============================================================
+        String originalText = getText();
 
+        // 1. إزالة محارف تمديد الأسطر (\ متبوعة بمسافة بيضاء وكسر سطر)
+        String cleanedText = originalText.replaceAll("\\\\s*[\\r\\n]+", "");
 
-// 5) NUMBERS
+        if (cleanedText.length() >= 2) {
+            // 2. إزالة علامات الاقتباس المحيطة (البداية والنهاية)
+            String content = cleanedText.substring(1, cleanedText.length() - 1);
 
-NUMBER
-    : DIGIT+ ('.' DIGIT*)?
-    | '.' DIGIT+
+            // 3. فك تشفير الاقتباسات: استبدال '' بـ '
+            // بعد هذا التعديل، 'It''s a beautiful day' سيصبح It's a beautiful day
+            content = content.replaceAll("''", "'");
+
+            setText(content); // تعيين القيمة النهائية النظيفة
+        } else {
+            // في حالة السلسلة الفارغة ''
+            setText("");
+        }
+      }
     ;
 
+// HEX_STRING: تتعامل مع تمديد السلسلة بـ (\ newline)
+HEX_STRING
+    : '0x' HEX_DIGIT+ ( '\\' [ \t]* [\r\n]+ [ \t]* HEX_DIGIT+ )*
+      {
+          String t = getText().replaceAll("\\\\[ \t]*[\\r\\n]+[ \t]*", "");
+          setText(t);
+      }
+    ;
+BIT_STRING : '0b' [01]+ ;
+// 5) NUMBERS (Corrected to include Scientific Notation)
+// ✅ التصحيح الحاسم: إضافة الصيغة العلمية (E +/- رقم)
+NUMBER
+    : (DIGIT+ ('.' DIGIT*)? | '.' DIGIT+) // الأعداد الصحيحة والعشرية
+    ( E ('+' | '-')? DIGIT+ )? // تم تصحيح: استخدام E بدلاً من (E | e) وحذف fragment e المكرر
+    ;
 
-// 6) PUNCTUATION & OPERATORS
+// fragment e تم حذفه لأنه كان مكرراً لـ fragment E ويسبب خطأ.
+
+// 6) OPERATORS & PUNCTUATION
 
 EQUAL           : '=';
 NOT_EQUAL       : '!=' | '<>';
@@ -394,10 +601,11 @@ LPAREN          : '(';
 RPAREN          : ')';
 DOT             : '.';
 COLON           : ':';
+BRACKET_OPEN    : '[';
+BRACKET_CLOSE   : ']';
 
 
-// 7) BRACKETED IDENTIFIERS (MUST COME BEFORE IDENTIFIER)
-
+// 7) DELIMITED IDENTIFIERS
 DELIMITED_IDENTIFIER_BRACKET
     : '[' ( ~[\]\r\n] | ']]' )+ ']'
     ;
@@ -408,19 +616,17 @@ DELIMITED_IDENTIFIER_QUOTE
 
 
 // 8) USER VARIABLES
-
+// ✅ تصحيح: يجب أن يسمح المعرف بالـ underscore
 USER_VARIABLE
-    : '@' '@'? LETTER (LETTER | DIGIT | '_')*
+    : '@' '@'? (LETTER | '_') (LETTER | DIGIT | '_')*
     ;
 
 
-// 9) IDENTIFIER (LAST TOKEN)
-
+// 9) IDENTIFIER (LAST RESORT)
 IDENTIFIER
-    : LETTER (LETTER | DIGIT | '_')*
+    : (LETTER | '_') (LETTER | DIGIT | '_')*
     ;
 
 
 // 10) WHITESPACE
-
 WS : [ \t\r\n]+ -> skip;
