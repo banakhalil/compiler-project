@@ -462,16 +462,17 @@ SET    : S E T ;
 VALUES : V A L U E S ;
 INTO   : I N T O ;
 
-// Join Keywords
+// Join Keywords (UPDATED)
 JOIN   : J O I N ;
 INNER  : I N N E R ;
 LEFT   : L E F T ;
 RIGHT  : R I G H T ;
 FULL   : F U L L ;
 OUTER  : O U T E R ;
+CROSS  : C R O S S ;  // NEW
 ON     : O N ;
 
-// Logical & Comparison Keywords (المضافة)
+// Logical & Comparison Keywords
 AND    : A N D ;
 OR     : O R ;
 NOT    : N O T ;
@@ -484,7 +485,7 @@ LIKE   : L I K E ;
 BETWEEN : B E T W E E N ;
 EXISTS : E X I S T S ;
 
-// DDL Keywords (المضافة)
+// DDL Keywords
 CREATE : C R E A T E ;
 ALTER  : A L T E R ;
 DROP   : D R O P ;
@@ -496,7 +497,24 @@ PRIMARY : P R I M A R Y ;
 FOREIGN : F O R E I G N ;
 KEY    : K E Y ;
 
-// Control Flow & Transaction Keywords (المضافة)
+// Database & Schema Keywords
+DATABASE : D A T A B A S E ;
+USE      : U S E ;
+UNIQUE   : U N I Q U E ;
+AUTO_INCREMENT : A U T O '_' I N C R E M E N T ;
+TIMESTAMP: T I M E S T A M P ;
+DEFAULT  : D E F A U L T ;
+CURRENT_TIMESTAMP : C U R R E N T '_' T I M E S T A M P ;
+REFERENCES : R E F E R E N C E S ;
+
+// Aggregate Functions
+COUNT   : C O U N T ;
+SUM     : S U M ;
+AVG     : A V G ;
+MIN     : M I N ;
+MAX     : M A X ;
+
+// Control Flow & Transaction Keywords
 DECLARE : D E C L A R E ;
 AS      : A S ;
 GO      : G O ;
@@ -508,10 +526,34 @@ WHILE   : W H I L E ;
 CASE    : C A S E ;
 WHEN    : W H E N ;
 THEN    : T H E N ;
-COMMIT  : C O M M I T ;
-ROLLBACK : R O L L B A C K ;
 
-// Data Types (المضافة)
+// Transaction Control Keywords
+START     : S T A R T ;
+TRANSACTION : T R A N S A C T I O N ;
+COMMIT    : C O M M I T ;
+ROLLBACK  : R O L L B A C K ;
+SAVEPOINT : S A V E P O I N T ;
+RELEASE   : R E L E A S E ;
+WORK      : W O R K ;
+
+// Window Functions & Advanced Query Keywords
+RANK    : R A N K ;
+ROW_NUMBER : R O W '_' N U M B E R ;
+DENSE_RANK : D E N S E '_' R A N K ;
+OVER    : O V E R ;
+PARTITION : P A R T I T I O N ;
+WITH    : W I T H ;
+RECURSIVE : R E C U R S I V E ;
+
+// Pagination & Result Set Keywords (NEW)
+LIMIT  : L I M I T ;
+OFFSET : O F F S E T ;
+FETCH  : F E T C H ;
+NEXT   : N E X T ;
+ROWS   : R O W S ;
+ONLY   : O N L Y ;
+
+// Data Types
 VARCHAR : V A R C H A R ;
 NVARCHAR: N V A R C H A R ;
 INT     : I N T ;

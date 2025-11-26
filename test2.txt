@@ -1,0 +1,119 @@
+-- Create database
+CREATE DATABASE test_db;
+USE test_db;
+
+-- Create tables
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    age INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    user_id INT,
+    amount DECIMAL(10,2),
+    order_date DATE,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- INSERT
+INSERT INTO users (name, email, age) VALUES
+('John Doe', 'john@email.com', 25),
+('Jane Smith', 'jane@email.com', 30),
+('Bob Johnson', 'bob@email.com', 35);
+
+INSERT INTO orders VALUES
+(1, 1, 99.99, '2024-01-15'),
+(2, 2, 149.50, '2024-01-16'),
+(3, 1, 75.25, '2024-01-17');
+
+-- SELECT
+SELECT * FROM users;
+SELECT name, email FROM users WHERE age > 25;
+SELECT name FROM users WHERE email LIKE '%@email.com';
+
+-- UPDATE
+UPDATE users SET age = 26 WHERE name = 'John Doe';
+
+-- DELETE
+DELETE FROM users WHERE name = 'Bob Johnson';
+
+-- JOIN operations
+SELECT u.name, o.order_id, o.amount
+FROM users u
+INNER JOIN orders o ON u.id = o.user_id;
+
+-- Aggregation
+SELECT COUNT(*) as total_users, AVG(age) as average_age FROM users;
+SELECT user_id, SUM(amount) as total_spent
+FROM orders
+GROUP BY user_id
+HAVING SUM(amount) > 100;
+
+-- Subqueries
+SELECT name FROM users
+WHERE id IN (SELECT user_id FROM orders WHERE amount > 100);
+
+-- UNION
+SELECT name FROM users WHERE age < 30
+UNION
+SELECT name FROM users WHERE email LIKE '%john%';
+
+-- CASE statements
+SELECT name,
+       CASE
+           WHEN age < 30 THEN 'Young'
+           WHEN age BETWEEN 30 AND 50 THEN 'Middle-aged'
+           ELSE 'Senior'
+       END as age_group
+FROM users;
+
+-- Window functions (if supported)
+SELECT name, age,
+       RANK() OVER (ORDER BY age DESC) as age_rank
+FROM users;
+
+-- Common Table Expressions (CTE)
+WITH user_orders AS (
+    SELECT u.name, COUNT(o.order_id) as order_count
+    FROM users u
+    LEFT JOIN orders o ON u.id = o.user_id
+    GROUP BY u.id, u.name
+)
+SELECT * FROM user_orders WHERE order_count > 0;
+
+-- Transaction blocks
+START TRANSACTION;
+INSERT INTO users (name, email, age) VALUES ('Test User', 'test@email.com', 40);
+UPDATE orders SET amount = amount * 1.1 WHERE user_id = 1;
+COMMIT;
+
+-- Rollback test
+START TRANSACTION;
+DELETE FROM users WHERE id = 1;
+ROLLBACK;
+
+
+-- Test constraints
+INSERT INTO users (name, email, age) VALUES (NULL, 'test2@email.com', 25); -- Should fail
+INSERT INTO users (name, email, age) VALUES ('Duplicate', 'john@email.com', 25); -- Should fail
+
+-- Create indexes
+CREATE INDEX idx_user_email ON users(email);
+CREATE INDEX idx_order_date ON orders(order_date);
+
+
+-- Large result set
+SELECT u1.*, u2.*
+FROM users u1
+CROSS JOIN users u2
+LIMIT 1000;
+
+-- Complex WHERE conditions
+SELECT * FROM users
+WHERE (age BETWEEN 20 AND 40)
+   AND (email LIKE '%@email.com' OR name LIKE 'J%')
+   AND id IN (SELECT user_id FROM orders WHERE amount > 50);
