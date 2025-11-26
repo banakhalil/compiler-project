@@ -332,7 +332,7 @@ DESC   : D E S C ;
 TOP    : T O P ;
 DISTINCT : D I S T I N C T ;
 GO     : G O ;
-
+ALL    : A L L ; //
 DECLARE : D E C L A R E ;
 AS      : A S ;
 
@@ -352,7 +352,8 @@ FALSE   : F A L S E ;
 // 3) COMMENTS
 
 LINE_COMMENT: '--' ~[\r\n]* -> skip;
-BLOCK_COMMENT: '/*' .*? '*/' -> skip;
+//BLOCK_COMMENT: '/*' .*? '*/' -> skip;
+BLOCK_COMMENT: '/*' (BLOCK_COMMENT | .)*? '*/' -> skip;//
 
 
 // 4) STRINGS
