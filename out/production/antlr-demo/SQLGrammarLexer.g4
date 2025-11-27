@@ -436,13 +436,13 @@ fragment P: 'p'; fragment Q: 'q'; fragment R: 'r'; fragment S: 's'; fragment T: 
 fragment U: 'u'; fragment V: 'v'; fragment W: 'w'; fragment X: 'x'; fragment Y: 'y';
 fragment Z: 'z';
 
-// تم التعديل: الاعتماد على الأحرف الصغيرة فقط لتجنب تكرار الأحرف (Warning 180)
+
 fragment LETTER: [a-z];
 fragment DIGIT: [0-9];
 fragment HEX_DIGIT : [0-9a-f] ;
 
-// 2) ESSENTIAL RESERVED KEYWORDS
-// DML/Query Keywords
+
+// 2) DML/Query Keywords
 SELECT : S E L E C T ;
 FROM   : F R O M ;
 WHERE  : W H E R E ;
@@ -462,14 +462,14 @@ SET    : S E T ;
 VALUES : V A L U E S ;
 INTO   : I N T O ;
 
-// Join Keywords (UPDATED)
+// Join Keywords
 JOIN   : J O I N ;
 INNER  : I N N E R ;
 LEFT   : L E F T ;
 RIGHT  : R I G H T ;
 FULL   : F U L L ;
 OUTER  : O U T E R ;
-CROSS  : C R O S S ;  // NEW
+CROSS  : C R O S S ;
 ON     : O N ;
 
 // Logical & Comparison Keywords
@@ -513,6 +513,8 @@ SUM     : S U M ;
 AVG     : A V G ;
 MIN     : M I N ;
 MAX     : M A X ;
+QUOTENAME : Q U O T E N A M E ;
+OBJECT_NAME : O B J E C T '_' N A M E ;
 
 // Control Flow & Transaction Keywords
 DECLARE : D E C L A R E ;
@@ -526,6 +528,9 @@ WHILE   : W H I L E ;
 CASE    : C A S E ;
 WHEN    : W H E N ;
 THEN    : T H E N ;
+TRY     : T R Y ;
+CATCH   : C A T C H ;
+ADD     : A D D ;
 
 // Transaction Control Keywords
 START     : S T A R T ;
@@ -536,7 +541,7 @@ SAVEPOINT : S A V E P O I N T ;
 RELEASE   : R E L E A S E ;
 WORK      : W O R K ;
 
-// Window Functions & Advanced Query Keywords
+// Window Functions
 RANK    : R A N K ;
 ROW_NUMBER : R O W '_' N U M B E R ;
 DENSE_RANK : D E N S E '_' R A N K ;
@@ -545,7 +550,7 @@ PARTITION : P A R T I T I O N ;
 WITH    : W I T H ;
 RECURSIVE : R E C U R S I V E ;
 
-// Pagination & Result Set Keywords (NEW)
+// Pagination & Result Set Keywords
 LIMIT  : L I M I T ;
 OFFSET : O F F S E T ;
 FETCH  : F E T C H ;
@@ -566,46 +571,34 @@ DECIMAL : D E C I M A L ;
 MONEY   : M O N E Y ;
 BIT     : B I T ;
 
-// 3) COMMENTS (Correct Recursive Rule)
-// القاعدة الصحيحة لتجاهل التعليقات المتداخلة
+// 3) COMMENTS
 LINE_COMMENT: '--' ~[\r\n]* -> skip;
 BLOCK_COMMENT: '/*' (BLOCK_COMMENT | .)*? '*/' -> skip;
 
 
 // 4) LITERALS (STRINGS)
-
-// fragment لتعريف متتالية الاستمرار: خط مائل معكوس يتبعه كسر سطر.
 fragment LINE_CONTINUATION : '\\' [\r\n]+;
 
-// STRING: تحتوي على إجراء Java لحذف محارف الاستمرار وتنظيف الاقتباسات المزدوجة
+// STRING
 STRING
     : '\'' ( ~['\r\n] | '\'\'' | LINE_CONTINUATION )* '\''
       {
-        // ===============================================================
-        // التعديل الأول: تنظيف الـ Token Text (Java)
-        // ===============================================================
+
         String originalText = getText();
-
-        // 1. إزالة محارف تمديد الأسطر (\ متبوعة بمسافة بيضاء وكسر سطر)
         String cleanedText = originalText.replaceAll("\\\\s*[\\r\\n]+", "");
-
         if (cleanedText.length() >= 2) {
-            // 2. إزالة علامات الاقتباس المحيطة (البداية والنهاية)
             String content = cleanedText.substring(1, cleanedText.length() - 1);
 
-            // 3. فك تشفير الاقتباسات: استبدال '' بـ '
-            // بعد هذا التعديل، 'It''s a beautiful day' سيصبح It's a beautiful day
             content = content.replaceAll("''", "'");
 
-            setText(content); // تعيين القيمة النهائية النظيفة
+            setText(content);
         } else {
-            // في حالة السلسلة الفارغة ''
             setText("");
         }
       }
     ;
 
-// HEX_STRING: تتعامل مع تمديد السلسلة بـ (\ newline)
+// HEX_STRING
 HEX_STRING
     : '0x' HEX_DIGIT+ ( '\\' [ \t]* [\r\n]+ [ \t]* HEX_DIGIT+ )*
       {
@@ -614,16 +607,15 @@ HEX_STRING
       }
     ;
 BIT_STRING : '0b' [01]+ ;
-// 5) NUMBERS (Corrected to include Scientific Notation)
-// ✅ التصحيح الحاسم: إضافة الصيغة العلمية (E +/- رقم)
+// 5) NUMBERS
 NUMBER
-    : (DIGIT+ ('.' DIGIT*)? | '.' DIGIT+) // الأعداد الصحيحة والعشرية
-    ( E ('+' | '-')? DIGIT+ )? // تم تصحيح: استخدام E بدلاً من (E | e) وحذف fragment e المكرر
+    : (DIGIT+ ('.' DIGIT*)? | '.' DIGIT+)
+    ( E ('+' | '-')? DIGIT+ )?
     ;
 
-// fragment e تم حذفه لأنه كان مكرراً لـ fragment E ويسبب خطأ.
 
-// 6) OPERATORS & PUNCTUATION
+
+// 6) OPERATORS
 
 EQUAL           : '=';
 NOT_EQUAL       : '!=' | '<>';
@@ -658,13 +650,12 @@ DELIMITED_IDENTIFIER_QUOTE
 
 
 // 8) USER VARIABLES
-// ✅ تصحيح: يجب أن يسمح المعرف بالـ underscore
 USER_VARIABLE
     : '@' '@'? (LETTER | '_') (LETTER | DIGIT | '_')*
     ;
 
 
-// 9) IDENTIFIER (LAST RESORT)
+// 9) IDENTIFIER
 IDENTIFIER
     : (LETTER | '_') (LETTER | DIGIT | '_')*
     ;

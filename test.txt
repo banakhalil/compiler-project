@@ -28,3 +28,11 @@ SELECT 'abc\
  OR Name LIKE 'a%'
  OrDER BY Age DESC;
 
+select 'fgg\
+kdcbheskfb'
+
+select 'fgg''\
+kdcbheskfb'
+
+select 'fgg''
+kdcbheskfb'
