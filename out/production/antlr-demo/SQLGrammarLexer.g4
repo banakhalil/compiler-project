@@ -516,6 +516,34 @@ MAX     : M A X ;
 QUOTENAME : Q U O T E N A M E ;
 OBJECT_NAME : O B J E C T '_' N A M E ;
 
+
+//functions
+TRIM : T R I M ;
+UPPER : U P P E R ;
+LOWER : L O W E R ;
+SUBSTRING : S U B S T R I N G ;
+REPLACE : R E P L A C E ;
+REPLICATE : R E P L I C A T E ;
+REVERSE : R E V E R S E ;
+RTRIM : R T R I M ;
+LTRIM : L T R I M ;
+NCHAR : N C H A R ;
+DATEADD : D A T E A D D ;
+DAY : D A Y ;
+GETDATE : G E T D A T E ;
+ISDATE : I S D A T E ;
+MONTH : M O N T H ;
+YEAR : Y E A R ;
+CAST : C A S T ;
+ISNULL : I S N U L L ;
+ISNUMERIC : I S N U M E R I C ;
+NEWID : N E W I D ;
+NULLIF : N U L L I F ;
+PARSENAME : P A R S E N A M E ;
+
+
+
+
 // Control Flow & Transaction Keywords
 DECLARE : D E C L A R E ;
 AS      : A S ;
@@ -531,6 +559,8 @@ THEN    : T H E N ;
 TRY     : T R Y ;
 CATCH   : C A T C H ;
 ADD     : A D D ;
+EXEC    : E X E C ;
+PRINT   : P R I N T ;
 
 // Transaction Control Keywords
 START     : S T A R T ;
@@ -581,14 +611,17 @@ fragment LINE_CONTINUATION : '\\' [\r\n]+;
 
 // STRING
 STRING
-    : '\'' ( ~['\r\n] | '\'\'' | LINE_CONTINUATION )* '\''
+    : '\'' ( ~['\\] | '\'\'' | '\\' [\r\n]+ | '\\' ~[\r\n] )* '\''
       {
 
         String originalText = getText();
-        String cleanedText = originalText.replaceAll("\\\\s*[\\r\\n]+", "");
-        if (cleanedText.length() >= 2) {
-            String content = cleanedText.substring(1, cleanedText.length() - 1);
+        if (originalText.length() >= 2) {
+            String content = originalText.substring(1, originalText.length() - 1);
 
+            // Remove backslash-newline continuations (and any trailing/leading whitespace around newline)
+            content = content.replaceAll("\\\\[ \t]*[\\r\\n]+[ \t]*", "");
+
+            // Replace escaped single quotes
             content = content.replaceAll("''", "'");
 
             setText(content);

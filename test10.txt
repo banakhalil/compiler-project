@@ -1,0 +1,91 @@
+-- ===============================
+-- STRING OPERATIONS AND COMMENTS TEST
+-- ===============================
+
+/*
+Multi-line comment test:
+This comment spans multiple lines
+and should be ignored by the compiler
+*/
+
+-- Single line comment test
+CREATE TABLE StringTest (
+    ID INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Email VARCHAR(100),
+    Description TEXT
+);
+
+-- Test string concatenation
+INSERT INTO StringTest (ID, FirstName, LastName, Email)
+VALUES (1, 'John' /* inline comment */, 'Doe', 'john@email.com');
+
+INSERT INTO StringTest VALUES
+(2, 'Sarah', 'Smith', 'sarah@email.com', 'Test description with single quote: it''s working'),
+(3, 'Mike', 'O''Brian', 'mike@email.com', NULL);
+
+-- String concatenation tests
+SELECT
+    FirstName + ' ' + LastName AS FullName,
+    'Email: ' + Email AS EmailLabel,
+    FirstName + '''s record' AS Possessive
+FROM StringTest;
+
+-- Another /* inline multi-line comment */ test
+-- String functions tests
+SELECT
+    ID,
+    UPPER(FirstName) AS UpperFirst,
+    LOWER(LastName) AS LowerLast,
+    LEN(FirstName) AS NameLength,
+    LEFT(Email, 5) AS EmailPrefix,
+    RIGHT(Email, 10) AS EmailSuffix,
+    SUBSTRING(Email, CHARINDEX('@', Email) + 1, LEN(Email)) AS Domain,
+    REPLACE(LastName, '''', '-') AS SafeLastName,
+    TRIM(' ' FROM FirstName) AS TrimmedName
+FROM StringTest;
+
+-- Test string comparison
+SELECT *
+FROM StringTest
+WHERE FirstName LIKE 'J%'  -- Names starting with J
+   OR LastName LIKE '%mith'  -- Names ending with mith
+   OR Email LIKE '%@email.com';
+
+/*
+Another multi-line block
+with more complex structure
+*/
+
+-- Test string aggregation (if supported)
+SELECT
+    STRING_AGG(FirstName, ', ') AS AllFirstNames
+FROM StringTest;
+
+-- Test with empty strings and NULL
+INSERT INTO StringTest (ID, FirstName, LastName, Email)
+VALUES (4, '', 'EmptyFirst', 'test4@email.com'); -- Empty string test
+
+INSERT INTO StringTest (ID, FirstName, LastName)
+VALUES (5, 'NoEmail', 'Test'); -- NULL email test
+
+-- NULL string handling
+SELECT
+    ID,
+    ISNULL(Email, 'No email provided') AS SafeEmail,
+    COALESCE(Description, 'No description') AS SafeDescription
+FROM StringTest;
+
+-- String in WHERE clause with special characters
+SELECT *
+FROM StringTest
+WHERE LastName LIKE '%''%'  -- Contains apostrophe
+   OR Email LIKE '%.com';
+
+-- Clean up
+DROP TABLE StringTest; -- End of test comment
+
+/* Final multi-line
+   comment to test
+   EOF handling */
