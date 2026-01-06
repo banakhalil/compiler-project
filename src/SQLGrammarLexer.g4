@@ -186,6 +186,12 @@ RELATIVE: R E L A T I V E ;
 CLOSE : C L O S E ;
 DEALLOCATE : D E A L L O C A T E;
 
+ALL    : A L L ;
+ROLLUP   : R O L L U P ;
+CUBE     : C U B E ;
+GROUPING : G R O U P I N G ;
+SETS     : S E T S ;
+
 
 LINE_COMMENT: '--' ~[\r\n]* -> skip;
 BLOCK_COMMENT: '/*' (BLOCK_COMMENT | .)*? '*/' -> skip;
