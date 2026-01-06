@@ -183,6 +183,8 @@ FIRST: F I R S T ;
 LAST:L A S T ;
 ABSOLUTE: A B S O L U T E;
 RELATIVE: R E L A T I V E ;
+CLOSE : C L O S E ;
+DEALLOCATE : D E A L L O C A T E;
 
 
 LINE_COMMENT: '--' ~[\r\n]* -> skip;
