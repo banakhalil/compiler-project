@@ -1,0 +1,18 @@
+
+
+declare employee_name_cursor cursor
+for select
+fname, lname from employee;
+open employee_name_cursor ;
+fetch next from employee_name_cursor into
+@fname, @lname;
+print @fname @lname;
+close employee_name_cursor;
+deallocate employee_name_cursor;
+
+
+WITH Employee_CTE (ID, Name) AS (
+    SELECT EmployeeID, LastName
+    FROM Employees
+)
+SELECT * FROM Employee_CTE;
