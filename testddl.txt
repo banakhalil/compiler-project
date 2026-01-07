@@ -1,0 +1,71 @@
+/* =========================
+   SET + CREATE BASE
+========================= */
+CREATE DATABASE TestDB;
+CREATE SCHEMA Sales;
+
+CREATE TABLE Sales.Employee (
+    EmpID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Salary DECIMAL(10,2),
+    DeptID INT
+);
+
+CREATE VIEW Sales.EmpView AS
+SELECT EmpID, Name, Salary
+FROM Sales.Employee;
+
+CREATE INDEX IDX_Emp_Name ON Sales.Employee(Name);
+
+/* =========================
+   ALTER TABLE – ALL CASES
+========================= */
+
+/* ADD COLUMN */
+ALTER TABLE Sales.Employee
+ADD Bonus DECIMAL(8,2) DEFAULT 0;
+
+/* ALTER COLUMN TYPE */
+ALTER TABLE Sales.Employee
+ALTER COLUMN Salary DECIMAL(12,2);
+
+/* DROP COLUMN */
+ALTER TABLE Sales.Employee
+DROP COLUMN Bonus;
+
+/* =========================
+   ALTER VIEW
+========================= */
+ALTER VIEW Sales.EmpView AS
+SELECT EmpID, Name
+FROM Sales.Employee
+WHERE Salary > 3000;
+
+/* =========================
+   ALTER INDEX
+========================= */
+ALTER INDEX IDX_Emp_Name ON Sales.Employee REBUILD;
+ALTER INDEX ALL ON Sales.Employee DISABLE;
+
+/* =========================
+   ALTER DATABASE
+========================= */
+ALTER DATABASE TestDB MODIFY NAME = TestDB_New;
+ALTER DATABASE TestDB SET RECOVERY FULL;
+
+/* =========================
+   MIXED ORDER (SHUFFLE)
+========================= */
+ALTER TABLE Sales.Employee ADD TempCol INT;
+ALTER INDEX IDX_Emp_Name ON Sales.Employee DISABLE;
+ALTER VIEW Sales.EmpView AS
+SELECT * FROM Sales.Employee;
+ALTER TABLE Sales.Employee DROP COLUMN TempCol;
+
+/* =========================
+   FINAL DROPS
+========================= */
+DROP VIEW Sales.EmpView;
+DROP INDEX IDX_Emp_Name;
+DROP TABLE Sales.Employee;
+DROP DATABASE TestDB_New;

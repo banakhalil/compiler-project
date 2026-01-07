@@ -9,6 +9,7 @@ sql_script
 
 statement
     : dml_statement
+    | ddlStatement
     | cursor_statement
     | with_clause
     | print_statement
@@ -60,7 +61,261 @@ delete_statement
     : DELETE FROM? table_name
       (where_clause)?
     ;
+// تعليمات الDDL
+ddlStatement
+    : createStatement
+    | alterStatement
+    | dropStatement
+    | truncateStatement
+    | otherStatements
+    | returnStatement
+    ;
 
+createStatement
+    : createTable
+    | createDatabase
+    | createSchema
+    | createProcedure
+    | createFunction
+    | createIndex
+    | createView
+    ;
+
+alterStatement
+    : alterTable
+    | alterDatabase
+    | alterIndex
+    | alterView
+    | alterProcedure
+    | alterFunction
+    | alterSchema
+    ;
+
+dropStatement:
+     DROP (TABLE | VIEW | DATABASE | PROCEDURE | PROC | FUNCTION | SCHEMA)
+      (IF EXISTS)? fullIdentifier (COMMA fullIdentifier)*
+    | DROP INDEX (IF EXISTS)? fullIdentifier (ON fullIdentifier)?
+    ;
+truncateStatement:
+    TRUNCATE TABLE fullIdentifier
+        ;
+otherStatements:
+SET (identifier | USER_VARIABLE) EQUAL (value | expression)
+    ;
+
+returnStatement:
+RETURN expression (SEMICOLON)?
+    ;
+
+tableElement
+    : columnDefinition
+    | tableConstraint
+    ;
+
+columnDefinition
+    : columnName=identifier
+      (
+          (dataType (columnConstraint)* (AS LPAREN expression RPAREN)?)
+          | (AS LPAREN expression RPAREN)
+      )
+    ;
+
+dataType
+    : DOUBLE (PRECISION)?
+    | FLOAT
+    | REAL
+    | (VARCHAR | NVARCHAR | CHAR | NCHAR | BINARY | VARBINARY)
+        (LPAREN (NUMBER | MAX) RPAREN)?
+        (COLLATE identifier)?
+    | (DECIMAL | NUMERIC)
+        (LPAREN NUMBER (COMMA NUMBER)? RPAREN)?
+    | INT | INTEGER | BIGINT | SMALLINT | TINYINT
+    | DATE | DATETIME | DATETIME2 (LPAREN NUMBER RPAREN)? | TIMESTAMP | TIME
+    | TEXT | BIT | MONEY
+    | UNIQUEIDENTIFIER
+    | XML
+    | JSON
+    | INTERVAL (DAY | HOUR | MINUTE | SECOND) TO (SECOND | MINUTE | HOUR)
+    ;
+
+columnConstraint
+    : (CONSTRAINT identifier)?
+      (
+          PRIMARY KEY (CLUSTERED | NONCLUSTERED)?
+        | NOT NULL
+        | NULL
+        | UNIQUE (CLUSTERED | NONCLUSTERED)?
+        | IDENTITY (LPAREN NUMBER (COMMA NUMBER)? RPAREN)?
+        | DEFAULT defaultValue
+        | CHECK LPAREN expression RPAREN
+        | REFERENCES fullIdentifier
+            (LPAREN identifier RPAREN)?
+            (ON DELETE action)?
+            (ON UPDATE action)?
+      )
+    ;
+
+createTable
+    : CREATE TABLE tableName=fullIdentifier
+      LPAREN tableElement (COMMA tableElement)* RPAREN
+      (ON fileGroup)? (TEXTIMAGE_ON fileGroup)?
+    ;
+
+createDatabase
+    : CREATE DATABASE identifier
+    ;
+
+createSchema
+    : CREATE SCHEMA identifier (AUTHORIZATION identifier)?
+    ;
+
+createProcedure
+    : CREATE (PROCEDURE | PROC) fullIdentifier
+      (LPAREN parameterList? RPAREN | parameterList)?
+      AS
+      BEGIN
+          (statement SEMICOLON?)*
+      END
+    ;
+
+createFunction
+    : CREATE FUNCTION fullIdentifier
+      (LPAREN parameterList? RPAREN)?
+      RETURNS dataType
+      AS
+      BEGIN
+          (statement SEMICOLON?)*
+      END
+    ;
+createIndex
+    : CREATE (UNIQUE)? (CLUSTERED | NONCLUSTERED)? INDEX fullIdentifier
+      ON fullIdentifier LPAREN indexColumn (COMMA indexColumn)* RPAREN
+    ;
+
+indexColumn
+    : identifier (ASC | DESC)?
+    ;
+
+createView
+    : CREATE VIEW fullIdentifier AS select_statement
+    ;
+alterTable
+    : ALTER TABLE fullIdentifier
+      alterTableAction (COMMA alterTableAction)*
+    ;
+
+alterTableAction
+    : (ADD (columnDefinition | tableConstraint))
+    | (DROP (COLUMN | CONSTRAINT)? identifier)
+    | (ALTER COLUMN identifier dataType)
+    ;
+
+alterDatabase
+    : ALTER DATABASE identifier (MODIFY NAME EQUAL identifier | SET identifier identifier)
+    ;
+
+alterIndex
+    : ALTER INDEX (identifier | ALL) ON fullIdentifier (REBUILD | DISABLE)
+    ;
+
+alterView
+    : ALTER VIEW fullIdentifier AS select_statement
+    ;
+
+alterProcedure
+    : ALTER (PROCEDURE | PROC) fullIdentifier
+      (LPAREN parameterList? RPAREN | parameterList)?
+      AS
+      BEGIN
+          (statement SEMICOLON?)*
+      END
+    ;
+
+alterFunction
+    : ALTER FUNCTION fullIdentifier
+      (LPAREN parameterList? RPAREN)?
+      RETURNS dataType
+      AS
+      BEGIN
+          (statement SEMICOLON?)*
+      END
+    ;
+
+alterSchema
+    : ALTER SCHEMA identifier
+      TRANSFER (OBJECT DOUBLE_COLON)? fullIdentifier
+    ;
+
+
+tableConstraint
+    : (CONSTRAINT identifier)?
+      (
+          PRIMARY KEY (CLUSTERED | NONCLUSTERED)? LPAREN identifier (COMMA identifier)* RPAREN
+        | UNIQUE (CLUSTERED | NONCLUSTERED)? LPAREN identifier (COMMA identifier)* RPAREN
+        | FOREIGN KEY LPAREN identifier (COMMA identifier)* RPAREN
+           REFERENCES fullIdentifier
+               (LPAREN identifier (COMMA identifier)* RPAREN)?
+            (ON DELETE action)?
+            (ON UPDATE action)?
+        | CHECK LPAREN expression RPAREN
+      )
+    ;
+
+
+
+parameterList
+    : parameter (COMMA parameter)*
+    ;
+
+parameter
+    : (USER_VARIABLE | identifier) dataType (EQUAL defaultValue)? (OUTPUT)?
+    ;
+
+fileGroup
+    : identifier | PRIMARY
+    ;
+
+action : CASCADE | (NO ACTION) | (SET NULL) | (SET DEFAULT) | RESTRICT ;
+
+defaultValue
+    : STRING
+    | NUMBER
+    | MINUS? NUMBER
+    | NULL
+    | CURRENT_TIMESTAMP
+    | identifier (LPAREN (expression (COMMA expression)*)? RPAREN)?
+    ;
+
+columnList
+    : (STAR | identifier (COMMA identifier)*)
+    ;
+identifier
+    : IDENTIFIER
+    | DELIMITED_IDENTIFIER_BRACKET
+    | DELIMITED_IDENTIFIER_QUOTE
+    | anyKeywordAsIdentifier
+    ;
+
+anyKeywordAsIdentifier
+    : NAME | VALUE | ID | CODE | STATUS | TYPE | DATE | TIME | TEXT | RECOVERY | FULL | SIMPLE | LOG
+    | GETDATE | DATEADD | DATEDIFF | NEWID | SYSDATETIMEOFFSET | SYSDATETIME
+    | CLUSTERED | NONCLUSTERED | AS | IF | NULL | ON | YEAR | MONTH | DAY | USER | ROLE | KEY | VALUE
+    ;
+
+fullIdentifier
+    : identifier (DOT identifier)*
+    ;
+valueList
+    : value (COMMA value)*
+    ;
+
+value
+    : identifier (LPAREN (expression (COMMA expression)*)? RPAREN)?
+    | USER_VARIABLE
+    | NUMBER
+    | STRING
+    | NULL
+    ;
 // --- 2. تعليمات الـ Cursor والتعليمات الإضافية ---
 
 cursor_statement
@@ -141,6 +396,7 @@ when_clause
 primary_expression
     : column_name
     | constant
+    | identifier
     | USER_VARIABLE
     | function_call
     | LPAREN expression RPAREN
