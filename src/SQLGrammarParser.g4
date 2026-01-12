@@ -2,8 +2,7 @@ parser grammar SQLGrammarParser;
 
 options { tokenVocab = SQLGrammarLexer; }
 
-// --- القاعدة الأساسية للسكربت ---
-sql_script
+sql_sdecript
     : (statement SEMICOLON? | GO)* EOF
     ;
 
@@ -11,10 +10,29 @@ statement
     : dml_statement
     | ddlStatement
     | cursor_statement
+    |declaration_statement
     | with_clause
     | print_statement
     | close_cursor
     | deallocate_cursor
+    |while_statement
+    |block_statement
+    ;
+
+
+while_statement
+    : WHILE expression statement
+    ;
+block_statement
+    : BEGIN (statement SEMICOLON?)* END
+    ;
+
+declaration_statement
+    : DECLARE variable_declaration (COMMA variable_declaration)*
+    ;
+
+variable_declaration
+    : USER_VARIABLE dataType (EQUAL expression)?
     ;
 
 dml_statement
@@ -24,7 +42,6 @@ dml_statement
     | delete_statement
     ;
 
-// --- 1. تعليمات الاستعلام (DML) ---
 
 select_statement
     : SELECT (DISTINCT | ALL)? (TOP NUMBER)? select_list
@@ -61,7 +78,6 @@ delete_statement
     : DELETE FROM? table_name
       (where_clause)?
     ;
-// تعليمات الDDL
 ddlStatement
     : createStatement
     | alterStatement
@@ -373,7 +389,6 @@ common_table_expression
     : identifier_ref (LPAREN column_list RPAREN)? AS LPAREN select_statement RPAREN
     ;
 
-// --- 3. نظام التعبيرات (Expressions) والأولويات ---
 
 expression
     : primary_expression
@@ -403,7 +418,6 @@ primary_expression
     | scalar_subquery
     ;
 
-// --- 4. القواعد المساعدة (Helper Rules) ---
 
 table_source
     : identifier_ref (AS? table_alias)?
@@ -451,7 +465,6 @@ assignment : column_name (EQUAL | PLUS) expression ;
 expression_list : expression (COMMA expression)* ;
 column_list : identifier_ref (COMMA identifier_ref)* ;
 
-// التصحيح النهائي لقاعدة المعرفات لضمان قبول النقاط والأقواس المربعة
 identifier_ref
     : IDENTIFIER (DOT IDENTIFIER)?
     | (IDENTIFIER DOT)? DELIMITED_IDENTIFIER_BRACKET

@@ -1,4 +1,4 @@
-// Generated from C:/Users/Lenovo/Documents/GitHub/compiler-project/src/SQLGrammarParser.g4 by ANTLR 4.13.2
+// Generated from C:/Users/batoo/IdeaProjects/compiler-project/src/SQLGrammarParser.g4 by ANTLR 4.13.2
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -26,6 +26,46 @@ public interface SQLGrammarParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitStatement(SQLGrammarParser.StatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#while_statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhile_statement(SQLGrammarParser.While_statementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#while_statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhile_statement(SQLGrammarParser.While_statementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#block_statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlock_statement(SQLGrammarParser.Block_statementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#block_statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlock_statement(SQLGrammarParser.Block_statementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#declaration_statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterDeclaration_statement(SQLGrammarParser.Declaration_statementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#declaration_statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitDeclaration_statement(SQLGrammarParser.Declaration_statementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#variable_declaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariable_declaration(SQLGrammarParser.Variable_declarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#variable_declaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariable_declaration(SQLGrammarParser.Variable_declarationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SQLGrammarParser#dml_statement}.
 	 * @param ctx the parse tree
@@ -96,6 +136,396 @@ public interface SQLGrammarParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDelete_statement(SQLGrammarParser.Delete_statementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#ddlStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterDdlStatement(SQLGrammarParser.DdlStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#ddlStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitDdlStatement(SQLGrammarParser.DdlStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#createStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterCreateStatement(SQLGrammarParser.CreateStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#createStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitCreateStatement(SQLGrammarParser.CreateStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#alterStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterAlterStatement(SQLGrammarParser.AlterStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#alterStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitAlterStatement(SQLGrammarParser.AlterStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#dropStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterDropStatement(SQLGrammarParser.DropStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#dropStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitDropStatement(SQLGrammarParser.DropStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#truncateStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterTruncateStatement(SQLGrammarParser.TruncateStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#truncateStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitTruncateStatement(SQLGrammarParser.TruncateStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#otherStatements}.
+	 * @param ctx the parse tree
+	 */
+	void enterOtherStatements(SQLGrammarParser.OtherStatementsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#otherStatements}.
+	 * @param ctx the parse tree
+	 */
+	void exitOtherStatements(SQLGrammarParser.OtherStatementsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#returnStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterReturnStatement(SQLGrammarParser.ReturnStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#returnStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitReturnStatement(SQLGrammarParser.ReturnStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#tableElement}.
+	 * @param ctx the parse tree
+	 */
+	void enterTableElement(SQLGrammarParser.TableElementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#tableElement}.
+	 * @param ctx the parse tree
+	 */
+	void exitTableElement(SQLGrammarParser.TableElementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#columnDefinition}.
+	 * @param ctx the parse tree
+	 */
+	void enterColumnDefinition(SQLGrammarParser.ColumnDefinitionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#columnDefinition}.
+	 * @param ctx the parse tree
+	 */
+	void exitColumnDefinition(SQLGrammarParser.ColumnDefinitionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#dataType}.
+	 * @param ctx the parse tree
+	 */
+	void enterDataType(SQLGrammarParser.DataTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#dataType}.
+	 * @param ctx the parse tree
+	 */
+	void exitDataType(SQLGrammarParser.DataTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#columnConstraint}.
+	 * @param ctx the parse tree
+	 */
+	void enterColumnConstraint(SQLGrammarParser.ColumnConstraintContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#columnConstraint}.
+	 * @param ctx the parse tree
+	 */
+	void exitColumnConstraint(SQLGrammarParser.ColumnConstraintContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#createTable}.
+	 * @param ctx the parse tree
+	 */
+	void enterCreateTable(SQLGrammarParser.CreateTableContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#createTable}.
+	 * @param ctx the parse tree
+	 */
+	void exitCreateTable(SQLGrammarParser.CreateTableContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#createDatabase}.
+	 * @param ctx the parse tree
+	 */
+	void enterCreateDatabase(SQLGrammarParser.CreateDatabaseContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#createDatabase}.
+	 * @param ctx the parse tree
+	 */
+	void exitCreateDatabase(SQLGrammarParser.CreateDatabaseContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#createSchema}.
+	 * @param ctx the parse tree
+	 */
+	void enterCreateSchema(SQLGrammarParser.CreateSchemaContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#createSchema}.
+	 * @param ctx the parse tree
+	 */
+	void exitCreateSchema(SQLGrammarParser.CreateSchemaContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#createProcedure}.
+	 * @param ctx the parse tree
+	 */
+	void enterCreateProcedure(SQLGrammarParser.CreateProcedureContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#createProcedure}.
+	 * @param ctx the parse tree
+	 */
+	void exitCreateProcedure(SQLGrammarParser.CreateProcedureContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#createFunction}.
+	 * @param ctx the parse tree
+	 */
+	void enterCreateFunction(SQLGrammarParser.CreateFunctionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#createFunction}.
+	 * @param ctx the parse tree
+	 */
+	void exitCreateFunction(SQLGrammarParser.CreateFunctionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#createIndex}.
+	 * @param ctx the parse tree
+	 */
+	void enterCreateIndex(SQLGrammarParser.CreateIndexContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#createIndex}.
+	 * @param ctx the parse tree
+	 */
+	void exitCreateIndex(SQLGrammarParser.CreateIndexContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#indexColumn}.
+	 * @param ctx the parse tree
+	 */
+	void enterIndexColumn(SQLGrammarParser.IndexColumnContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#indexColumn}.
+	 * @param ctx the parse tree
+	 */
+	void exitIndexColumn(SQLGrammarParser.IndexColumnContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#createView}.
+	 * @param ctx the parse tree
+	 */
+	void enterCreateView(SQLGrammarParser.CreateViewContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#createView}.
+	 * @param ctx the parse tree
+	 */
+	void exitCreateView(SQLGrammarParser.CreateViewContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#alterTable}.
+	 * @param ctx the parse tree
+	 */
+	void enterAlterTable(SQLGrammarParser.AlterTableContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#alterTable}.
+	 * @param ctx the parse tree
+	 */
+	void exitAlterTable(SQLGrammarParser.AlterTableContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#alterTableAction}.
+	 * @param ctx the parse tree
+	 */
+	void enterAlterTableAction(SQLGrammarParser.AlterTableActionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#alterTableAction}.
+	 * @param ctx the parse tree
+	 */
+	void exitAlterTableAction(SQLGrammarParser.AlterTableActionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#alterDatabase}.
+	 * @param ctx the parse tree
+	 */
+	void enterAlterDatabase(SQLGrammarParser.AlterDatabaseContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#alterDatabase}.
+	 * @param ctx the parse tree
+	 */
+	void exitAlterDatabase(SQLGrammarParser.AlterDatabaseContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#alterIndex}.
+	 * @param ctx the parse tree
+	 */
+	void enterAlterIndex(SQLGrammarParser.AlterIndexContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#alterIndex}.
+	 * @param ctx the parse tree
+	 */
+	void exitAlterIndex(SQLGrammarParser.AlterIndexContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#alterView}.
+	 * @param ctx the parse tree
+	 */
+	void enterAlterView(SQLGrammarParser.AlterViewContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#alterView}.
+	 * @param ctx the parse tree
+	 */
+	void exitAlterView(SQLGrammarParser.AlterViewContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#alterProcedure}.
+	 * @param ctx the parse tree
+	 */
+	void enterAlterProcedure(SQLGrammarParser.AlterProcedureContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#alterProcedure}.
+	 * @param ctx the parse tree
+	 */
+	void exitAlterProcedure(SQLGrammarParser.AlterProcedureContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#alterFunction}.
+	 * @param ctx the parse tree
+	 */
+	void enterAlterFunction(SQLGrammarParser.AlterFunctionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#alterFunction}.
+	 * @param ctx the parse tree
+	 */
+	void exitAlterFunction(SQLGrammarParser.AlterFunctionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#alterSchema}.
+	 * @param ctx the parse tree
+	 */
+	void enterAlterSchema(SQLGrammarParser.AlterSchemaContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#alterSchema}.
+	 * @param ctx the parse tree
+	 */
+	void exitAlterSchema(SQLGrammarParser.AlterSchemaContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#tableConstraint}.
+	 * @param ctx the parse tree
+	 */
+	void enterTableConstraint(SQLGrammarParser.TableConstraintContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#tableConstraint}.
+	 * @param ctx the parse tree
+	 */
+	void exitTableConstraint(SQLGrammarParser.TableConstraintContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#parameterList}.
+	 * @param ctx the parse tree
+	 */
+	void enterParameterList(SQLGrammarParser.ParameterListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#parameterList}.
+	 * @param ctx the parse tree
+	 */
+	void exitParameterList(SQLGrammarParser.ParameterListContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#parameter}.
+	 * @param ctx the parse tree
+	 */
+	void enterParameter(SQLGrammarParser.ParameterContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#parameter}.
+	 * @param ctx the parse tree
+	 */
+	void exitParameter(SQLGrammarParser.ParameterContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#fileGroup}.
+	 * @param ctx the parse tree
+	 */
+	void enterFileGroup(SQLGrammarParser.FileGroupContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#fileGroup}.
+	 * @param ctx the parse tree
+	 */
+	void exitFileGroup(SQLGrammarParser.FileGroupContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#action}.
+	 * @param ctx the parse tree
+	 */
+	void enterAction(SQLGrammarParser.ActionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#action}.
+	 * @param ctx the parse tree
+	 */
+	void exitAction(SQLGrammarParser.ActionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#defaultValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefaultValue(SQLGrammarParser.DefaultValueContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#defaultValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefaultValue(SQLGrammarParser.DefaultValueContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#columnList}.
+	 * @param ctx the parse tree
+	 */
+	void enterColumnList(SQLGrammarParser.ColumnListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#columnList}.
+	 * @param ctx the parse tree
+	 */
+	void exitColumnList(SQLGrammarParser.ColumnListContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#identifier}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdentifier(SQLGrammarParser.IdentifierContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#identifier}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdentifier(SQLGrammarParser.IdentifierContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#anyKeywordAsIdentifier}.
+	 * @param ctx the parse tree
+	 */
+	void enterAnyKeywordAsIdentifier(SQLGrammarParser.AnyKeywordAsIdentifierContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#anyKeywordAsIdentifier}.
+	 * @param ctx the parse tree
+	 */
+	void exitAnyKeywordAsIdentifier(SQLGrammarParser.AnyKeywordAsIdentifierContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#fullIdentifier}.
+	 * @param ctx the parse tree
+	 */
+	void enterFullIdentifier(SQLGrammarParser.FullIdentifierContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#fullIdentifier}.
+	 * @param ctx the parse tree
+	 */
+	void exitFullIdentifier(SQLGrammarParser.FullIdentifierContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#valueList}.
+	 * @param ctx the parse tree
+	 */
+	void enterValueList(SQLGrammarParser.ValueListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#valueList}.
+	 * @param ctx the parse tree
+	 */
+	void exitValueList(SQLGrammarParser.ValueListContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void enterValue(SQLGrammarParser.ValueContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void exitValue(SQLGrammarParser.ValueContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SQLGrammarParser#cursor_statement}.
 	 * @param ctx the parse tree

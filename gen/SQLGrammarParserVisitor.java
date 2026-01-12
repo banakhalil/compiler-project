@@ -1,4 +1,4 @@
-// Generated from C:/Users/Lenovo/Documents/GitHub/compiler-project/src/SQLGrammarParser.g4 by ANTLR 4.13.2
+// Generated from C:/Users/batoo/IdeaProjects/compiler-project/src/SQLGrammarParser.g4 by ANTLR 4.13.2
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -21,6 +21,30 @@ public interface SQLGrammarParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitStatement(SQLGrammarParser.StatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#while_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhile_statement(SQLGrammarParser.While_statementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#block_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBlock_statement(SQLGrammarParser.Block_statementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#declaration_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDeclaration_statement(SQLGrammarParser.Declaration_statementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#variable_declaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariable_declaration(SQLGrammarParser.Variable_declarationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SQLGrammarParser#dml_statement}.
 	 * @param ctx the parse tree
@@ -63,6 +87,240 @@ public interface SQLGrammarParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitDelete_statement(SQLGrammarParser.Delete_statementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#ddlStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDdlStatement(SQLGrammarParser.DdlStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#createStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCreateStatement(SQLGrammarParser.CreateStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#alterStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAlterStatement(SQLGrammarParser.AlterStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#dropStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDropStatement(SQLGrammarParser.DropStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#truncateStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTruncateStatement(SQLGrammarParser.TruncateStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#otherStatements}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOtherStatements(SQLGrammarParser.OtherStatementsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#returnStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitReturnStatement(SQLGrammarParser.ReturnStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#tableElement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTableElement(SQLGrammarParser.TableElementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#columnDefinition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitColumnDefinition(SQLGrammarParser.ColumnDefinitionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#dataType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDataType(SQLGrammarParser.DataTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#columnConstraint}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitColumnConstraint(SQLGrammarParser.ColumnConstraintContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#createTable}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCreateTable(SQLGrammarParser.CreateTableContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#createDatabase}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCreateDatabase(SQLGrammarParser.CreateDatabaseContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#createSchema}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCreateSchema(SQLGrammarParser.CreateSchemaContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#createProcedure}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCreateProcedure(SQLGrammarParser.CreateProcedureContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#createFunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCreateFunction(SQLGrammarParser.CreateFunctionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#createIndex}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCreateIndex(SQLGrammarParser.CreateIndexContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#indexColumn}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIndexColumn(SQLGrammarParser.IndexColumnContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#createView}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCreateView(SQLGrammarParser.CreateViewContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#alterTable}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAlterTable(SQLGrammarParser.AlterTableContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#alterTableAction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAlterTableAction(SQLGrammarParser.AlterTableActionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#alterDatabase}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAlterDatabase(SQLGrammarParser.AlterDatabaseContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#alterIndex}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAlterIndex(SQLGrammarParser.AlterIndexContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#alterView}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAlterView(SQLGrammarParser.AlterViewContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#alterProcedure}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAlterProcedure(SQLGrammarParser.AlterProcedureContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#alterFunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAlterFunction(SQLGrammarParser.AlterFunctionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#alterSchema}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAlterSchema(SQLGrammarParser.AlterSchemaContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#tableConstraint}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTableConstraint(SQLGrammarParser.TableConstraintContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#parameterList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParameterList(SQLGrammarParser.ParameterListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#parameter}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParameter(SQLGrammarParser.ParameterContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#fileGroup}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFileGroup(SQLGrammarParser.FileGroupContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#action}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAction(SQLGrammarParser.ActionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#defaultValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefaultValue(SQLGrammarParser.DefaultValueContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#columnList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitColumnList(SQLGrammarParser.ColumnListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#identifier}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIdentifier(SQLGrammarParser.IdentifierContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#anyKeywordAsIdentifier}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAnyKeywordAsIdentifier(SQLGrammarParser.AnyKeywordAsIdentifierContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#fullIdentifier}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFullIdentifier(SQLGrammarParser.FullIdentifierContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#valueList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValueList(SQLGrammarParser.ValueListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValue(SQLGrammarParser.ValueContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SQLGrammarParser#cursor_statement}.
 	 * @param ctx the parse tree
