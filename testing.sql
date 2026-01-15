@@ -1,4 +1,4 @@
-
+-- nothing
 CREATE TABLE [dbo].[DIAGNOSIS](
 	[DIAGNOSIS_KEY'1] [int] NOT NULL,
 	[DIAGNOSIS_NAME] [nvarchar](300) NOT NULL,
