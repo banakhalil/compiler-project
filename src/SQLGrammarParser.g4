@@ -17,8 +17,14 @@ statement
     | deallocate_cursor
     |while_statement
     |block_statement
+    |use_statement
     ;
-//************************
+
+use_statement
+    : USE identifier
+    ;
+
+
 
 while_statement
     : WHILE expression statement
@@ -418,6 +424,8 @@ expression
     | expression (STAR | DIV | MOD) expression
     | expression (PLUS | MINUS) expression
     | expression (EQUAL | NOT_EQUAL | LESS | LESS_EQUAL | GREATER | GREATER_EQUAL | LIKE) expression
+    | expression NOT LIKE expression
+        | expression LIKE expression
     | expression NOT? IN (LPAREN (expression_list | select_statement) RPAREN | expression)
     | expression NOT? BETWEEN expression AND expression
     | expression IS NOT? NULL
