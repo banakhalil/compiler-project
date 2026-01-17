@@ -418,7 +418,9 @@ expression
     : primary_expression
     | expression (STAR | DIV | MOD) expression
     | expression (PLUS | MINUS) expression
-    | expression (EQUAL | NOT_EQUAL | LESS | LESS_EQUAL | GREATER | GREATER_EQUAL | LIKE) expression
+        | expression (EQUAL | NOT_EQUAL | LESS | LESS_EQUAL | GREATER | GREATER_EQUAL) expression
+    | expression NOT LIKE expression
+    | expression LIKE expression
     | expression NOT? IN (LPAREN (expression_list | select_statement) RPAREN | expression)
     | expression NOT? BETWEEN expression AND expression
     | expression IS NOT? NULL
