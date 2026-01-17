@@ -69,7 +69,19 @@ select_element
 insert_statement
     : INSERT INTO? table_name
       (LPAREN column_list RPAREN)?
-      (VALUES LPAREN expression_list RPAREN | select_statement)
+      (
+          VALUES row_value_constructor_list
+        | select_statement
+        | DEFAULT VALUES
+      )
+    ;
+
+row_value_constructor_list
+    : row_value_constructor (COMMA row_value_constructor)*
+    ;
+
+row_value_constructor
+    : LPAREN expression_list RPAREN
     ;
 
 update_statement
