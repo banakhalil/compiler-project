@@ -18,7 +18,7 @@ statement
     |while_statement
     |block_statement
     ;
-
+//************************
 
 while_statement
     : WHILE expression statement
@@ -35,6 +35,9 @@ variable_declaration
     : USER_VARIABLE dataType (EQUAL expression)?
     ;
 
+
+
+//****************
 dml_statement
     : select_statement
     | insert_statement
@@ -55,11 +58,12 @@ select_statement
 select_list
     : STAR
     | select_element (COMMA select_element)*
-    | function_call (AS? column_name)? (COMMA select_element)* ;
+//    | function_call (AS? column_name)? (COMMA select_element)*
+     ;
 
 select_element
-    : expression (AS? column_name)?
-    | column_name EQUAL expression
+    : expression (AS? alias)?
+    | identifier EQUAL expression
     ;
 
 insert_statement
@@ -142,6 +146,7 @@ dataType
     | REAL
     | (VARCHAR | NVARCHAR | CHAR | NCHAR | BINARY | VARBINARY)
         (LPAREN (NUMBER | MAX) RPAREN)?
+        (LPAREN (NUMBER | AVG) RPAREN)?
         (COLLATE identifier)?
     | (DECIMAL | NUMERIC)
         (LPAREN NUMBER (COMMA NUMBER)? RPAREN)?
@@ -313,9 +318,11 @@ identifier
     ;
 
 anyKeywordAsIdentifier
-    : NAME | VALUE | ID | CODE | STATUS | TYPE | DATE | TIME | TEXT | RECOVERY | FULL | SIMPLE | LOG
-    | GETDATE | DATEADD | DATEDIFF | NEWID | SYSDATETIMEOFFSET | SYSDATETIME
-    | CLUSTERED | NONCLUSTERED | AS | IF | NULL | ON | YEAR | MONTH | DAY | USER | ROLE | KEY | VALUE
+    : AVG | SUM | COUNT | MIN | MAX
+    | NAME | VALUE | ID | CODE | STATUS | TYPE | DATE | TIME | TEXT | RECOVERY
+    | FULL | SIMPLE | LOG | GETDATE | DATEADD | DATEDIFF | NEWID
+    | SYSDATETIMEOFFSET | SYSDATETIME | CLUSTERED | NONCLUSTERED | AS
+    | IF | NULL | ON | YEAR | MONTH | DAY | USER | ROLE | KEY
     ;
 
 fullIdentifier
@@ -332,7 +339,10 @@ value
     | STRING
     | NULL
     ;
-// --- 2. تعليمات الـ Cursor والتعليمات الإضافية ---
+
+
+
+//********************************
 
 cursor_statement
     : declare_cursor
@@ -389,6 +399,8 @@ common_table_expression
     : identifier_ref (LPAREN column_list RPAREN)? AS LPAREN select_statement RPAREN
     ;
 
+
+//************************************
 
 expression
     : primary_expression
@@ -454,8 +466,12 @@ order_by_expression
     ;
 
 function_call
-    : (IDENTIFIER | QUOTENAME | OBJECT_NAME | AVG | SUM | COUNT | MIN | MAX | GETDATE)
-      LPAREN (STAR | expression_list)? RPAREN
+    : function_name LPAREN (STAR | expression_list)? RPAREN
+    ;
+function_name
+    : IDENTIFIER
+    | AVG | SUM | COUNT | MIN | MAX | GETDATE
+    | QUOTENAME | OBJECT_NAME
     ;
 
 scalar_subquery : LPAREN select_statement RPAREN ;
@@ -480,3 +496,8 @@ column_name          : identifier_ref ;
 table_alias          : IDENTIFIER ;
 cursor_name          : IDENTIFIER ;
 cursor_variable_name : USER_VARIABLE ;
+
+alias
+    : identifier
+    | STRING
+    ;
