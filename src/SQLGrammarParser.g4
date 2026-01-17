@@ -3,7 +3,7 @@ parser grammar SQLGrammarParser;
 options { tokenVocab = SQLGrammarLexer; }
 
 sql_sdecript
-    : (statement SEMICOLON? | GO)* EOF
+    : (statement SEMICOLON? | GO(SEMICOLON)?)* EOF
     ;
 
 statement
@@ -437,7 +437,7 @@ table_source
     ;
 
 join_clause
-    : (INNER | LEFT OUTER? | RIGHT OUTER? | CROSS)? JOIN table_source ON expression
+    : (INNER | LEFT OUTER? | RIGHT OUTER? | FULL OUTER |CROSS )? JOIN table_source ON expression
     ;
 
 group_by_clause
