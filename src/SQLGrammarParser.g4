@@ -413,22 +413,31 @@ common_table_expression
 
 
 //************************************
-
 expression
     : primary_expression
     | expression (STAR | DIV | MOD) expression
     | expression (PLUS | MINUS) expression
-        | expression (EQUAL | NOT_EQUAL | LESS | LESS_EQUAL | GREATER | GREATER_EQUAL) expression
-    | expression NOT LIKE expression
-    | expression LIKE expression
+    | expression (EQUAL | NOT_EQUAL | LESS | LESS_EQUAL | GREATER | GREATER_EQUAL | LIKE) expression
     | expression NOT? IN (LPAREN (expression_list | select_statement) RPAREN | expression)
     | expression NOT? BETWEEN expression AND expression
     | expression IS NOT? NULL
-    | NOT expression
+        | exists_predicate
+    | NOT exists_predicate
+        | NOT expression
+    | scalar_subquery
     | expression AND expression
     | expression OR expression
     | CASE (when_clause)+ (ELSE expression)? END
     ;
+
+exists_predicate
+    : EXISTS subquery
+    | NOT EXISTS subquery
+    ;
+subquery
+    : LPAREN select_statement RPAREN
+    ;
+
 
 when_clause
     : WHEN expression THEN expression
