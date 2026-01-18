@@ -20,10 +20,10 @@ statement
     |use_statement
     ;
 
+
 use_statement
     : USE identifier
     ;
-
 
 
 while_statement
@@ -64,7 +64,6 @@ select_statement
 select_list
     : STAR
     | select_element (COMMA select_element)*
-//    | function_call (AS? column_name)? (COMMA select_element)*
      ;
 
 select_element
@@ -328,14 +327,18 @@ defaultValue
 columnList
     : (STAR | identifier (COMMA identifier)*)
     ;
+
+/////done
 identifier
     : IDENTIFIER
     | DELIMITED_IDENTIFIER_BRACKET
     | DELIMITED_IDENTIFIER_QUOTE
-    | anyKeywordAsIdentifier
+    | anyKeywordAsIdentifier //
     ;
 
-anyKeywordAsIdentifier
+
+///////// added in the visitorIdentifier
+anyKeywordAsIdentifier //visitor
     : AVG | SUM | COUNT | MIN | MAX
     | NAME | VALUE | ID | CODE | STATUS | TYPE | DATE | TIME | TEXT | RECOVERY
     | FULL | SIMPLE | LOG | GETDATE | DATEADD | DATEDIFF | NEWID
@@ -362,17 +365,17 @@ value
 
 //********************************
 
-cursor_statement
+cursor_statement  // we add this to visitCursor_statement
     : declare_cursor
     | open_cursor
     | fetch_statement
     ;
 
-declare_cursor
+declare_cursor  //done
     : DECLARE cursor_name CURSOR
-      (LOCAL | GLOBAL)?
-      (FORWARD_ONLY | SCROLL)?
-      (STATIC | KEYSET | DYNAMIC | FAST_FORWARD)?
+      (LOCAL | GLOBAL)? //scope
+      (FORWARD_ONLY | SCROLL)? //scrolling
+      (STATIC | KEYSET | DYNAMIC | FAST_FORWARD)? //concurrency
       (READ_ONLY | SCROLL_LOCKS | OPTIMISTIC)?
       TYPE_WARNING?
       FOR
@@ -380,27 +383,27 @@ declare_cursor
       (FOR UPDATE (OF column_name (COMMA column_name)*)?)?
     ;
 
-open_cursor
+open_cursor //done
     : OPEN (GLOBAL? cursor_name | cursor_variable_name)
     ;
 
-fetch_statement
+fetch_statement  //done
     : FETCH (fetch_direction FROM)?
       (GLOBAL? cursor_name | USER_VARIABLE)
       (INTO USER_VARIABLE (COMMA USER_VARIABLE)*)?
     ;
 
-fetch_direction
+fetch_direction //done
     : NEXT | PRIOR | FIRST | LAST
     | ABSOLUTE (NUMBER | USER_VARIABLE)
     | RELATIVE (NUMBER | USER_VARIABLE)
     ;
 
-close_cursor
+close_cursor  //done
     : CLOSE (GLOBAL? identifier_ref | USER_VARIABLE)
     ;
 
-deallocate_cursor
+deallocate_cursor //done
     : DEALLOCATE (GLOBAL? identifier_ref | USER_VARIABLE)
     ;
 
@@ -418,7 +421,6 @@ common_table_expression
     ;
 
 
-//************************************
 expression
     : primary_expression
     | expression (STAR | DIV | MOD) expression
@@ -512,22 +514,33 @@ assignment : column_name (EQUAL | PLUS) expression ;
 expression_list : expression (COMMA expression)* ;
 column_list : identifier_ref (COMMA identifier_ref)* ;
 
+
+/////done
 identifier_ref
     : IDENTIFIER (DOT IDENTIFIER)?
     | (IDENTIFIER DOT)? DELIMITED_IDENTIFIER_BRACKET
     | DELIMITED_IDENTIFIER_BRACKET
     ;
 
+
+/////done
 constant
     : NUMBER | STRING | HEX_STRING | NULL
     ;
 
+////////done
 table_name           : identifier_ref ;
+////done
 column_name          : identifier_ref ;
+///done
 table_alias          : IDENTIFIER ;
+
+///done
 cursor_name          : IDENTIFIER ;
+/////done
 cursor_variable_name : USER_VARIABLE ;
 
+///////done
 alias
     : identifier
     | STRING
