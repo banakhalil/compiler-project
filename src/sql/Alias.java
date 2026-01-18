@@ -18,7 +18,6 @@ public class Alias extends ASTNode {
     public boolean isString() {
         return isString;
     }
-
     
     @Override
     public String prettyPrint(String indent) {
