@@ -6,10 +6,7 @@ public class UserVariable extends ASTNode {
     public UserVariable(String variableName) {
         this.variableName = variableName;
     }
-    
-    public String getVariableName() {
-        return variableName;
-    }
+
     
     @Override
     public String prettyPrint(String indent) {

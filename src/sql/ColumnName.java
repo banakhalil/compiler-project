@@ -7,10 +7,7 @@ public class ColumnName extends ASTNode {
         this.columnName = columnName;
     }
     
-    public String getColumnName() {
-        return columnName;
-    }
-    
+
     @Override
     public String prettyPrint(String indent) {
         return indent + "Column name: " + columnName;
