@@ -1,0 +1,81 @@
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'TRACKING' AND xtype = 'U')
+BEGIN
+    CREATE TABLE dbo.TRACKING (
+        TRACKING_KEY INT NOT NULL,
+        C_KEY INT NULL,
+        USER_KEY INT NULL,
+        ACTION_DATETIME DATE NULL,
+        SOURCE NVARCHAR(20) NULL,
+        [ACTION] NVARCHAR(20) NULL,
+        [DESC] NVARCHAR(100) NULL,
+        CONSTRAINT PK_TRACKING
+            PRIMARY KEY CLUSTERED (TRACKING_KEY)
+    )
+
+    INSERT INTO TRACKING (
+        [TRACKING_KEY],
+        [C_KEY],
+        [USER_KEY],
+        [ACTION_DATETIME],
+        [SOURCE],
+        [ACTION],
+        [DESC]
+    )
+    VALUES (
+        -1, 
+        -1,   
+        -1,  
+        NULL,
+        '-',
+        'OTHER',
+        '-' 
+    )
+END
+GO
+
+INSERT INTO TRACKING
+(
+    [TRACKING_KEY],
+    C_KEY,
+    USER_KEY,
+    ACTION_DATETIME,
+    [SOURCE],
+    [ACTION],
+    [DESC]
+)
+SELECT
+    [STG_TRACKING].[TRACKING_KEY],
+    [STG_TRACKING].[C_KEY],
+    [STG_TRACKING].USER_KEY,
+    [STG_TRACKING].ACTION_DATETIME,
+    [STG_TRACKING].SOURCE,
+    [STG_TRACKING].[ACTION],
+    [STG_TRACKING].[DESC]
+FROM [STG_TRACKING]
+INNER JOIN [USERS]
+    ON [USERS].USER_KEY = [STG_TRACKING].USER_KEY AND [USERS].[GROUP_KEY] IN (11,2,3,4)
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM TRACKING 
+    WHERE TRACKING.[TRACKING_KEY] = [STG_TRACKING].[TRACKING_KEY]
+)
+GO
+
+IF (1 = 1)
+    PRINT 'True'
+ELSE
+    PRINT 'False'
+GO
+
+IF EXISTS (SELECT 1 FROM TRACKING WHERE TRACKING_KEY = -1)
+BEGIN
+    IF @USER_VARIABLE IS NOT NULL
+    BEGIN
+        PRINT 'User variable is set'
+    END
+    ELSE
+    BEGIN
+        PRINT 'User variable is NOT set'
+    END
+END
+GO

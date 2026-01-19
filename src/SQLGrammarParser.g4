@@ -18,6 +18,7 @@ statement
     |while_statement
     |block_statement
     |use_statement
+    |if_statement
     ;
 
 
@@ -28,6 +29,10 @@ use_statement
 
 while_statement
     : WHILE expression statement
+    ;
+
+if_statement
+    : IF expression (statement)? (ELSE statement)?
     ;
 block_statement
     : BEGIN (statement SEMICOLON?)* END
@@ -339,11 +344,11 @@ identifier
 
 ///////// added in the visitorIdentifier
 anyKeywordAsIdentifier //visitor
-    : AVG | SUM | COUNT | MIN | MAX
+    : AVG | SUM | COUNT | MIN | MAX | DESC | ASC
     | NAME | VALUE | ID | CODE | STATUS | TYPE | DATE | TIME | TEXT | RECOVERY
     | FULL | SIMPLE | LOG | GETDATE | DATEADD | DATEDIFF | NEWID
     | SYSDATETIMEOFFSET | SYSDATETIME | CLUSTERED | NONCLUSTERED | AS
-    | IF | NULL | ON | YEAR | MONTH | DAY | USER | ROLE | KEY
+    | IF | NULL | ON | YEAR | MONTH | DAY | USER | ROLE | KEY | ACTION
     ;
 
 fullIdentifier
@@ -423,6 +428,9 @@ common_table_expression
 
 expression
     : primary_expression
+    |(PLUS | MINUS) expression
+    | expression (STAR | DIV | MOD) expression
+    | expression (PLUS | MINUS) expression
     | expression (STAR | DIV | MOD) expression
     | expression (PLUS | MINUS) expression
     | expression (EQUAL | NOT_EQUAL | LESS | LESS_EQUAL | GREATER | GREATER_EQUAL | LIKE) expression
@@ -517,9 +525,7 @@ column_list : identifier_ref (COMMA identifier_ref)* ;
 
 /////done
 identifier_ref
-    : IDENTIFIER (DOT IDENTIFIER)?
-    | (IDENTIFIER DOT)? DELIMITED_IDENTIFIER_BRACKET
-    | DELIMITED_IDENTIFIER_BRACKET
+    : identifier (DOT identifier)?
     ;
 
 
