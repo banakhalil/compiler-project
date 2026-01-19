@@ -1,15 +1,15 @@
 package sql;
 
 public class IdentifierRef extends ASTNode {
-    private String identifier;
-    private String qualifier;
+    private Identifier identifier;
+    private Identifier qualifier;
     
-    public IdentifierRef(String identifier) {
+    public IdentifierRef(Identifier identifier) {
         this.identifier = identifier;
         this.qualifier = null;
     }
     
-    public IdentifierRef(String qualifier, String identifier) {
+    public IdentifierRef(Identifier qualifier, Identifier identifier) {
         this.qualifier = qualifier;
         this.identifier = identifier;
     }
@@ -22,9 +22,9 @@ public class IdentifierRef extends ASTNode {
     @Override
     public String prettyPrint(String indent) {
         if (isQualified()) {
-            return indent + "Identifier: " + qualifier + "." + identifier;
+            return indent + "IdentifierRef: " + qualifier.prettyPrint("") + "." + identifier.prettyPrint("");
         } else {
-            return indent + "Identifier: " + identifier;
+            return indent + "IdentifierRef: " + identifier.prettyPrint("");
         }
     }
 }
