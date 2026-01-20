@@ -9,6 +9,9 @@ public class ColumnList extends ASTNode{
     public ColumnList(List<ASTNode> children){
         this.chlidren = children;
     }
+
+    public void addChild(ASTNode node){chlidren.add(node);}
+
     @Override
     public String prettyPrint(String indent) {
         StringBuilder sb = new StringBuilder();
