@@ -12,12 +12,14 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
     public ASTNode visitUse_statement(SQLGrammarParser.Use_statementContext ctx) {
         ASTNode identifierNode = visit(ctx.identifier());
         String databaseName;
+        // Extract the string value from the identifier 
         if (identifierNode instanceof Identifier) {
             Identifier id = (Identifier) identifierNode;
             databaseName = id.getName();
         } else {
             databaseName = ctx.identifier().getText();
         }
+        // Return leaf node with primitive string value
         return new UseStatement(databaseName);
     }
 
@@ -70,6 +72,20 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
         }
     }
 
+    @Override
+    public ASTNode visitBlock_statement(SQLGrammarParser.Block_statementContext ctx) {
+        List<ASTNode> statements = new ArrayList<>();
+        if (ctx.statement() != null) {
+            for (SQLGrammarParser.StatementContext stmtCtx : ctx.statement()) {
+                ASTNode stmt = visit(stmtCtx);
+                if (stmt != null) {
+                    statements.add(stmt);
+                }
+            }
+        }
+        return new BlockStatement(statements);
+    }
+
 //    @Override
 //    public ASTNode visitDeclaration_statement(SQLGrammarParser.Declaration_statementContext ctx) {
 //        List<VariableDeclaration> declarations = new ArrayList<>();
@@ -84,16 +100,17 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitSql_sdecript(SQLGrammarParser.Sql_sdecriptContext ctx) {
         List<ASTNode> statements = new ArrayList<>();
-        for (int i = 0; i < ctx.getChildCount(); i++) {
-            if (ctx.getChild(i).getText().equals("<EOF>")) {
-                continue;
-            }
-            ASTNode child = visit(ctx.getChild(i));
-            if (child != null) {
-                statements.add(child);
+        // Visit all statement children
+        if (ctx.statement() != null) {
+            for (SQLGrammarParser.StatementContext stmtCtx : ctx.statement()) {
+                ASTNode stmt = visit(stmtCtx);
+                if (stmt != null) {
+                    statements.add(stmt);
+                }
             }
         }
-        return visitChildren(ctx);
+        // wrapper for everything
+        return new Program(statements);
     }
 
 }
