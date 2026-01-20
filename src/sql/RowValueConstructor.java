@@ -1,9 +1,9 @@
 package sql;
 
 public class RowValueConstructor extends ASTNode{
-    private ExpressionList expressionList;
+    private ASTNode expressionList;
 
-    public RowValueConstructor(ExpressionList expressionList){
+    public RowValueConstructor(ASTNode expressionList){
         this.expressionList = expressionList;
     }
 

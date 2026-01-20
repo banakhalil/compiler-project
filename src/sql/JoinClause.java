@@ -2,14 +2,14 @@ package sql;
 
 
 public class JoinClause extends ASTNode{
-    private TableSource tableSource;
-    private Expression expression;
+    private ASTNode tableSource;
+    private ASTNode expression;
 
-    public JoinClause(TableSource tableSource){
+    public JoinClause(ASTNode tableSource){
         this.tableSource = tableSource;
     }
 
-    public JoinClause(TableSource tableSource, Expression expression){
+    public JoinClause(ASTNode tableSource, ASTNode expression){
         this.tableSource = tableSource;
         this.expression = expression;
     }

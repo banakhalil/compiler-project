@@ -1,16 +1,16 @@
 package sql;
 
 public class DeleteStatement extends ASTNode{
-    private TableName tableName;
+    private ASTNode tableName;
     private boolean hasWhere;
-    private WhereClause clause;
+    private ASTNode clause;
 
-    public DeleteStatement(TableName tableName){
+    public DeleteStatement(ASTNode tableName){
         this.tableName = tableName;
         this.hasWhere = false;
         this.clause = null;
     }
-    public DeleteStatement(TableName tableName,  WhereClause clause){
+    public DeleteStatement(ASTNode tableName,  ASTNode clause){
         this.tableName = tableName;
         this.hasWhere = true;
         this.clause = clause;

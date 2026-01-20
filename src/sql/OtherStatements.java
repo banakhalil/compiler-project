@@ -1,36 +1,29 @@
 package sql;
 
 public class OtherStatements extends ASTNode{
-    private Identifier identifier;
-    private UserVariable variable;
-    private Value value;
-    private Expression expression;
+    private ASTNode identifier;
+    private ASTNode variable;
+    private ASTNode value;
+    private ASTNode expression;
 
-    public OtherStatements(Identifier identifier, Value value){
-        this.identifier = identifier;
-        this.value = value;
-        this.variable = null;
-        this.expression = null;
+    public OtherStatements(ASTNode leftSide, ASTNode rightSide, boolean isVariable, boolean isExpression){
+        if (isVariable) {
+            this.variable = leftSide;
+            this.identifier = null;
+        } else {
+            this.identifier = leftSide;
+            this.variable = null;
+        }
+        
+        if (isExpression) {
+            this.expression = rightSide;
+            this.value = null;
+        } else {
+            this.value = rightSide;
+            this.expression = null;
+        }
     }
-    public OtherStatements(UserVariable variable, Value value){
-        this.identifier = null;
-        this.value = value;
-        this.variable = variable;
-        this.expression = null;
-    }
-    public OtherStatements(Identifier identifier, Expression expression){
-        this.identifier = identifier;
-        this.value = null;
-        this.variable = null;
-        this.expression = expression;
-    }
-
-    public OtherStatements(UserVariable variable, Expression expression){
-        this.identifier = null;
-        this.value = null;
-        this.variable = variable;
-        this.expression = expression;
-    }
+    
     @Override
     public String prettyPrint(String indent){
         StringBuilder sb = new StringBuilder();

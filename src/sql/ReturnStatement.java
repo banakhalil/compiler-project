@@ -1,9 +1,9 @@
 package sql;
 
 public class ReturnStatement extends ASTNode {
-    private Expression expression;
+    private ASTNode expression;
 
-    public ReturnStatement(Expression expression) {
+    public ReturnStatement(ASTNode expression) {
         this.expression = expression;
     }
 

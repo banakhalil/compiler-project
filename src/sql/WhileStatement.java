@@ -1,10 +1,10 @@
 package sql;
 
 public class WhileStatement extends ASTNode {
-   private Expression condition;  // لسا ما انعمل
-   private Statement body;        // لسا ما انعمل
+   private ASTNode condition;  // لسا ما انعمل
+   private ASTNode body;        // لسا ما انعمل
 
-   public WhileStatement(Expression condition, Statement body) {
+   public WhileStatement(ASTNode condition, ASTNode body) {
        this.condition = condition;
        this.body = body;
    }

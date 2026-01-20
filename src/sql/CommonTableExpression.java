@@ -1,16 +1,16 @@
 package sql;
 
 public class CommonTableExpression extends ASTNode{
-    IdentifierRef identifierRef;
-    ColumnList columnList;
-    SelectStatement selectStatement;
+    ASTNode identifierRef;
+    ASTNode columnList;
+    ASTNode selectStatement;
 
-    public CommonTableExpression(IdentifierRef identifierRef, SelectStatement selectStatement){
+    public CommonTableExpression(ASTNode identifierRef, ASTNode selectStatement){
         this.identifierRef = identifierRef;
         this.selectStatement = selectStatement;
     }
 
-    public CommonTableExpression(IdentifierRef identifierRef, ColumnList columnList, SelectStatement selectStatement){
+    public CommonTableExpression(ASTNode identifierRef, ASTNode columnList, ASTNode selectStatement){
         this.identifierRef = identifierRef;
         this.columnList = columnList;
         this.selectStatement = selectStatement;

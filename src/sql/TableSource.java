@@ -1,27 +1,14 @@
 package sql;
 
 public class TableSource extends ASTNode{
-    private IdentifierRef identifierRef;
-    private TableAlias tableAlias;
-    private SelectStatement selectStatement;
+    private ASTNode identifierRef;
+    private ASTNode tableAlias;
+    private ASTNode selectStatement;
 
-    public TableSource(IdentifierRef identifierRef){
+    public TableSource(ASTNode identifierRef, ASTNode selectStatement, ASTNode tableAlias){
         this.identifierRef = identifierRef;
-        this.tableAlias = null;
-        this.selectStatement = null;
-
-    }
-    public TableSource(IdentifierRef identifierRef, TableAlias tableAlias){
-        this.identifierRef = identifierRef;
-        this.tableAlias = tableAlias;
-        this.selectStatement = null;
-
-    }
-    public TableSource(SelectStatement selectStatement, TableAlias tableAlias){
-        this.identifierRef = null;
-        this.tableAlias = tableAlias;
         this.selectStatement = selectStatement;
-
+        this.tableAlias = tableAlias;
     }
 
 

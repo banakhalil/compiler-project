@@ -1,17 +1,17 @@
 package sql;
 
 public class VariableDeclaration extends ASTNode {
-    private UserVariable variable;
-    private DataType dataType;    
-    private Expression expression;
+    private ASTNode variable;
+    private ASTNode dataType;
+    private ASTNode expression;
 
-    public VariableDeclaration(UserVariable variable, DataType dataType) {
+    public VariableDeclaration(ASTNode variable, ASTNode dataType) {
         this.variable = variable;
         this.dataType = dataType;
         this.expression = null;
     }
 
-    public VariableDeclaration(UserVariable variable, DataType dataType, Expression expression) {
+    public VariableDeclaration(ASTNode variable, ASTNode dataType, ASTNode expression) {
         this.variable = variable;
         this.dataType = dataType;
         this.expression = expression;

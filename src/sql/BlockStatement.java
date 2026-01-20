@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlockStatement extends ASTNode {
-    private List<Statement> statements;
+    private List<ASTNode> statements;
 
     public BlockStatement() {
         this.statements = new ArrayList<>();
     }
 
-    public BlockStatement(List<Statement> statements) {
+    public BlockStatement(List<ASTNode> statements) {
         this.statements = statements;
     }
 
@@ -19,7 +19,7 @@ public class BlockStatement extends ASTNode {
         StringBuilder sb = new StringBuilder();
         sb.append(indent).append("BlockStatement:\n");
         if (!statements.isEmpty()) {
-            for (Statement stmt : statements) {
+            for (ASTNode stmt : statements) {
                 sb.append(stmt.prettyPrint(indent + "  ")).append("\n");
             }
         }

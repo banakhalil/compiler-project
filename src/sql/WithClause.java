@@ -3,22 +3,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WithClause extends ASTNode{
-    private List<CommonTableExpression> commonTableExpressionList;
-    private SelectStatement selectStatement;
+    private List<ASTNode> commonTableExpressionList;
+    private ASTNode selectStatement;
 
     // اذا متغير واحد منساويه بهاد ومنرجع منضيفو
-    public WithClause(SelectStatement selectStatement) {
+    public WithClause(ASTNode selectStatement) {
         this.commonTableExpressionList = new ArrayList<>();
         this.selectStatement = selectStatement;
     }
 
     //اذا اكتر من متغير فورا منحطن هون
-    public WithClause(List<CommonTableExpression> commonTableExpressionList, SelectStatement selectStatement) {
+    public WithClause(List<ASTNode> commonTableExpressionList, ASTNode selectStatement) {
         this.commonTableExpressionList = commonTableExpressionList;
         this.selectStatement = selectStatement;
     }
 
-    public void addCommonTableExpression(CommonTableExpression commonTableExpression) {
+    public void addCommonTableExpression(ASTNode commonTableExpression) {
         commonTableExpressionList.add(commonTableExpression);
     }
 
@@ -28,7 +28,7 @@ public class WithClause extends ASTNode{
         sb.append(indent).append("WithClause:\n");
         
         sb.append(indent).append("  Common Table Expressions:\n");
-        for (CommonTableExpression commonTableExpression : commonTableExpressionList) {
+        for (ASTNode commonTableExpression : commonTableExpressionList) {
             sb.append(commonTableExpression.prettyPrint(indent + "    ")).append("\n");
         }
         

@@ -4,7 +4,7 @@ public class DataType extends ASTNode {
     private String typeName;        
     private String parameters;       // "(100)", "(10,2)", "(7)", "(100)(50)"
     private boolean hasPrecision;   // For DOUBLE PRECISION keyword
-    private Identifier collateName; 
+    private ASTNode collateName;
     private String intervalFrom;     
     private String intervalTo;       
 
