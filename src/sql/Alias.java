@@ -1,7 +1,7 @@
 package sql;
 
 public class Alias extends ASTNode {
-    private Identifier identifier;
+    private ASTNode identifier;
     private String stringValue;
     private boolean isString;
     
@@ -21,10 +21,12 @@ public class Alias extends ASTNode {
     
     @Override
     public String prettyPrint(String indent) {
+        StringBuilder sb = new StringBuilder();
         if (isString) {
-            return indent + "Alias (string): \"" + stringValue + "\"";
+            sb.append(indent).append("Alias (string): \"").append(stringValue).append("\"\n");
         } else {
-            return indent + "Alias:\n" + identifier.prettyPrint(indent + "  ");
+            sb.append(indent).append("Alias:\n").append(identifier.prettyPrint(indent + "  "));
         }
+        return sb.toString().trim();
     }
 }

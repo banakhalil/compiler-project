@@ -1,45 +1,20 @@
 package sql;
 
 public class DeallocateCursor extends ASTNode {
-    private boolean isGlobal;
-    private IdentifierRef identifierRef;
-    private UserVariable userVariable;
-    private boolean usesUserVariable; // true if USER_VARIABLE is used, false if identifier_ref is used
+    private ASTNode identifierRef;
+
     
-    public DeallocateCursor(IdentifierRef identifierRef, boolean isGlobal) {
-        this.identifierRef = identifierRef;
-        this.isGlobal = isGlobal;
-        this.usesUserVariable = false;
+    public DeallocateCursor(ASTNode identifierRef) {
+        this.identifierRef = identifierRef ;
     }
     
-    public DeallocateCursor(UserVariable userVariable) {
-        this.userVariable = userVariable;
-        this.usesUserVariable = true;
-        this.isGlobal = false;
-    }
-    
-    public boolean isGlobal() {
-        return isGlobal;
-    }
-    
-    public boolean usesUserVariable() {
-        return usesUserVariable;
-    }
-    
+
     @Override
     public String prettyPrint(String indent) {
         StringBuilder sb = new StringBuilder();
         sb.append(indent).append("DEALLOCATE CURSOR:\n");
+        sb.append(identifierRef.prettyPrint(indent + "  ")).append("\n");
         
-        if (usesUserVariable) {
-            sb.append(userVariable.prettyPrint(indent + "  "));
-        } else {
-            if (isGlobal) {
-                sb.append(indent).append("  Scope: GLOBAL\n");
-            }
-            sb.append(identifierRef.prettyPrint(indent + "  "));
-        }
-        
-        return sb.toString();
+        return sb.toString().trim();
     }
 }

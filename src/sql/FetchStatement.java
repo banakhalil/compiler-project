@@ -4,12 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FetchStatement extends ASTNode {
-    private FetchDirection fetchDirection;
+    private ASTNode fetchDirection;
     private boolean isGlobal;
-    private CursorName cursorName;
-    private UserVariable cursorVariable;
+    private ASTNode cursorName;
+    private ASTNode cursorVariable;
     private boolean usesCursorVariable; // true if USER_VARIABLE is used
-    private List<UserVariable> intoVariables;
+    private List<ASTNode> intoVariables = new ArrayList<>();
+
+    public FetchStatement(ASTNode fetchDirection, boolean isGlobal, ASTNode cursorName, ASTNode cursorVariable, List<ASTNode> intoVariables) {
+        this.fetchDirection = fetchDirection;
+        this.isGlobal = isGlobal;
+        this.cursorName = cursorName;
+        this.cursorVariable = cursorVariable;
+        this.usesCursorVariable = cursorVariable != null;
+        this.intoVariables = intoVariables;
+    }
 
     
     @Override
@@ -20,19 +29,16 @@ public class FetchStatement extends ASTNode {
             sb.append(fetchDirection.prettyPrint(indent + "  ")).append("\n");
         if (usesCursorVariable)
             sb.append(cursorVariable.prettyPrint(indent + "  ")).append("\n");
-        else {
-            if (isGlobal)
-                sb.append(indent).append("  Scope: GLOBAL\n");
+        if (isGlobal) {
+            sb.append(indent).append("  Scope: GLOBAL\n");
             sb.append(cursorName.prettyPrint(indent + "  ")).append("\n");
         }
-        
         if (!intoVariables.isEmpty()) {
             sb.append(indent).append("  INTO:\n");
-            for (UserVariable var : intoVariables) {
+            for (ASTNode var : intoVariables) {
                 sb.append(var.prettyPrint(indent + "    ")).append("\n");
             }
         }
-        
         return sb.toString().trim();
     }
 }

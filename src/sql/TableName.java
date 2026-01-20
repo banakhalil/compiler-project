@@ -1,7 +1,7 @@
 package sql;
 
 public class TableName extends ASTNode {
-    public IdentifierRef identifierRef;
+    public ASTNode identifierRef;
     
     public TableName(IdentifierRef identifierRef) {
         this.identifierRef = identifierRef;
@@ -9,6 +9,8 @@ public class TableName extends ASTNode {
     
     @Override
     public String prettyPrint(String indent) {
-        return indent + "Table name:\n" + identifierRef.prettyPrint(indent + "  ");
+        StringBuilder sb = new StringBuilder();
+        sb.append(indent).append("TableName: ").append(identifierRef.prettyPrint("")).append("\n");
+        return sb.toString();
     }
 }

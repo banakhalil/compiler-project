@@ -1,15 +1,16 @@
 package sql;
 
 public class ColumnName extends ASTNode {
-    private String columnName;
-    
-    public ColumnName(String columnName) {
-        this.columnName = columnName;
+    public ASTNode identifierRef;
+
+    public ColumnName(ASTNode identifierRef) {
+        this.identifierRef = identifierRef;
     }
-    
 
     @Override
     public String prettyPrint(String indent) {
-        return indent + "Column name: " + columnName;
+        StringBuilder sb = new StringBuilder();
+        sb.append(indent).append("ColumnName: ").append(identifierRef.prettyPrint("")).append("\n");
+        return sb.toString();
     }
 }
