@@ -1,0 +1,108 @@
+# Compiled class files
+*.class
+
+# Build output directories
+out/
+bin/
+target/
+build/
+
+# ANTLR generated files (uncomment if you want to ignore generated parser files)
+# gen/
+
+# ANTLR intermediate files
+*.interp
+*.tokens
+
+# IDE - IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# IDE - Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# IDE - VS Code
+.vscode/
+*.code-workspace
+
+# IDE - NetBeans
+nbproject/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# JAR files (libraries - keep if needed, or ignore if you use Maven/Gradle)
+*.jar
+# But keep specific ones if needed:
+# !lib/antlr-4.13.2-complete.jar
+
+# Log files
+*.log
+
+# OS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+*.bak
+
+# Test files (optional - uncomment if you want to ignore test files)
+# test*.txt
+# test*.sql
+# *_test.txt
+
+# Cursor/Editor files
+cursor.txt
+
+# Package files
+*.war
+*.ear
+*.nar
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# Gradle
+.gradle/
+gradle/
+gradlew
+gradlew.bat
+
+# Ant
+ant_build/
+
+# JavaDoc
+javadoc/
+
+# Package Files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Virtual machine crash logs
+hs_err_pid*

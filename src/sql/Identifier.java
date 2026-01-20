@@ -14,6 +14,9 @@ public class Identifier extends ASTNode {
         this.type = type;
     }
 
+    public String getName(){
+        return this.name;
+    }
     
     @Override
     public String prettyPrint(String indent) {

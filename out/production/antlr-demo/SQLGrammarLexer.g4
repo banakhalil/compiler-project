@@ -1,5 +1,5 @@
-
 lexer grammar SQLGrammarLexer;
+
 options {
     caseInsensitive = true;
 }

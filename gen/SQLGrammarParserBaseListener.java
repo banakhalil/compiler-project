@@ -1,4 +1,4 @@
-// Generated from C:/Users/batoo/IdeaProjects/compiler-project/src/SQLGrammarParser.g4 by ANTLR 4.13.2
+// Generated from C:/Users/LEGION/Desktop/compiler-project/src/SQLGrammarParser.g4 by ANTLR 4.13.1
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -16,13 +16,13 @@ public class SQLGrammarParserBaseListener implements SQLGrammarParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSql_script(SQLGrammarParser.Sql_scriptContext ctx) { }
+	@Override public void enterSql_sdecript(SQLGrammarParser.Sql_sdecriptContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSql_script(SQLGrammarParser.Sql_scriptContext ctx) { }
+	@Override public void exitSql_sdecript(SQLGrammarParser.Sql_sdecriptContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -40,6 +40,18 @@ public class SQLGrammarParserBaseListener implements SQLGrammarParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterUse_statement(SQLGrammarParser.Use_statementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitUse_statement(SQLGrammarParser.Use_statementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterWhile_statement(SQLGrammarParser.While_statementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -47,6 +59,18 @@ public class SQLGrammarParserBaseListener implements SQLGrammarParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitWhile_statement(SQLGrammarParser.While_statementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIf_statement(SQLGrammarParser.If_statementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIf_statement(SQLGrammarParser.If_statementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -143,6 +167,30 @@ public class SQLGrammarParserBaseListener implements SQLGrammarParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitInsert_statement(SQLGrammarParser.Insert_statementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRow_value_constructor_list(SQLGrammarParser.Row_value_constructor_listContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRow_value_constructor_list(SQLGrammarParser.Row_value_constructor_listContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRow_value_constructor(SQLGrammarParser.Row_value_constructorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRow_value_constructor(SQLGrammarParser.Row_value_constructorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -772,6 +820,30 @@ public class SQLGrammarParserBaseListener implements SQLGrammarParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterExists_predicate(SQLGrammarParser.Exists_predicateContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExists_predicate(SQLGrammarParser.Exists_predicateContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSubquery(SQLGrammarParser.SubqueryContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSubquery(SQLGrammarParser.SubqueryContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterWhen_clause(SQLGrammarParser.When_clauseContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -899,6 +971,18 @@ public class SQLGrammarParserBaseListener implements SQLGrammarParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFunction_call(SQLGrammarParser.Function_callContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFunction_name(SQLGrammarParser.Function_nameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFunction_name(SQLGrammarParser.Function_nameContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1055,6 +1139,18 @@ public class SQLGrammarParserBaseListener implements SQLGrammarParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCursor_variable_name(SQLGrammarParser.Cursor_variable_nameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAlias(SQLGrammarParser.AliasContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAlias(SQLGrammarParser.AliasContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

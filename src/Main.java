@@ -47,37 +47,5 @@ public class Main {
         }
         return parser;
     }
-//    albatool
-    @Override
-    public ASTNode visitCreateTable(SQLGrammarParser.CreateTableContext ctx) {
 
-        String tableName = ctx.tableName.getText();
-        List<ASTNode> columns = new ArrayList<>();
-
-        for (SQLGrammarParser.TableElementContext el : ctx.tableElement()) {
-            if (el.columnDefinition() != null) {
-                String colName = el.columnDefinition().columnName.getText();
-                String type = el.columnDefinition().dataType().getText();
-                columns.add(new ColumnDefinition(colName, type));
-            }
-        }
-
-        return new CreateTableStatement(tableName, columns);
-    }
-
-    @Override
-    public ASTNode visitDropStatement(SQLGrammarParser.DropStatementContext ctx) {
-
-        List<String> tables = new ArrayList<>();
-        for (SQLGrammarParser.FullIdentifierContext id : ctx.fullIdentifier()) {
-            tables.add(id.getText());
-        }
-
-        return new DropTableStatement(tables);
-    }
-
-    @Override
-    public ASTNode visitTruncateStatement(SQLGrammarParser.TruncateStatementContext ctx) {
-        return new TruncateTableStatement(ctx.fullIdentifier().getText());
-    }
 }

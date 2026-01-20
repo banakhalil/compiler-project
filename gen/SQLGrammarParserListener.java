@@ -1,4 +1,4 @@
-// Generated from C:/Users/batoo/IdeaProjects/compiler-project/src/SQLGrammarParser.g4 by ANTLR 4.13.2
+// Generated from C:/Users/LEGION/Desktop/compiler-project/src/SQLGrammarParser.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -7,15 +7,15 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface SQLGrammarParserListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link SQLGrammarParser#sql_script}.
+	 * Enter a parse tree produced by {@link SQLGrammarParser#sql_sdecript}.
 	 * @param ctx the parse tree
 	 */
-	void enterSql_script(SQLGrammarParser.Sql_scriptContext ctx);
+	void enterSql_sdecript(SQLGrammarParser.Sql_sdecriptContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link SQLGrammarParser#sql_script}.
+	 * Exit a parse tree produced by {@link SQLGrammarParser#sql_sdecript}.
 	 * @param ctx the parse tree
 	 */
-	void exitSql_script(SQLGrammarParser.Sql_scriptContext ctx);
+	void exitSql_sdecript(SQLGrammarParser.Sql_sdecriptContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SQLGrammarParser#statement}.
 	 * @param ctx the parse tree
@@ -27,6 +27,16 @@ public interface SQLGrammarParserListener extends ParseTreeListener {
 	 */
 	void exitStatement(SQLGrammarParser.StatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#use_statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterUse_statement(SQLGrammarParser.Use_statementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#use_statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitUse_statement(SQLGrammarParser.Use_statementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link SQLGrammarParser#while_statement}.
 	 * @param ctx the parse tree
 	 */
@@ -36,6 +46,16 @@ public interface SQLGrammarParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitWhile_statement(SQLGrammarParser.While_statementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#if_statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterIf_statement(SQLGrammarParser.If_statementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#if_statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitIf_statement(SQLGrammarParser.If_statementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SQLGrammarParser#block_statement}.
 	 * @param ctx the parse tree
@@ -116,6 +136,26 @@ public interface SQLGrammarParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitInsert_statement(SQLGrammarParser.Insert_statementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#row_value_constructor_list}.
+	 * @param ctx the parse tree
+	 */
+	void enterRow_value_constructor_list(SQLGrammarParser.Row_value_constructor_listContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#row_value_constructor_list}.
+	 * @param ctx the parse tree
+	 */
+	void exitRow_value_constructor_list(SQLGrammarParser.Row_value_constructor_listContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#row_value_constructor}.
+	 * @param ctx the parse tree
+	 */
+	void enterRow_value_constructor(SQLGrammarParser.Row_value_constructorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#row_value_constructor}.
+	 * @param ctx the parse tree
+	 */
+	void exitRow_value_constructor(SQLGrammarParser.Row_value_constructorContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SQLGrammarParser#update_statement}.
 	 * @param ctx the parse tree
@@ -637,6 +677,26 @@ public interface SQLGrammarParserListener extends ParseTreeListener {
 	 */
 	void exitExpression(SQLGrammarParser.ExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#exists_predicate}.
+	 * @param ctx the parse tree
+	 */
+	void enterExists_predicate(SQLGrammarParser.Exists_predicateContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#exists_predicate}.
+	 * @param ctx the parse tree
+	 */
+	void exitExists_predicate(SQLGrammarParser.Exists_predicateContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#subquery}.
+	 * @param ctx the parse tree
+	 */
+	void enterSubquery(SQLGrammarParser.SubqueryContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#subquery}.
+	 * @param ctx the parse tree
+	 */
+	void exitSubquery(SQLGrammarParser.SubqueryContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link SQLGrammarParser#when_clause}.
 	 * @param ctx the parse tree
 	 */
@@ -746,6 +806,16 @@ public interface SQLGrammarParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunction_call(SQLGrammarParser.Function_callContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#function_name}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunction_name(SQLGrammarParser.Function_nameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#function_name}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunction_name(SQLGrammarParser.Function_nameContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SQLGrammarParser#scalar_subquery}.
 	 * @param ctx the parse tree
@@ -876,4 +946,14 @@ public interface SQLGrammarParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCursor_variable_name(SQLGrammarParser.Cursor_variable_nameContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SQLGrammarParser#alias}.
+	 * @param ctx the parse tree
+	 */
+	void enterAlias(SQLGrammarParser.AliasContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SQLGrammarParser#alias}.
+	 * @param ctx the parse tree
+	 */
+	void exitAlias(SQLGrammarParser.AliasContext ctx);
 }

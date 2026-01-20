@@ -18,6 +18,26 @@ public class DataType extends ASTNode {
         this.parameters = parameters;
     }
 
+    public void setHasPrecision(boolean hasPrecision) {
+        this.hasPrecision = hasPrecision;
+    }
+
+    public void setParameters(String parameters) {
+        this.parameters = parameters;
+    }
+
+    public void setCollateName(ASTNode collateName) {
+        this.collateName = collateName;
+    }
+
+    public void setIntervalFrom(String intervalFrom) {
+        this.intervalFrom = intervalFrom;
+    }
+
+    public void setIntervalTo(String intervalTo) {
+        this.intervalTo = intervalTo;
+    }
+
     @Override
     public String prettyPrint(String indent) {
         StringBuilder sb = new StringBuilder();

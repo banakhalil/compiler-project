@@ -1,4 +1,4 @@
-// Generated from C:/Users/batoo/IdeaProjects/compiler-project/src/SQLGrammarParser.g4 by ANTLR 4.13.2
+// Generated from C:/Users/LEGION/Desktop/compiler-project/src/SQLGrammarParser.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -10,11 +10,11 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface SQLGrammarParserVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by {@link SQLGrammarParser#sql_script}.
+	 * Visit a parse tree produced by {@link SQLGrammarParser#sql_sdecript}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSql_script(SQLGrammarParser.Sql_scriptContext ctx);
+	T visitSql_sdecript(SQLGrammarParser.Sql_sdecriptContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SQLGrammarParser#statement}.
 	 * @param ctx the parse tree
@@ -22,11 +22,23 @@ public interface SQLGrammarParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStatement(SQLGrammarParser.StatementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#use_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUse_statement(SQLGrammarParser.Use_statementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link SQLGrammarParser#while_statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitWhile_statement(SQLGrammarParser.While_statementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#if_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIf_statement(SQLGrammarParser.If_statementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SQLGrammarParser#block_statement}.
 	 * @param ctx the parse tree
@@ -75,6 +87,18 @@ public interface SQLGrammarParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitInsert_statement(SQLGrammarParser.Insert_statementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#row_value_constructor_list}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRow_value_constructor_list(SQLGrammarParser.Row_value_constructor_listContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#row_value_constructor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRow_value_constructor(SQLGrammarParser.Row_value_constructorContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SQLGrammarParser#update_statement}.
 	 * @param ctx the parse tree
@@ -388,6 +412,18 @@ public interface SQLGrammarParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpression(SQLGrammarParser.ExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#exists_predicate}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExists_predicate(SQLGrammarParser.Exists_predicateContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#subquery}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSubquery(SQLGrammarParser.SubqueryContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link SQLGrammarParser#when_clause}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -453,6 +489,12 @@ public interface SQLGrammarParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFunction_call(SQLGrammarParser.Function_callContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#function_name}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunction_name(SQLGrammarParser.Function_nameContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SQLGrammarParser#scalar_subquery}.
 	 * @param ctx the parse tree
@@ -531,4 +573,10 @@ public interface SQLGrammarParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitCursor_variable_name(SQLGrammarParser.Cursor_variable_nameContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SQLGrammarParser#alias}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAlias(SQLGrammarParser.AliasContext ctx);
 }
