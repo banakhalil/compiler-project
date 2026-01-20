@@ -12,6 +12,6 @@ public class ExistPredicate extends ASTNode{
         StringBuilder sb = new StringBuilder();
         sb.append(indent).append("EXIST PREDICATE:\n");
         sb.append(subquery.prettyPrint(indent + "  ")).append("\n");
-        return sb.toString();
+        return sb.toString().trim();
     }
 }

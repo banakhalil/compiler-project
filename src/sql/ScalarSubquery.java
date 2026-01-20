@@ -15,6 +15,6 @@ public class ScalarSubquery extends ASTNode{
         sb.append(indent).append("SCALAR SUBQUERY:\n");
         sb.append(subquery.prettyPrint(indent + "  ")).append("\n");
         sb.append(selectStatement.prettyPrint(indent + "  ")).append("\n");
-        return sb.toString();
+        return sb.toString().trim();
     }
 }
