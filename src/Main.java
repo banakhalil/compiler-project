@@ -1,29 +1,40 @@
+import org.antlr.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.*;
+import sql.ASTBuilderVisitor;
+import sql.ASTNode;
+import sql.*;
 import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        try {
-//            String fileName = "testing.sql";
-            String fileName = "test.txt";
-            SQLGrammarLexer lexer = new SQLGrammarLexer(CharStreams.fromFileName(fileName));
-
-            while (true) {
-                Token token = lexer.nextToken();
-                if (token.getType() == Token.EOF) {
-                    break;
-                }
-                String tokenType = lexer.getVocabulary().getSymbolicName(token.getType());
-                String tokenText = token.getText();
-                int line = token.getLine();
-                int charPosition = token.getCharPositionInLine();
-                
-                System.out.printf("%-20s | %-20s | Line: %-4d | Col: %-4d%n",
-                        tokenText, tokenType, line, charPosition);
+        String fileName = "C:\\Users\\batoo\\IdeaProjects\\compiler-project\\src\\test\\test.txt";
+        SQLGrammarParser parser = getParser(fileName);
+        SQLGrammarParser.Sql_sdecriptContext tree = parser.sql_sdecript();
+        ASTBuilderVisitor visitor = new ASTBuilderVisitor();
+        System.out.println("Hi, this is working fine");
+        ASTNode astNode = visitor.visit(tree);
+        System.out.println(astNode.prettyPrint(" "));
+        if(visitor.semanticsErrors.isEmpty()){
+            System.out.println("No semantic errors found.");
+        }else {
+            for (String error : visitor.semanticsErrors) {
+                System.out.println(error);
             }
+        }
+
+    }
+
+    private static SQLGrammarParser getParser(String fileName)  {
+        SQLGrammarParser parser = null;
+        try {
+            CharStream input = CharStreams.fromFileName(fileName);
+            SQLGrammarLexer lexer = new SQLGrammarLexer(input);
+            CommonTokenStream tokens = new CommonTokenStream(lexer);
+            parser = new SQLGrammarParser(tokens);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return parser;
     }
+
 }
