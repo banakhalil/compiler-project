@@ -2,6 +2,7 @@ package sql;
 
 public class HavingClause extends ASTNode{
     private ASTNode expression;
+
     public HavingClause(ASTNode expression) {
         this.expression = expression;
     }

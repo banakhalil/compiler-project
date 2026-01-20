@@ -11,6 +11,11 @@ public class FunctionCall extends ASTNode{
         this.functionName = functionName;
         this.expressionsList = expressionsList;
     }
+
+    public void addChild(ASTNode node){
+        expressionsList.add(node);
+    }
+
     @Override
     public String prettyPrint(String indent) {
         StringBuilder sb = new StringBuilder();

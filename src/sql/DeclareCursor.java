@@ -17,6 +17,10 @@ public class DeclareCursor extends ASTNode {
     }
 
 
+    public void addChild(ASTNode node){
+        columns.add(node);
+    }
+
     @Override
     public String prettyPrint(String indent) {
         StringBuilder sb = new StringBuilder();

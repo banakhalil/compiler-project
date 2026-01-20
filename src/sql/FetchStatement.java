@@ -20,6 +20,10 @@ public class FetchStatement extends ASTNode {
         this.intoVariables = intoVariables;
     }
 
+    public void addChild(ASTNode node){
+        intoVariables.add(node);
+    }
+
     
     @Override
     public String prettyPrint(String indent) {

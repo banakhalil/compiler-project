@@ -19,6 +19,12 @@ public class Expression extends ASTNode{
         this.scalarSubquery = scalarSubquery;
         this.whenClauseChildren = whenClauseChildren;
     }
+
+    public void addChild(ASTNode node){
+        whenClauseChildren.add(node);
+    }
+
+
     @Override
     public String prettyPrint(String indent) {
         StringBuilder sb = new StringBuilder();

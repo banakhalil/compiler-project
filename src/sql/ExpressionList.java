@@ -8,6 +8,11 @@ public class ExpressionList extends ASTNode{
     public ExpressionList(List<ASTNode> children) {
         this.children = children;
     }
+
+    public void addChild(ASTNode node){
+        children.add(node);
+    }
+
     @Override
     public String prettyPrint(String indent) {
         StringBuilder sb = new StringBuilder();
