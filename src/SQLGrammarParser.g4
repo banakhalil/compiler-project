@@ -333,17 +333,17 @@ columnList
     : (STAR | identifier (COMMA identifier)*)
     ;
 
-/////done
+/////done *
 identifier
     : IDENTIFIER
     | DELIMITED_IDENTIFIER_BRACKET
     | DELIMITED_IDENTIFIER_QUOTE
-    | anyKeywordAsIdentifier //
+    | anyKeywordAsIdentifier 
     ;
 
 
-///////// added in the visitorIdentifier
-anyKeywordAsIdentifier //visitor
+
+anyKeywordAsIdentifier
     : AVG | SUM | COUNT | MIN | MAX | DESC | ASC
     | NAME | VALUE | ID | CODE | STATUS | TYPE | DATE | TIME | TEXT | RECOVERY
     | FULL | SIMPLE | LOG | GETDATE | DATEADD | DATEDIFF | NEWID
@@ -376,7 +376,7 @@ cursor_statement  // we add this to visitCursor_statement
     | fetch_statement
     ;
 
-declare_cursor  //done
+declare_cursor  //done *
     : DECLARE cursor_name CURSOR
       (LOCAL | GLOBAL)? //scope
       (FORWARD_ONLY | SCROLL)? //scrolling
@@ -388,29 +388,31 @@ declare_cursor  //done
       (FOR UPDATE (OF column_name (COMMA column_name)*)?)?
     ;
 
-open_cursor //done
+open_cursor //done *
     : OPEN (GLOBAL? cursor_name | cursor_variable_name)
     ;
 
-fetch_statement  //done
+fetch_statement  //done*
     : FETCH (fetch_direction FROM)?
       (GLOBAL? cursor_name | USER_VARIABLE)
       (INTO USER_VARIABLE (COMMA USER_VARIABLE)*)?
     ;
 
-fetch_direction //done
+fetch_direction //done *
     : NEXT | PRIOR | FIRST | LAST
     | ABSOLUTE (NUMBER | USER_VARIABLE)
     | RELATIVE (NUMBER | USER_VARIABLE)
     ;
 
-close_cursor  //done
+close_cursor  //done *
     : CLOSE (GLOBAL? identifier_ref | USER_VARIABLE)
     ;
 
-deallocate_cursor //done
+deallocate_cursor //done*
     : DEALLOCATE (GLOBAL? identifier_ref | USER_VARIABLE)
     ;
+
+//*****************************
 
 print_statement
     : PRINT (expression | USER_VARIABLE)*
@@ -435,32 +437,35 @@ expression
     | expression (PLUS | MINUS) expression
     | expression (EQUAL | NOT_EQUAL | LESS | LESS_EQUAL | GREATER | GREATER_EQUAL | LIKE) expression
     | expression NOT LIKE expression
-        | expression LIKE expression
+    | expression LIKE expression
     | expression NOT? IN (LPAREN (expression_list | select_statement) RPAREN | expression)
     | expression NOT? BETWEEN expression AND expression
     | expression IS NOT? NULL
-        | exists_predicate
+    | exists_predicate
     | NOT exists_predicate
-        | NOT expression
+    | NOT expression
     | scalar_subquery
     | expression AND expression
     | expression OR expression
     | CASE (when_clause)+ (ELSE expression)? END
     ;
 
+//done *
 exists_predicate
     : EXISTS subquery
     | NOT EXISTS subquery
     ;
+//done *
 subquery
     : LPAREN select_statement RPAREN
     ;
 
-
+//done *
 when_clause
     : WHEN expression THEN expression
     ;
 
+//done *
 primary_expression
     : column_name
     | constant
@@ -509,44 +514,54 @@ order_by_expression
 function_call
     : function_name LPAREN (STAR | expression_list)? RPAREN
     ;
+
+////done *
 function_name
     : IDENTIFIER
     | AVG | SUM | COUNT | MIN | MAX | GETDATE
     | QUOTENAME | OBJECT_NAME
     ;
 
+//done *
 scalar_subquery : LPAREN select_statement RPAREN ;
+//done *
 having_clause : HAVING expression ;
+//done *
 where_clause : WHERE expression ;
+
+
 assignment : column_name (EQUAL | PLUS) expression ;
+//done *
 expression_list : expression (COMMA expression)* ;
+
+//done *
 column_list : identifier_ref (COMMA identifier_ref)* ;
 
 
-/////done
+/////done *
 identifier_ref
     : identifier (DOT identifier)?
     ;
 
 
-/////done
+/////done *
 constant
     : NUMBER | STRING | HEX_STRING | NULL
     ;
 
-////////done
+////////done *
 table_name           : identifier_ref ;
-////done
+////done *
 column_name          : identifier_ref ;
-///done
-table_alias          : IDENTIFIER ;
+///done *
+table_alias           : IDENTIFIER ;
 
-///done
+///done *
 cursor_name          : IDENTIFIER ;
-/////done
+/////done *
 cursor_variable_name : USER_VARIABLE ;
 
-///////done
+///////done *
 alias
     : identifier
     | STRING
