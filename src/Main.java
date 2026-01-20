@@ -1,8 +1,5 @@
-import org.antlr.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.*;
-import sql.ASTBuilderVisitor;
 import sql.ASTNode;
-import sql.*;
 import java.io.IOException;
 
 public class Main {
