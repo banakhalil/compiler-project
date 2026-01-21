@@ -12,7 +12,9 @@ public class ExpressionList extends ASTNode{
     public void addChild(ASTNode node){
         children.add(node);
     }
-
+    public List<ASTNode> getExpressions() {
+        return children;
+    }
     @Override
     public String prettyPrint(String indent) {
         StringBuilder sb = new StringBuilder();

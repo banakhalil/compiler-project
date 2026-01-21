@@ -88,10 +88,9 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitWhile_statement(SQLGrammarParser.While_statementContext ctx) {
-        // Visit the condition (expression)
+
         ASTNode condition = visit(ctx.expression());
 
-        // Visit the body (statement)
         ASTNode body = visit(ctx.statement());
 
         return new WhileStatement(condition, body);
@@ -101,7 +100,6 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
     public ASTNode visitPrint_statement(SQLGrammarParser.Print_statementContext ctx) {
         List<ASTNode> items = new ArrayList<>();
 
-        // Visit all expressions
         if (ctx.expression() != null) {
             for (SQLGrammarParser.ExpressionContext exprCtx : ctx.expression()) {
                 ASTNode expr = visit(exprCtx);
@@ -111,11 +109,10 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
             }
         }
 
-        // Visit all USER_VARIABLE tokens
         if (ctx.USER_VARIABLE() != null && !ctx.USER_VARIABLE().isEmpty()) {
             for (org.antlr.v4.runtime.tree.TerminalNode varNode : ctx.USER_VARIABLE()) {
                 String varText = varNode.getText();
-                // Remove @ or @@ prefix
+                // Remove @ or @@ 
                 String varName = varText.startsWith("@@") ? varText.substring(2) : varText.substring(1);
                 items.add(new UserVariable(varName));
             }
@@ -126,19 +123,16 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitJoin_clause(SQLGrammarParser.Join_clauseContext ctx) {
-        // Visit table_source
+
         ASTNode tableSource = visit(ctx.table_source());
-        
-        // Check if it's CROSS JOIN (no ON expression) or regular JOIN (with ON expression)
+
         if (ctx.CROSS() != null) {
-            // CROSS JOIN - no ON condition
             return new JoinClause(tableSource);
         } else if (ctx.ON() != null && ctx.expression() != null) {
-            // Regular JOIN with ON condition
+          
             ASTNode onExpression = visit(ctx.expression());
             return new JoinClause(tableSource, onExpression);
         } else {
-            // Fallback: just table source (shouldn't happen, but handle it)
             return new JoinClause(tableSource);
         }
     }
@@ -147,7 +141,7 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
     public ASTNode visitDataType(SQLGrammarParser.DataTypeContext ctx) {
         DataType dataType;
         
-        // Handle DOUBLE (PRECISION)?
+        //  DOUBLE (PRECISION)?
         if (ctx.DOUBLE() != null) {
             dataType = new DataType("DOUBLE");
             if (ctx.PRECISION() != null) {
@@ -156,7 +150,7 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
             return dataType;
         }
         
-        // Handle FLOAT, REAL
+        //  FLOAT, REAL
         if (ctx.FLOAT() != null) {
             return new DataType("FLOAT");
         }
@@ -164,7 +158,7 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
             return new DataType("REAL");
         }
         
-        // Handle VARCHAR | NVARCHAR | CHAR | NCHAR | BINARY | VARBINARY with optional parameters and collation
+        //  VARCHAR | NVARCHAR | CHAR | NCHAR | BINARY | VARBINARY 
         if (ctx.VARCHAR() != null || ctx.NVARCHAR() != null || ctx.CHAR() != null || 
             ctx.NCHAR() != null || ctx.BINARY() != null || ctx.VARBINARY() != null) {
             String typeName;
@@ -174,15 +168,11 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
             else if (ctx.NCHAR() != null) typeName = "NCHAR";
             else if (ctx.BINARY() != null) typeName = "BINARY";
             else typeName = "VARBINARY";
-            
-            // Build parameters string from LPAREN...RPAREN parts
+         
             StringBuilder params = new StringBuilder();
-            // The grammar has two optional LPAREN parts - handle them
-            // For now, just get the text representation of parameters
             String fullText = ctx.getText();
             int firstParen = fullText.indexOf('(');
             if (firstParen != -1) {
-                // Extract everything from first ( to last )
                 int lastParen = fullText.lastIndexOf(')');
                 if (lastParen != -1) {
                     params.append(fullText.substring(firstParen, lastParen + 1));
@@ -191,7 +181,7 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
             
             dataType = params.length() > 0 ? new DataType(typeName, params.toString()) : new DataType(typeName);
             
-            // Handle COLLATE identifier
+            //  COLLATE 
             if (ctx.identifier() != null && ctx.getText().toUpperCase().contains("COLLATE")) {
                 ASTNode collateId = visit(ctx.identifier());
                 dataType.setCollateName(collateId);
@@ -200,10 +190,10 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
             return dataType;
         }
         
-        // Handle DECIMAL | NUMERIC with optional precision/scale
+        //  DECIMAL | NUMERIC 
         if (ctx.DECIMAL() != null || ctx.NUMERIC() != null) {
             String typeName = ctx.DECIMAL() != null ? "DECIMAL" : "NUMERIC";
-            // Extract parameters if present: (NUMBER, NUMBER) or (NUMBER)
+            // (NUMBER, NUMBER) or (NUMBER)
             String fullText = ctx.getText();
             int firstParen = fullText.indexOf('(');
             if (firstParen != -1) {
@@ -216,7 +206,7 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
             return new DataType(typeName);
         }
         
-        // Handle INT | INTEGER | BIGINT | SMALLINT | TINYINT
+        //  INT | INTEGER | BIGINT | SMALLINT | TINYINT
         if (ctx.INT() != null || ctx.INTEGER() != null || ctx.BIGINT() != null || 
             ctx.SMALLINT() != null || ctx.TINYINT() != null) {
             if (ctx.INT() != null) return new DataType("INT");
@@ -226,11 +216,11 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
             return new DataType("TINYINT");
         }
         
-        // Handle DATE | DATETIME | DATETIME2 | TIMESTAMP | TIME
+        //  DATE | DATETIME | DATETIME2 | TIMESTAMP | TIME
         if (ctx.DATE() != null) return new DataType("DATE");
         if (ctx.DATETIME() != null) return new DataType("DATETIME");
         if (ctx.DATETIME2() != null) {
-            // DATETIME2 can have (NUMBER) parameter
+            // DATETIME2 (NUMBER) 
             String fullText = ctx.getText();
             int paren = fullText.indexOf('(');
             if (paren != -1) {
@@ -244,20 +234,20 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
         if (ctx.TIMESTAMP() != null) return new DataType("TIMESTAMP");
         if (ctx.TIME() != null) return new DataType("TIME");
         
-        // Handle TEXT | BIT | MONEY
+        //  TEXT | BIT | MONEY
         if (ctx.TEXT() != null) return new DataType("TEXT");
         if (ctx.BIT() != null) return new DataType("BIT");
         if (ctx.MONEY() != null) return new DataType("MONEY");
         
-        // Handle UNIQUEIDENTIFIER | XML | JSON
+        //  UNIQUEIDENTIFIER | XML | JSON
         if (ctx.UNIQUEIDENTIFIER() != null) return new DataType("UNIQUEIDENTIFIER");
         if (ctx.XML() != null) return new DataType("XML");
         if (ctx.JSON() != null) return new DataType("JSON");
         
-        // Handle INTERVAL ... TO ...
+        //  INTERVAL ... TO ...
         if (ctx.INTERVAL() != null) {
             dataType = new DataType("INTERVAL");
-            // Extract interval parts
+
             String fullText = ctx.getText().toUpperCase();
             if (fullText.contains("DAY")) dataType.setIntervalFrom("DAY");
             else if (fullText.contains("HOUR")) dataType.setIntervalFrom("HOUR");
@@ -270,30 +260,26 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
             
             return dataType;
         }
-        
-        // Fallback: use the text as type name
+
         return new DataType(ctx.getText().toUpperCase());
     }
 
     @Override
     public ASTNode visitVariable_declaration(SQLGrammarParser.Variable_declarationContext ctx) {
-        // Get USER_VARIABLE token text (e.g., "@var" or "@@var")
+        // Get USER_VARIABLE  "@var" or "@@var"
         String varText = ctx.USER_VARIABLE().getText();
-        // Remove @ or @@ prefix to get the variable name
+        // Remove @ or @@
         String varName = varText.startsWith("@@") ? varText.substring(2) : varText.substring(1);
         UserVariable userVar = new UserVariable(varName);
-        
-        // Visit dataType
+       
         ASTNode dataTypeNode = visit(ctx.dataType());
         DataType dataType = (DataType) dataTypeNode;
         
-        // Optionally visit expression if present
         ASTNode expressionNode = null;
         if (ctx.expression() != null) {
             expressionNode = visit(ctx.expression());
         }
-        
-        // Create VariableDeclaration
+       
         if (expressionNode != null) {
             return new VariableDeclaration(userVar, dataType, expressionNode);
         } else {
@@ -304,7 +290,7 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
     @Override
     public ASTNode visitDeclaration_statement(SQLGrammarParser.Declaration_statementContext ctx) {
         List<ASTNode> declarations = new ArrayList<>();
-        // Visit all variable_declaration contexts
+
         if (ctx.variable_declaration() != null) {
             for (SQLGrammarParser.Variable_declarationContext varCtx : ctx.variable_declaration()) {
                 ASTNode varNode = visit(varCtx);
@@ -322,14 +308,12 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
         ASTNode selectStatement = null;
         ASTNode tableAlias = null;
         
-        // Check if it's identifier_ref or subquery
         if (ctx.identifier_ref() != null) {
             identifierRef = visit(ctx.identifier_ref());
         } else if (ctx.select_statement() != null) {
             selectStatement = visit(ctx.select_statement());
         }
         
-        // Visit optional table_alias
         if (ctx.table_alias() != null) {
             tableAlias = visit(ctx.table_alias());
         }
@@ -345,7 +329,7 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
         boolean isVariable = false;
         boolean isExpression = false;
         
-        // Determine left side: identifier or USER_VARIABLE
+        //  left 
         if (ctx.identifier() != null) {
             leftSide = visit(ctx.identifier());
             isVariable = false;
@@ -356,7 +340,7 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
             isVariable = true;
         }
         
-        // Determine right side: value or expression
+        //  right 
         if (ctx.expression() != null) {
             rightSide = visit(ctx.expression());
             isExpression = true;
@@ -372,7 +356,6 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
     public ASTNode visitWith_clause(SQLGrammarParser.With_clauseContext ctx) {
         List<ASTNode> commonTableExpressions = new ArrayList<>();
         
-        // Visit all common_table_expression contexts
         if (ctx.common_table_expression() != null) {
             for (SQLGrammarParser.Common_table_expressionContext cteCtx : ctx.common_table_expression()) {
                 ASTNode cte = visit(cteCtx);
@@ -381,26 +364,22 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
                 }
             }
         }
-        
-        // Visit select_statement
+
         ASTNode selectStatement = visit(ctx.select_statement());
         
-        // WithClause constructor takes (List<ASTNode>, ASTNode) or (ASTNode) - use the list version
         return new WithClause(commonTableExpressions, selectStatement);
     }
     
     @Override
     public ASTNode visitCommon_table_expression(SQLGrammarParser.Common_table_expressionContext ctx) {
-        // Visit identifier_ref
+
         ASTNode identifierRef = visit(ctx.identifier_ref());
-        
-        // Visit optional column_list
+
         ASTNode columnList = null;
         if (ctx.column_list() != null) {
             columnList = visit(ctx.column_list());
         }
         
-        // Visit select_statement
         ASTNode selectStatement = visit(ctx.select_statement());
         
         if (columnList != null) {
@@ -412,19 +391,16 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
     
     @Override
     public ASTNode visitValue(SQLGrammarParser.ValueContext ctx) {
-        // value: identifier (LPAREN (expression (COMMA expression)*)? RPAREN)? | USER_VARIABLE | NUMBER | STRING | NULL
+        //  identifier (LPAREN (expression (COMMA expression)*)? RPAREN)? | USER_VARIABLE | NUMBER | STRING | NULL
         ASTNode valueNode = null;
         
         if (ctx.identifier() != null) {
             ASTNode identifier = visit(ctx.identifier());
-            // If there are expressions (function call), create a function call node
             if (ctx.expression() != null && !ctx.expression().isEmpty()) {
                 List<ASTNode> args = new ArrayList<>();
                 for (SQLGrammarParser.ExpressionContext exprCtx : ctx.expression()) {
                     args.add(visit(exprCtx));
                 }
-                // Create FunctionCall if identifier has arguments
-                // Extract function name from identifier
                 String funcName = identifier.prettyPrint("").trim();
                 if (identifier instanceof Identifier) {
                     funcName = ((Identifier) identifier).getName();
@@ -445,12 +421,384 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
         } else if (ctx.NULL() != null) {
             valueNode = new Constant("NULL", "NULL");
         } else {
-            // Fallback
             valueNode = new Constant(ctx.getText(), "UNKNOWN");
         }
         
         return new Value(valueNode);
     }
+    @Override
+    public ASTNode visitIf_statement(SQLGrammarParser.If_statementContext ctx) {
+        ASTNode expression = visit(ctx.expression());
+        ASTNode ifStatement = null;
+        ASTNode elseStatement = null;
+        //if
+        if (ctx.statement() != null && ctx.statement().size() > 0) {
+            ifStatement = visit(ctx.statement(0));
+        }
+
+        // else
+        if (ctx.statement() != null && ctx.statement().size() > 1) {
+            elseStatement = visit(ctx.statement(1));
+        } else if (ctx.ELSE() != null && ctx.statement() != null && ctx.statement().size() == 1) {
+            
+            elseStatement = visit(ctx.statement(0));
+        }
+
+        if (ifStatement != null && elseStatement != null) {
+            return new IfStatement(expression, ifStatement, elseStatement);
+        } else if (ifStatement != null) {
+            return new IfStatement(expression, ifStatement);
+        } else {
+            return new IfStatement(expression);
+        }
+    }
+
+    @Override
+    public ASTNode visitTableConstraint(SQLGrammarParser.TableConstraintContext ctx) {
+        TableConstraint constraint = null;
+        ASTNode constraintName = null;
+        
+        if (ctx.identifier() != null && ctx.getText().toUpperCase().contains("CONSTRAINT")) {
+            //  constraint name 
+            for (SQLGrammarParser.IdentifierContext idCtx : ctx.identifier()) {
+                String text = ctx.getText().toUpperCase();
+                int constraintPos = text.indexOf("CONSTRAINT");
+                int idPos = ctx.getStart().getStartIndex();
+                if (text.indexOf(idCtx.getText().toUpperCase()) > constraintPos) {
+                    constraintName = visit(idCtx);
+                    break;
+                }
+            }
+        }
+
+        // PRIMARY KEY
+        if (ctx.PRIMARY() != null && ctx.KEY() != null) {
+            List<ASTNode> columns = new ArrayList<>();
+            for (SQLGrammarParser.IdentifierContext idCtx : ctx.identifier()) {
+                columns.add(visit(idCtx));
+            }
+            constraint = new TableConstraint("PRIMARY KEY", columns);
+            if (ctx.CLUSTERED() != null) {
+                constraint.setClustered(true);
+            } else if (ctx.NONCLUSTERED() != null) {
+                constraint.setNonClustered(true);
+            }
+        }
+        // UNIQUE
+        else if (ctx.UNIQUE() != null) {
+            List<ASTNode> columns = new ArrayList<>();
+            for (SQLGrammarParser.IdentifierContext idCtx : ctx.identifier()) {
+                columns.add(visit(idCtx));
+            }
+            constraint = new TableConstraint("UNIQUE", columns);
+            if (ctx.CLUSTERED() != null) {
+                constraint.setClustered(true);
+            } else if (ctx.NONCLUSTERED() != null) {
+                constraint.setNonClustered(true);
+            }
+        }
+        // FOREIGN KEY
+        else if (ctx.FOREIGN() != null && ctx.KEY() != null) {
+            List<ASTNode> columns = new ArrayList<>();
+            // Get columns before REFERENCES
+            String text = ctx.getText().toUpperCase();
+            int refPos = text.indexOf("REFERENCES");
+            for (SQLGrammarParser.IdentifierContext idCtx : ctx.identifier()) {
+                int idPos = idCtx.getStart().getStartIndex();
+                if (idPos < refPos || refPos == -1) {
+                    columns.add(visit(idCtx));
+                }
+            }
+            ASTNode referencesTable = visit(ctx.fullIdentifier());
+            constraint = new TableConstraint(columns, referencesTable);
+
+            // Referenced columns 
+            if (ctx.fullIdentifier() != null) {
+                List<ASTNode> refColumns = new ArrayList<>();
+                for (SQLGrammarParser.IdentifierContext idCtx : ctx.identifier()) {
+                    int idPos = idCtx.getStart().getStartIndex();
+                    String fullText = ctx.getText().toUpperCase();
+                    int refIdx = fullText.indexOf("REFERENCES");
+                    if (refIdx != -1 && idPos > refIdx) {
+                        refColumns.add(visit(idCtx));
+                    }
+                }
+                if (!refColumns.isEmpty()) {
+                    constraint.setReferencedColumns(refColumns);
+                }
+            }
+
+            //  ON DELETE + ON UPDATE 
+            if (ctx.DELETE() != null && ctx.action() != null && !ctx.action().isEmpty()) {
+                // Find action that comes immediately after DELETE
+                int deleteStart = ctx.DELETE().getSymbol().getStartIndex();
+                SQLGrammarParser.ActionContext deleteAction = null;
+                int minDistance = Integer.MAX_VALUE;
+                
+                for (SQLGrammarParser.ActionContext actionCtx : ctx.action()) {
+                    int actionStart = actionCtx.getStart().getStartIndex();
+                    if (actionStart > deleteStart) {
+                        int distance = actionStart - deleteStart;
+                        if (distance < minDistance) {
+                            minDistance = distance;
+                            deleteAction = actionCtx;
+                        }
+                    }
+                }
+                
+                if (deleteAction != null) {
+                    ASTNode action = visit(deleteAction);
+                    constraint.setOnDeleteAction(action);
+                }
+            }
+            
+            if (ctx.UPDATE() != null && ctx.action() != null && !ctx.action().isEmpty()) {
+                // Find action that comes immediately after UPDATE
+                int updateStart = ctx.UPDATE().getSymbol().getStartIndex();
+                SQLGrammarParser.ActionContext updateAction = null;
+                int minDistance = Integer.MAX_VALUE;
+                
+                for (SQLGrammarParser.ActionContext actionCtx : ctx.action()) {
+                    int actionStart = actionCtx.getStart().getStartIndex();
+                    if (actionStart > updateStart) {
+                        int distance = actionStart - updateStart;
+                        if (distance < minDistance) {
+                            minDistance = distance;
+                            updateAction = actionCtx;
+                        }
+                    }
+                }
+                
+                if (updateAction != null) {
+                    ASTNode action = visit(updateAction);
+                    constraint.setOnUpdateAction(action);
+                }
+            }
+        }
+        // CHECK
+        else if (ctx.CHECK() != null && ctx.expression() != null) {
+            ASTNode checkExpression = visit(ctx.expression());
+            constraint = new TableConstraint(checkExpression);
+        }
+
+        if (constraint != null && constraintName != null) {
+            constraint.setConstraintName(constraintName);
+        }
+
+        return constraint != null ? constraint : new TableConstraint(new ArrayList<>(), null);
+    }
+
+    @Override
+    public ASTNode visitTableElement(SQLGrammarParser.TableElementContext ctx) {
+        if (ctx.columnDefinition() != null) {
+            ASTNode columnDef = visit(ctx.columnDefinition());
+            return new TableElement(columnDef);
+        } else if (ctx.tableConstraint() != null) {
+            ASTNode tableConstraint = visit(ctx.tableConstraint());
+            return new TableElement(tableConstraint);
+        }
+        return null;
+    }
+
+    @Override
+    public ASTNode visitColumnConstraint(SQLGrammarParser.ColumnConstraintContext ctx) {
+        ColumnConstraint constraint = null;
+        ASTNode constraintName = null;
+
+        //  constraint name
+        if (ctx.identifier() != null) {
+            String text = ctx.getText().toUpperCase();
+            if (text.contains("CONSTRAINT")) {
+                constraintName = visit(ctx.identifier(0));
+            }
+        }
+
+        // PRIMARY KEY
+        if (ctx.PRIMARY() != null && ctx.KEY() != null) {
+            constraint = new ColumnConstraint("PRIMARY KEY");
+            if (ctx.CLUSTERED() != null) {
+                constraint.setClustered(true);
+            } else if (ctx.NONCLUSTERED() != null) {
+                constraint.setNonClustered(true);
+            }
+        }
+        // NOT NULL
+        else if (ctx.NOT() != null && ctx.NULL() != null) {
+            constraint = new ColumnConstraint("NOT NULL");
+        }
+        // NULL
+        else if (ctx.NULL() != null && ctx.NOT() == null) {
+            constraint = new ColumnConstraint("NULL");
+        }
+        // UNIQUE
+        else if (ctx.UNIQUE() != null) {
+            constraint = new ColumnConstraint("UNIQUE");
+            if (ctx.CLUSTERED() != null) {
+                constraint.setClustered(true);
+            } else if (ctx.NONCLUSTERED() != null) {
+                constraint.setNonClustered(true);
+            }
+        }
+        // IDENTITY
+        else if (ctx.IDENTITY() != null) {
+            constraint = new ColumnConstraint("IDENTITY");
+            if (ctx.NUMBER() != null) {
+
+                String params = "(";
+                List<org.antlr.v4.runtime.tree.TerminalNode> numbers = ctx.NUMBER();
+                for (int i = 0; i < numbers.size(); i++) {
+                    params += numbers.get(i).getText();
+                    if (i < numbers.size() - 1) {
+                        params += ", ";
+                    }
+                }
+                params += ")";
+                constraint.setIdentityParams(params);
+            }
+        }
+        // DEFAULT
+        else if (ctx.DEFAULT() != null && ctx.defaultValue() != null) {
+            constraint = new ColumnConstraint("DEFAULT");
+            ASTNode defaultValue = visit(ctx.defaultValue());
+            constraint.setDefaultValue(defaultValue);
+        }
+        // CHECK
+        else if (ctx.CHECK() != null && ctx.expression() != null) {
+            constraint = new ColumnConstraint("CHECK");
+            ASTNode checkExpression = visit(ctx.expression());
+            constraint.setCheckExpression(checkExpression);
+        }
+        // REFERENCES
+        else if (ctx.REFERENCES() != null) {
+            constraint = new ColumnConstraint("REFERENCES");
+            ASTNode referencesTable = visit(ctx.fullIdentifier());
+            constraint.setReferencesTable(referencesTable);
+
+            //  referenced column
+            if (ctx.identifier() != null) {
+
+                String text = ctx.getText().toUpperCase();
+                int refPos = text.indexOf("REFERENCES");
+                for (SQLGrammarParser.IdentifierContext idCtx : ctx.identifier()) {
+                    int idPos = idCtx.getStart().getStartIndex();
+                    if (idPos > refPos) {
+                        constraint.setReferencedColumn(visit(idCtx));
+                        break;
+                    }
+                }
+            }
+
+            // ON DELETE + ON UPDATE 
+            if (ctx.DELETE() != null && ctx.action() != null && !ctx.action().isEmpty()) {
+                // Find action that comes immediately after DELETE
+                int deleteStart = ctx.DELETE().getSymbol().getStartIndex();
+                SQLGrammarParser.ActionContext deleteAction = null;
+                int minDistance = Integer.MAX_VALUE;
+                
+                for (SQLGrammarParser.ActionContext actionCtx : ctx.action()) {
+                    int actionStart = actionCtx.getStart().getStartIndex();
+                    if (actionStart > deleteStart) {
+                        int distance = actionStart - deleteStart;
+                        if (distance < minDistance) {
+                            minDistance = distance;
+                            deleteAction = actionCtx;
+                        }
+                    }
+                }
+                
+                if (deleteAction != null) {
+                    ASTNode action = visit(deleteAction);
+                    constraint.setOnDeleteAction(action);
+                }
+            }
+            
+            if (ctx.UPDATE() != null && ctx.action() != null && !ctx.action().isEmpty()) {
+                // Find action that comes immediately after UPDATE
+                int updateStart = ctx.UPDATE().getSymbol().getStartIndex();
+                SQLGrammarParser.ActionContext updateAction = null;
+                int minDistance = Integer.MAX_VALUE;
+                
+                for (SQLGrammarParser.ActionContext actionCtx : ctx.action()) {
+                    int actionStart = actionCtx.getStart().getStartIndex();
+                    if (actionStart > updateStart) {
+                        int distance = actionStart - updateStart;
+                        if (distance < minDistance) {
+                            minDistance = distance;
+                            updateAction = actionCtx;
+                        }
+                    }
+                }
+                
+                if (updateAction != null) {
+                    ASTNode action = visit(updateAction);
+                    constraint.setOnUpdateAction(action);
+                }
+            }
+        }
+
+        if (constraint == null) {
+            constraint = new ColumnConstraint("UNKNOWN");
+        }
+
+        if (constraintName != null) {
+            constraint.setConstraintName(constraintName);
+        }
+
+        return constraint;
+    }
+
+    @Override
+    public ASTNode visitParameter(SQLGrammarParser.ParameterContext ctx) {
+        ASTNode parameterName = null;
+        ASTNode dataType = null;
+        ASTNode defaultValue = null;
+        boolean isOutput = false;
+
+        // USER_VARIABLE or identifier
+        if (ctx.USER_VARIABLE() != null) {
+            String varText = ctx.USER_VARIABLE().getText();
+            String varName = varText.startsWith("@@") ? varText.substring(2) : varText.substring(1);
+            parameterName = new UserVariable(varName);
+        } else if (ctx.identifier() != null) {
+            parameterName = visit(ctx.identifier());
+        }
+
+        if (ctx.dataType() != null) {
+            dataType = visit(ctx.dataType());
+        }
+
+        if (ctx.defaultValue() != null) {
+            defaultValue = visit(ctx.defaultValue());
+        }
+
+        if (ctx.OUTPUT() != null) {
+            isOutput = true;
+        }
+
+        Parameter param = new Parameter(parameterName, dataType);
+        if (defaultValue != null) {
+            param.setDefaultValue(defaultValue);
+        }
+        if (isOutput) {
+            param.setOutput(true);
+        }
+
+        return param;
+    }
+
+    @Override
+    public ASTNode visitParameterList(SQLGrammarParser.ParameterListContext ctx) {
+        ParameterList paramList = new ParameterList();
+        if (ctx.parameter() != null) {
+            for (SQLGrammarParser.ParameterContext paramCtx : ctx.parameter()) {
+                ASTNode param = visit(paramCtx);
+                paramList.addParameter(param);
+            }
+        }
+        return paramList;
+    }
+
+
 
 
 
@@ -633,11 +981,9 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitWhen_clause(SQLGrammarParser.When_clauseContext ctx) {
-        ASTNode whenExpression = visit(ctx.expression(0));
-        ASTNode thenExpression = visit(ctx.expression(1));
-        WhenStatement whenStmt = new WhenStatement(whenExpression);
-        whenStmt.addChild(thenExpression);
-        return whenStmt;
+        ASTNode whenExpression = visit(ctx.expression(1));
+        ASTNode thenExpression = visit(ctx.expression(3));
+        return new WhenStatement(whenExpression, thenExpression);
     }
 
     @Override
@@ -657,6 +1003,33 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
     public ASTNode visitExists_predicate(SQLGrammarParser.Exists_predicateContext ctx) {
         ASTNode subquery = visit(ctx.subquery());
         return new ExistPredicate(subquery);
+    }
+
+    @Override
+    public ASTNode visitFileGroup(SQLGrammarParser.FileGroupContext ctx) {
+        if (ctx.PRIMARY() != null) {
+            return new FileGroup(true);
+        } else if (ctx.identifier() != null) {
+            ASTNode identifier = visit(ctx.identifier());
+            return new FileGroup(identifier);
+        }
+        return null;
+    }
+    @Override
+    public ASTNode visitAction(SQLGrammarParser.ActionContext ctx) {
+        String actionType = ctx.getText().toUpperCase();
+        return new Action(actionType);
+    }
+    @Override
+    public ASTNode visitFullIdentifier(SQLGrammarParser.FullIdentifierContext ctx) {
+        List<ASTNode> identifiers = new ArrayList<>();
+        if (ctx.identifier() != null) {
+            for (SQLGrammarParser.IdentifierContext idCtx : ctx.identifier()) {
+                ASTNode identifier = visit(idCtx);
+                identifiers.add(identifier);
+            }
+        }
+        return new FullIdentifier(identifiers);
     }
 
     //sara
