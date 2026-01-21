@@ -660,47 +660,47 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
     }
 
     //sara
-    @Override
-    public ASTNode visitOrder_by_expression(SQLGrammarParser.Order_by_expressionContext ctx) {
+//    @Override
+//    public ASTNode visitOrder_by_expression(SQLGrammarParser.Order_by_expressionContext ctx) {
+//
+//        ASTNode expr = visit(ctx.expression());
+//
+//        String direction = "ASC";
+//        if (ctx.DESC() != null) {
+//            direction = "DESC";
+//        } else if (ctx.ASC() != null) {
+//            direction = "ASC";
+//        }
+//
+//        return new OrderByExpression(expr, direction);
+//    }
 
-        ASTNode expr = visit(ctx.expression());
+//    @Override
+//    public ASTNode visitSelect_list(SQLGrammarParser.Select_listContext ctx) {
+//        if (ctx.STAR() != null) {
+//            return new SelectList(true);
+//        }
+//
+//        List<ASTNode> elements = new ArrayList<>();
+//        for (SQLGrammarParser.Select_elementContext elCtx : ctx.select_element()) {
+//            elements.add(visit(elCtx));
+//        }
+//        return new SelectList(elements);
+//    }
 
-        String direction = "ASC";
-        if (ctx.DESC() != null) {
-            direction = "DESC";
-        } else if (ctx.ASC() != null) {
-            direction = "ASC";
-        }
-
-        return new OrderByExpression(expr, direction);
-    }
-
-    @Override
-    public ASTNode visitSelect_list(SQLGrammarParser.Select_listContext ctx) {
-        if (ctx.STAR() != null) {
-            return new SelectList(true);
-        }
-
-        List<ASTNode> elements = new ArrayList<>();
-        for (SQLGrammarParser.Select_elementContext elCtx : ctx.select_element()) {
-            elements.add(visit(elCtx));
-        }
-        return new SelectList(elements);
-    }
-
-    @Override
-    public ASTNode visitSelect_element(SQLGrammarParser.Select_elementContext ctx) {
-        if (ctx.expression() != null) {
-            ASTNode expr = visit(ctx.expression());
-            if (ctx.alias() != null) {
-                ASTNode aliasNode = visit(ctx.alias());
-                return new SelectElement(expr, aliasNode);
-            }
-            return new SelectElement(expr, null);
-        }
-
-        return new SelectElement(visit(ctx.identifier()), visit(ctx.expression()));
-    }
+//    @Override
+//    public ASTNode visitSelect_element(SQLGrammarParser.Select_elementContext ctx) {
+//        if (ctx.expression() != null) {
+//            ASTNode expr = visit(ctx.expression());
+//            if (ctx.alias() != null) {
+//                ASTNode aliasNode = visit(ctx.alias());
+//                return new SelectElement(expr, aliasNode);
+//            }
+//            return new SelectElement(expr, null);
+//        }
+//
+//        return new SelectElement(visit(ctx.identifier()), visit(ctx.expression()));
+//    }
     @Override
     public ASTNode visitExpression(SQLGrammarParser.ExpressionContext ctx) {
         if (ctx.primary_expression() != null) {
@@ -745,38 +745,38 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
 
         return new DropTableStatement(tableNames);
     }
-    @Override
-    public ASTNode visitInsert_statement(SQLGrammarParser.Insert_statementContext ctx) {
-        ASTNode tableName = visit(ctx.table_name());
-        InsertStatement insert = new InsertStatement(tableName);
-        if (ctx.column_list() != null) {
-            insert.setColumnList(visit(ctx.column_list()));
-        }
-        if (ctx.VALUES() != null && ctx.row_value_constructor_list() != null) {
-            insert.setInsertSource(visit(ctx.row_value_constructor_list()));
-        }
-        else if (ctx.select_statement() != null) {
-            insert.setInsertSource(visit(ctx.select_statement()));
-        }
-        else if (ctx.DEFAULT() != null) {
-            insert.setDefaultValues(true);
-        }
+//    @Override
+//    public ASTNode visitInsert_statement(SQLGrammarParser.Insert_statementContext ctx) {
+//        ASTNode tableName = visit(ctx.table_name());
+//        InsertStatement insert = new InsertStatement(tableName);
+//        if (ctx.column_list() != null) {
+//            insert.setColumnList(visit(ctx.column_list()));
+//        }
+//        if (ctx.VALUES() != null && ctx.row_value_constructor_list() != null) {
+//            insert.setInsertSource(visit(ctx.row_value_constructor_list()));
+//        }
+//        else if (ctx.select_statement() != null) {
+//            insert.setInsertSource(visit(ctx.select_statement()));
+//        }
+//        else if (ctx.DEFAULT() != null) {
+//            insert.setDefaultValues(true);
+//        }
+//
+//        return insert;
+//    }
 
-        return insert;
-    }
-
-    @Override
-    public ASTNode visitUpdate_statement(SQLGrammarParser.Update_statementContext ctx) {
-        ASTNode tableName = visit(ctx.table_name());
-        UpdateStatement update = new UpdateStatement(tableName);
-        for (SQLGrammarParser.AssignmentContext assignCtx : ctx.assignment()) {
-            update.addAssignment(visit(assignCtx));
-        }
-        if (ctx.where_clause() != null) {
-            update.setWhereClause(visit(ctx.where_clause()));
-        }
-        return update;
-    }
+//    @Override
+//    public ASTNode visitUpdate_statement(SQLGrammarParser.Update_statementContext ctx) {
+//        ASTNode tableName = visit(ctx.table_name());
+//        UpdateStatement update = new UpdateStatement(tableName);
+//        for (SQLGrammarParser.AssignmentContext assignCtx : ctx.assignment()) {
+//            update.addAssignment(visit(assignCtx));
+//        }
+//        if (ctx.where_clause() != null) {
+//            update.setWhereClause(visit(ctx.where_clause()));
+//        }
+//        return update;
+//    }
     @Override
     public ASTNode visitRow_value_constructor_list(SQLGrammarParser.Row_value_constructor_listContext ctx) {
         List<ASTNode> rows = new ArrayList<>();
@@ -868,5 +868,212 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
         return new Program(statements);
     }
 
+
+    /// halaaaaaaaaaaaa
+    @Override
+    public ASTNode visitSelect_statement(SQLGrammarParser.Select_statementContext ctx) {
+        ASTNode selectList = visit(ctx.select_list());
+        SelectStatement selectStmt = new SelectStatement(selectList);
+
+        if (ctx.DISTINCT() != null) {
+            selectStmt.setDistinct(true);
+        } else if (ctx.ALL() != null) {
+            selectStmt.setAll(true);
+        }
+
+        if (ctx.TOP() != null && ctx.NUMBER() != null) {
+            selectStmt.setTopNumber(new Constant(ctx.NUMBER().getText(), "NUMBER"));
+        }
+
+        if (ctx.table_source() != null) {
+            selectStmt.setFromTable(visit(ctx.table_source()));
+        }
+
+        if (ctx.join_clause() != null) {
+            for (SQLGrammarParser.Join_clauseContext joinCtx : ctx.join_clause()) {
+                selectStmt.addJoinClause(visit(joinCtx));
+            }
+        }
+
+        if (ctx.where_clause() != null) {
+            selectStmt.setWhereClause(visit(ctx.where_clause()));
+        }
+
+        if (ctx.group_by_clause() != null) {
+            selectStmt.setGroupByClause(visit(ctx.group_by_clause()));
+        }
+
+        if (ctx.having_clause() != null) {
+            selectStmt.setHavingClause(visit(ctx.having_clause()));
+        }
+
+        if (ctx.order_by_clause() != null) {
+            selectStmt.setOrderByClause(visit(ctx.order_by_clause()));
+        }
+
+        return selectStmt;
+    }
+
+
+    @Override
+    public ASTNode visitSelect_list(SQLGrammarParser.Select_listContext ctx) {
+        if (ctx.STAR() != null) {
+            return new SelectList(true);
+        }
+
+        SelectList selectList = new SelectList(false);
+        if (ctx.select_element() != null) {
+            for (SQLGrammarParser.Select_elementContext elementCtx : ctx.select_element()) {
+                selectList.addElement(visit(elementCtx));
+            }
+        }
+        return selectList;
+    }
+
+
+    @Override
+    public ASTNode visitSelect_element(SQLGrammarParser.Select_elementContext ctx) {
+        if (ctx.EQUAL() != null) {
+            ASTNode identifier = visit(ctx.identifier());
+            ASTNode expression = visit(ctx.expression());
+            return new SelectElement(identifier, expression, true);
+        } else {
+            ASTNode expression = visit(ctx.expression());
+            ASTNode alias = null;
+            if (ctx.alias() != null) {
+                alias = visit(ctx.alias());
+            }
+            return new SelectElement(expression, alias);
+        }}
+    @Override
+    public ASTNode visitInsert_statement(SQLGrammarParser.Insert_statementContext ctx) {
+        ASTNode tableName = (ASTNode) visit(ctx.table_name());
+        InsertStatement insertStmt = new InsertStatement(tableName);
+
+        if (ctx.column_list() != null) {
+            insertStmt.setColumnList((ASTNode) visit(ctx.column_list()));
+        }
+
+        if (ctx.DEFAULT() != null) {
+            insertStmt.setDefaultValues(true);
+        } else if (ctx.row_value_constructor_list() != null) {
+            insertStmt.setInsertSource((ASTNode) visit(ctx.row_value_constructor_list()));
+        } else if (ctx.select_statement() != null) {
+            insertStmt.setInsertSource((ASTNode) visit(ctx.select_statement()));
+        }
+
+        return insertStmt;
+    }
+
+
+
+    @Override
+    public ASTNode visitUpdate_statement(SQLGrammarParser.Update_statementContext ctx) {
+        ASTNode tableName = visit(ctx.table_name());
+        UpdateStatement updateStmt = new UpdateStatement(tableName);
+
+        if (ctx.assignment() != null) {
+            for (SQLGrammarParser.AssignmentContext assignCtx : ctx.assignment()) {
+                updateStmt.addAssignment(visit(assignCtx));
+            }
+        }
+
+        if (ctx.table_source() != null) {
+            updateStmt.setFromSource(visit(ctx.table_source()));
+        }
+
+        if (ctx.join_clause() != null) {
+            for (SQLGrammarParser.Join_clauseContext joinCtx : ctx.join_clause()) {
+                updateStmt.addJoinClause(visit(joinCtx));
+            }
+        }
+
+        if (ctx.where_clause() != null) {
+            updateStmt.setWhereClause(visit(ctx.where_clause()));
+        }
+
+        return updateStmt;
+    }
+
+
+
+
+
+
+
+    @Override
+    public ASTNode visitGroup_by_clause(SQLGrammarParser.Group_by_clauseContext ctx) {
+        GroupByClause groupBy = new GroupByClause();
+
+        if (ctx.group_by_item() != null) {
+            for (SQLGrammarParser.Group_by_itemContext itemCtx : ctx.group_by_item()) {
+                groupBy.addItem(visit(itemCtx));
+            }
+        }
+
+        return groupBy;
+    }
+
+    @Override
+    public ASTNode visitGroup_by_item(SQLGrammarParser.Group_by_itemContext ctx) {
+        if (ctx.expression() != null) {
+            return new GroupByItem("EXPRESSION", visit(ctx.expression()));
+        } else if (ctx.ROLLUP() != null) {
+            return new GroupByItem("ROLLUP", visit(ctx.expression_list()));
+        } else if (ctx.CUBE() != null) {
+            return new GroupByItem("CUBE", visit(ctx.expression_list()));
+        } else if (ctx.grouping_set_list() != null) {
+            return new GroupByItem("GROUPING_SETS", visit(ctx.grouping_set_list()));
+        }
+
+        return null;
+    }
+
+    @Override
+    public ASTNode visitGrouping_set_list(SQLGrammarParser.Grouping_set_listContext ctx) {
+        GroupingSetList groupingList = new GroupingSetList();
+
+        if (ctx.grouping_set() != null) {
+            for (SQLGrammarParser.Grouping_setContext setCtx : ctx.grouping_set()) {
+                groupingList.addSet(visit(setCtx));
+            }
+        }
+
+        return groupingList;
+    }
+
+    @Override
+    public ASTNode visitGrouping_set(SQLGrammarParser.Grouping_setContext ctx) {
+        ASTNode expressionList = null;
+
+        if (ctx.expression_list() != null) {
+            expressionList = visit(ctx.expression_list());
+        } else if (ctx.expression() != null) {
+            expressionList = visit(ctx.expression());
+        }
+
+        return new GroupingSet(expressionList);
+    }
+
+    @Override
+    public ASTNode visitOrder_by_expression(SQLGrammarParser.Order_by_expressionContext ctx) {
+        ASTNode expression = visit(ctx.expression());
+        String direction = "ASC";
+
+        if (ctx.DESC() != null) {
+            direction = "DESC";
+        } else if (ctx.ASC() != null) {
+            direction = "ASC";
+        }
+
+        return new OrderByExpression(expression, direction);
+    }
+
 }
+
+
+
+
+
+
 
