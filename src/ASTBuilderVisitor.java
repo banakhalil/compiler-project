@@ -1620,13 +1620,13 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
         return new CreateIndexStatement(indexName, isUnique, tableName, cols);
     }
 
-    @Override
-    public ASTNode visitIndexColumn(SQLGrammarParser.IndexColumnContext ctx) {
-        ASTNode identifierNode = visit(ctx.identifier());
-        String colName = identifierNode.prettyPrint("").trim();
-        boolean isAsc = ctx.ASC() != null || (ctx.DESC() == null);
-        return new IndexColumn(colName, isAsc);
-    }
+//    @Override
+//    public ASTNode visitIndexColumn(SQLGrammarParser.IndexColumnContext ctx) {
+//        ASTNode identifierNode = visit(ctx.identifier());
+//        String colName = identifierNode.prettyPrint("").trim();
+//        boolean isAsc = ctx.ASC() != null || (ctx.DESC() == null);
+//        return new IndexColumn(colName, isAsc);
+//    }
 
     @Override
     public ASTNode visitCreateView(SQLGrammarParser.CreateViewContext ctx) {
@@ -1634,6 +1634,38 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
         String viewName = viewNameNode.prettyPrint("").trim();
         ASTNode selectStmt = visit(ctx.select_statement());
         return new CreateViewStatement(viewName, selectStmt);
+    }
+
+    @Override
+    public ASTNode visitValueList(SQLGrammarParser.ValueListContext ctx) {
+        ValueList valueList = new ValueList();
+
+        if (ctx.value() != null) {
+            for (SQLGrammarParser.ValueContext valueCtx : ctx.value()) {
+                ASTNode valueNode = visit(valueCtx);
+                if (valueNode != null) {
+                    valueList.addValue(valueNode);
+                }
+            }
+        }
+
+        return valueList;
+    }
+
+
+
+    @Override
+    public ASTNode visitIndexColumn(SQLGrammarParser.IndexColumnContext ctx) {
+        ASTNode idNode = visit(ctx.identifier());
+
+        String order = "ASC";
+        if (ctx.DESC() != null) {
+            order = "DESC";
+        } else if (ctx.ASC() != null) {
+            order = "ASC";
+        }
+
+        return new IndexColumn(idNode, order);
     }
 
 

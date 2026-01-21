@@ -1,17 +1,36 @@
+//package sql;
+//
+//
+//public class IndexColumn extends ASTNode {
+//    private String columnName;
+//    private boolean isAscending;
+//
+//    public IndexColumn(String columnName, boolean isAscending) {
+//        this.columnName = columnName;
+//        this.isAscending = isAscending;
+//    }
+//
+//    @Override
+//    public String prettyPrint(String indent) {
+//        return indent + this.columnName + " " + (this.isAscending ? "ASC" : "DESC");
+//    }
+//}
 package sql;
 
-
 public class IndexColumn extends ASTNode {
-    private String columnName;
-    private boolean isAscending;
+    private ASTNode identifier;
+    private String sortOrder;
 
-    public IndexColumn(String columnName, boolean isAscending) {
-        this.columnName = columnName;
-        this.isAscending = isAscending;
+    public IndexColumn(ASTNode identifier, String sortOrder) {
+        this.identifier = identifier;
+        this.sortOrder = sortOrder;
     }
 
     @Override
     public String prettyPrint(String indent) {
-        return indent + this.columnName + " " + (this.isAscending ? "ASC" : "DESC");
+        StringBuilder sb = new StringBuilder();
+        sb.append(indent).append("INDEX_COLUMN (Order: ").append(sortOrder).append("):\n");
+        sb.append(identifier.prettyPrint(indent + "  "));
+        return sb.toString();
     }
 }
