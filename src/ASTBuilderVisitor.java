@@ -1442,6 +1442,201 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
         return new OrderByExpression(expression, direction);
     }
 
+    // ALBATOOL
+
+    @Override
+    public ASTNode visitAlterTable(SQLGrammarParser.AlterTableContext ctx) {
+        ASTNode tableNameNode = visit(ctx.fullIdentifier());
+        String tableName = tableNameNode.prettyPrint("").trim();
+        List<ASTNode> actions = new ArrayList<>();
+
+        for (SQLGrammarParser.AlterTableActionContext actionCtx : ctx.alterTableAction()) {
+            if (actionCtx.ADD() != null && actionCtx.columnDefinition() != null) {
+                // ADD COLUMN
+                ASTNode colDef = visit(actionCtx.columnDefinition());
+                actions.add(new AddColumnAction(colDef));
+            } else if (actionCtx.DROP() != null && actionCtx.COLUMN() != null) {
+                // DROP COLUMN
+                ASTNode identifierNode = visit(actionCtx.identifier());
+                String colName = identifierNode.prettyPrint("").trim();
+                actions.add(new DropColumnAction(colName));
+            } else if (actionCtx.ALTER() != null && actionCtx.COLUMN() != null) {
+                // ALTER COLUMN
+                ASTNode identifierNode = visit(actionCtx.identifier());
+                String colName = identifierNode.prettyPrint("").trim();
+                ASTNode dataTypeNode = visit(actionCtx.dataType());
+                String type = dataTypeNode.prettyPrint("").trim();
+                actions.add(new ModifyColumnAction(colName, type));
+            } else if (actionCtx.ADD() != null && actionCtx.tableConstraint() != null) {
+                // ADD CONSTRAINT
+                ASTNode constraint = visit(actionCtx.tableConstraint());
+                actions.add(new AddConstraintAction(constraint));
+            } else if (actionCtx.DROP() != null && actionCtx.CONSTRAINT() != null) {
+                // DROP CONSTRAINT
+                ASTNode identifierNode = visit(actionCtx.identifier());
+                String constraintName = identifierNode.prettyPrint("").trim();
+                actions.add(new DropColumnAction(constraintName));
+            }
+        }
+        return new AlterTableStatement(tableName, actions);
+    }
+
+    @Override
+    public ASTNode visitAlterDatabase(SQLGrammarParser.AlterDatabaseContext ctx) {
+        ASTNode dbNameNode = visit(ctx.identifier(0));
+        String dbName = dbNameNode.prettyPrint("").trim();
+        String action = ctx.getText().substring(ctx.getText().indexOf(dbName) + dbName.length()).trim();
+        return new AlterDatabaseStatement(dbName, action);
+    }
+
+    @Override
+    public ASTNode visitAlterIndex(SQLGrammarParser.AlterIndexContext ctx) {
+        String indexName = null;
+        if (ctx.identifier() != null) {
+            indexName = ctx.identifier().getText();
+        } else if (ctx.ALL() != null) {
+            indexName = "ALL";
+        }
+        ASTNode tableNameNode = visit(ctx.fullIdentifier());
+        String tableName = tableNameNode.prettyPrint("").trim();
+        String action = (ctx.REBUILD() != null) ? "REBUILD" : "DISABLE";
+        return new AlterIndexStatement(indexName, tableName, action);
+    }
+
+    @Override
+    public ASTNode visitAlterView(SQLGrammarParser.AlterViewContext ctx) {
+        ASTNode viewNameNode = visit(ctx.fullIdentifier());
+        String viewName = viewNameNode.prettyPrint("").trim();
+        ASTNode selectStmt = visit(ctx.select_statement());
+        return new AlterViewStatement(viewName, selectStmt);
+    }
+
+    @Override
+    public ASTNode visitAlterProcedure(SQLGrammarParser.AlterProcedureContext ctx) {
+        ASTNode procNameNode = visit(ctx.fullIdentifier());
+        String procName = procNameNode.prettyPrint("").trim();
+        ParameterList params = (ctx.parameterList() != null) ? (ParameterList) visit(ctx.parameterList()) : null;
+        List<ASTNode> body = new ArrayList<>();
+        if (ctx.statement() != null) {
+            for (SQLGrammarParser.StatementContext stmtCtx : ctx.statement()) {
+                body.add(visit(stmtCtx));
+            }
+        }
+        return new AlterProcedureStatement(procName, params, body);
+    }
+
+    @Override
+    public ASTNode visitAlterFunction(SQLGrammarParser.AlterFunctionContext ctx) {
+        ASTNode funcNameNode = visit(ctx.fullIdentifier());
+        String funcName = funcNameNode.prettyPrint("").trim();
+        ParameterList params = (ctx.parameterList() != null) ? (ParameterList) visit(ctx.parameterList()) : null;
+        ASTNode returnTypeNode = visit(ctx.dataType());
+        String returnType = returnTypeNode.prettyPrint("").trim();
+        List<ASTNode> body = new ArrayList<>();
+        if (ctx.statement() != null) {
+            for (SQLGrammarParser.StatementContext stmtCtx : ctx.statement()) {
+                body.add(visit(stmtCtx));
+            }
+        }
+        return new AlterFunctionStatement(funcName, params, returnType, body);
+    }
+
+    @Override
+    public ASTNode visitAlterSchema(SQLGrammarParser.AlterSchemaContext ctx) {
+        ASTNode schemaNameNode = visit(ctx.identifier());
+        String schemaName = schemaNameNode.prettyPrint("").trim();
+        String fullText = ctx.getText();
+        int schemaPos = fullText.indexOf(schemaName);
+        String action = fullText.substring(schemaPos + schemaName.length()).trim();
+        return new AlterSchemaStatement(schemaName, action);
+    }
+
+    
+    @Override
+    public ASTNode visitCreateTable(SQLGrammarParser.CreateTableContext ctx) {
+        ASTNode tableNameNode = visit(ctx.fullIdentifier());
+        String tableName = tableNameNode.prettyPrint("").trim();
+        List<ASTNode> tableElements = new ArrayList<>();
+
+        for (SQLGrammarParser.TableElementContext el : ctx.tableElement()) {
+            ASTNode element = visit(el);
+            if (element != null) {
+                tableElements.add(element);
+            }
+        }
+
+        return new CreateTableStatement(tableName, tableElements);
+    }
+
+    @Override
+    public ASTNode visitCreateDatabase(SQLGrammarParser.CreateDatabaseContext ctx) {
+        ASTNode dbNameNode = visit(ctx.identifier());
+        String dbName = dbNameNode.prettyPrint("").trim();
+        return new CreateDatabaseStatement(dbName);
+    }
+
+    @Override
+    public ASTNode visitCreateSchema(SQLGrammarParser.CreateSchemaContext ctx) {
+        ASTNode schemaNameNode = visit(ctx.identifier(0));
+        String schemaName = schemaNameNode.prettyPrint("").trim();
+        String authName = null;
+        if (ctx.identifier().size() > 1) {
+            ASTNode authNameNode = visit(ctx.identifier(1));
+            authName = authNameNode.prettyPrint("").trim();
+        }
+        return new CreateSchemaStatement(schemaName, authName);
+    }
+
+    @Override
+    public ASTNode visitCreateProcedure(SQLGrammarParser.CreateProcedureContext ctx) {
+        ASTNode procNameNode = visit(ctx.fullIdentifier());
+        String procName = procNameNode.prettyPrint("").trim();
+        ParameterList params = (ctx.parameterList() != null) ? (ParameterList) visit(ctx.parameterList()) : null;
+
+        List<ASTNode> body = new ArrayList<>();
+        if (ctx.statement() != null) {
+            for (SQLGrammarParser.StatementContext stmtCtx : ctx.statement()) {
+                body.add(visit(stmtCtx));
+            }
+        }
+        return new CreateProcedureStatement(procName, params, body);
+    }
+
+
+
+    @Override
+    public ASTNode visitCreateIndex(SQLGrammarParser.CreateIndexContext ctx) {
+        ASTNode indexNameNode = visit(ctx.fullIdentifier(0));
+        String indexName = indexNameNode.prettyPrint("").trim();
+        boolean isUnique = ctx.UNIQUE() != null;
+        ASTNode tableNameNode = visit(ctx.fullIdentifier(1));
+        String tableName = tableNameNode.prettyPrint("").trim();
+
+        List<ASTNode> cols = new ArrayList<>();
+        for (SQLGrammarParser.IndexColumnContext colCtx : ctx.indexColumn()) {
+            ASTNode colNode = visit(colCtx);
+            cols.add(colNode);
+        }
+        return new CreateIndexStatement(indexName, isUnique, tableName, cols);
+    }
+
+    @Override
+    public ASTNode visitIndexColumn(SQLGrammarParser.IndexColumnContext ctx) {
+        ASTNode identifierNode = visit(ctx.identifier());
+        String colName = identifierNode.prettyPrint("").trim();
+        boolean isAsc = ctx.ASC() != null || (ctx.DESC() == null);
+        return new IndexColumn(colName, isAsc);
+    }
+
+    @Override
+    public ASTNode visitCreateView(SQLGrammarParser.CreateViewContext ctx) {
+        ASTNode viewNameNode = visit(ctx.fullIdentifier());
+        String viewName = viewNameNode.prettyPrint("").trim();
+        ASTNode selectStmt = visit(ctx.select_statement());
+        return new CreateViewStatement(viewName, selectStmt);
+    }
+
+
 }
 
 

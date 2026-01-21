@@ -15,6 +15,15 @@ public class TableConstraint extends ASTNode {
     private ASTNode onDeleteAction;  
     private ASTNode onUpdateAction;  
 
+    // Default constructor
+    public TableConstraint() {
+        this.constraintType = "";
+        this.columns = new ArrayList<>();
+        this.clustered = false;
+        this.nonClustered = false;
+        this.referencedColumns = new ArrayList<>();
+    }
+
     // PRIMARY KEY or UNIQUE
     public TableConstraint(String constraintType, List<ASTNode> columns) {
         this.constraintType = constraintType;
