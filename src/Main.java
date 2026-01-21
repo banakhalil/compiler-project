@@ -4,7 +4,8 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        String fileName = "src/test/test.txt";
+//        String fileName = "src/test/test.txt";
+        String fileName = "src/test/train.sql";
         SQLGrammarParser parser = getParser(fileName);
         
         if (parser == null) {

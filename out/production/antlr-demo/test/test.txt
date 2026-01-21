@@ -1,1 +1,271 @@
-use databaseName
+-- Test 1: Simple USE statement
+USE databaseName
+
+-- Test 2: Variable declaration
+DECLARE @var1 INT, @var2 VARCHAR(100) = 'test'
+
+-- Test 3: Simple SELECT
+SELECT * FROM table1
+
+-- Test 4: SELECT with WHERE
+SELECT id, name FROM users WHERE age > 18
+
+-- Test 5: SELECT with JOIN
+SELECT u.name, o.order_id
+FROM users u
+INNER JOIN orders o ON u.id = o.user_id
+
+-- Test 6: SELECT with GROUP BY and HAVING
+SELECT department, COUNT(*) as emp_count
+FROM employees
+GROUP BY department
+HAVING COUNT(*) > 5
+
+-- Test 7: SELECT with ORDER BY
+SELECT * FROM products ORDER BY price DESC, name ASC
+
+-- Test 8: SELECT with DISTINCT and TOP
+SELECT DISTINCT TOP 10 customer_id FROM orders
+
+-- Test 9: INSERT with VALUES
+INSERT INTO users (id, name, email) VALUES (1, 'John', 'john@example.com')
+
+-- Test 10: INSERT with SELECT
+INSERT INTO users_backup SELECT * FROM users WHERE active = 1
+
+-- Test 11: INSERT with DEFAULT VALUES
+INSERT INTO users DEFAULT VALUES
+
+-- Test 12: UPDATE statement
+UPDATE users SET name = 'Jane', email = 'jane@example.com' WHERE id = 1
+
+-- Test 13: UPDATE with JOIN
+UPDATE u SET u.status = 'active'
+FROM users u
+INNER JOIN orders o ON u.id = o.user_id
+WHERE o.order_date > '2024-01-01'
+
+-- Test 14: DELETE statement
+DELETE FROM users WHERE id = 1
+
+-- Test 15: CREATE TABLE with constraints
+CREATE TABLE employees (
+    id INT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) UNIQUE,
+    salary DECIMAL(10,2) DEFAULT 0,
+    department_id INT REFERENCES departments(id)
+)
+
+-- Test 16: CREATE TABLE with table constraints
+CREATE TABLE orders (
+    order_id INT,
+    customer_id INT,
+    order_date DATE,
+    PRIMARY KEY (order_id, customer_id),
+    FOREIGN KEY (customer_id) REFERENCES customers(id),
+    CHECK (order_date >= '2020-01-01')
+)
+
+-- Test 17: CREATE DATABASE
+CREATE DATABASE testdb
+
+-- Test 18: CREATE SCHEMA
+CREATE SCHEMA myschema AUTHORIZATION admin
+
+-- Test 19: CREATE INDEX
+CREATE UNIQUE INDEX idx_user_email ON users(email)
+
+-- Test 20: CREATE VIEW
+CREATE VIEW active_users AS SELECT * FROM users WHERE active = 1
+
+-- Test 21: ALTER TABLE ADD COLUMN
+ALTER TABLE users ADD COLUMN phone VARCHAR(20)
+
+-- Test 22: ALTER TABLE DROP COLUMN
+ALTER TABLE users DROP COLUMN old_column
+
+-- Test 23: ALTER TABLE ALTER COLUMN
+ALTER TABLE users ALTER COLUMN name VARCHAR(200)
+
+-- Test 24: ALTER TABLE ADD CONSTRAINT
+ALTER TABLE users ADD CONSTRAINT pk_users PRIMARY KEY (id)
+
+-- Test 25: DROP TABLE
+DROP TABLE IF EXISTS old_table
+
+-- Test 26: TRUNCATE TABLE
+TRUNCATE TABLE temp_data
+
+-- Test 27: IF statement
+IF @count > 10
+    PRINT 'Count is high'
+ELSE
+    PRINT 'Count is low'
+
+-- Test 28: WHILE loop
+WHILE @counter < 10
+    SET @counter = @counter + 1
+
+-- Test 29: Block statement
+BEGIN
+    DECLARE @x INT = 5
+    SET @x = @x + 1
+    PRINT @x
+END
+
+-- Test 30: WITH clause (CTE)
+WITH recent_orders AS (
+    SELECT * FROM orders WHERE order_date > '2024-01-01'
+)
+SELECT * FROM recent_orders
+
+-- Test 31: Cursor operations
+DECLARE order_cursor CURSOR FOR SELECT order_id FROM orders
+OPEN order_cursor
+FETCH NEXT FROM order_cursor INTO @order_id
+CLOSE order_cursor
+DEALLOCATE order_cursor
+
+-- Test 32: Function calls
+SELECT COUNT(*), AVG(price), MAX(price), MIN(price) FROM products
+
+-- Test 33: Complex expression
+SELECT * FROM users WHERE age BETWEEN 18 AND 65 AND status IN ('active', 'pending')
+
+-- Test 34: CASE expression
+SELECT
+    CASE
+        WHEN age < 18 THEN 'Minor'
+        WHEN age < 65 THEN 'Adult'
+        ELSE 'Senior'
+    END as age_group
+FROM users
+
+-- Test 35: Subquery
+SELECT name FROM users WHERE id IN (SELECT user_id FROM orders)
+
+-- Test 36: EXISTS predicate
+SELECT * FROM customers WHERE EXISTS (SELECT 1 FROM orders WHERE orders.customer_id = customers.id)
+
+-- Test 37: Scalar subquery
+SELECT name, (SELECT COUNT(*) FROM orders WHERE orders.user_id = users.id) as order_count
+FROM users
+
+-- Test 38: GROUP BY with ROLLUP
+SELECT department, SUM(salary)
+FROM employees
+GROUP BY ROLLUP(department)
+
+-- Test 39: GROUP BY with CUBE
+SELECT department, position, COUNT(*)
+FROM employees
+GROUP BY CUBE(department, position)
+
+-- Test 40: GROUP BY with GROUPING SETS
+SELECT department, position, COUNT(*)
+FROM employees
+GROUP BY GROUPING SETS ((department), (position), ())
+
+-- Test 41: Multiple JOINs
+SELECT u.name, o.order_id, p.product_name
+FROM users u
+INNER JOIN orders o ON u.id = o.user_id
+LEFT JOIN order_items oi ON o.order_id = oi.order_id
+INNER JOIN products p ON oi.product_id = p.id
+
+-- Test 42: CROSS JOIN
+SELECT * FROM table1 CROSS JOIN table2
+
+-- Test 43: SET statement
+SET @variable = 100
+SET @name = 'John'
+
+-- Test 44: RETURN statement
+RETURN @result
+
+-- Test 45: PRINT with expressions
+PRINT 'Hello World'
+PRINT @variable
+PRINT @var1 + @var2
+
+-- Test 46: Complex CREATE TABLE
+CREATE TABLE complex_table (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name VARCHAR(100) NOT NULL DEFAULT 'Unknown',
+    email VARCHAR(255) UNIQUE,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    status BIT DEFAULT 1,
+    CONSTRAINT chk_name CHECK (LEN(name) > 0),
+    CONSTRAINT fk_dept FOREIGN KEY (department_id) REFERENCES departments(id) ON DELETE CASCADE
+)
+
+-- Test 47: ALTER DATABASE
+ALTER DATABASE testdb MODIFY NAME = newdb
+
+-- Test 48: ALTER INDEX
+ALTER INDEX idx_name ON users REBUILD
+
+-- Test 49: ALTER VIEW
+ALTER VIEW active_users AS SELECT * FROM users WHERE active = 1 AND deleted = 0
+
+-- Test 50: CREATE PROCEDURE
+CREATE PROCEDURE GetUserOrders
+    @user_id INT
+AS
+BEGIN
+    SELECT * FROM orders WHERE user_id = @user_id
+END
+
+-- Test 51: CREATE FUNCTION
+CREATE FUNCTION GetUserCount()
+RETURNS INT
+AS
+BEGIN
+    RETURN (SELECT COUNT(*) FROM users)
+END
+
+-- Test 52: ALTER PROCEDURE
+ALTER PROCEDURE GetUserOrders
+    @user_id INT,
+    @status VARCHAR(20) = 'active'
+AS
+BEGIN
+    SELECT * FROM orders WHERE user_id = @user_id AND status = @status
+END
+
+-- Test 53: ALTER FUNCTION
+ALTER FUNCTION GetUserCount()
+RETURNS INT
+AS
+BEGIN
+    RETURN (SELECT COUNT(*) FROM users WHERE active = 1)
+END
+
+-- Test 54: ALTER SCHEMA
+ALTER SCHEMA newschema TRANSFER oldschema.oldtable
+
+-- Test 55: DROP multiple objects
+DROP TABLE table1, table2, table3
+
+-- Test 56: DROP INDEX
+DROP INDEX idx_name ON users
+
+-- Test 57: Complex nested query
+SELECT
+    u.name,
+    (SELECT COUNT(*) FROM orders o WHERE o.user_id = u.id) as order_count,
+    (SELECT SUM(total) FROM orders o WHERE o.user_id = u.id) as total_spent
+FROM users u
+WHERE EXISTS (
+    SELECT 1 FROM orders o
+    WHERE o.user_id = u.id
+    AND o.order_date > '2024-01-01'
+)
+ORDER BY total_spent DESC
+
+-- Test 58: Multiple statements
+USE testdb
+SELECT * FROM users
+INSERT INTO log_table VALUES ('Query executed')
+PRINT 'Done'

@@ -1032,6 +1032,18 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
         return new FullIdentifier(identifiers);
     }
 
+    @Override
+    public ASTNode visitWhere_clause(SQLGrammarParser.Where_clauseContext ctx) {
+        ASTNode expression = visit(ctx.expression());
+        return new WhereClause(expression);
+    }
+
+    @Override
+    public ASTNode visitHaving_clause(SQLGrammarParser.Having_clauseContext ctx) {
+        ASTNode expression = visit(ctx.expression());
+        return new HavingClause(expression);
+    }
+
     //sara
 //    @Override
 //    public ASTNode visitOrder_by_expression(SQLGrammarParser.Order_by_expressionContext ctx) {
@@ -1208,15 +1220,31 @@ public class ASTBuilderVisitor extends SQLGrammarParserBaseVisitor<ASTNode> {
     }
     @Override
     public ASTNode visitTable_name(SQLGrammarParser.Table_nameContext ctx) {
-        return visit(ctx.identifier_ref());
+        ASTNode identifierRefNode = visit(ctx.identifier_ref());
+        if (identifierRefNode instanceof IdentifierRef) {
+            return new TableName((IdentifierRef) identifierRefNode);
+        } else {
+            // Fallback: wrap in IdentifierRef if needed
+            return new TableName(new IdentifierRef(identifierRefNode));
+        }
     }
 
     @Override
     public ASTNode visitIdentifier_ref(SQLGrammarParser.Identifier_refContext ctx) {
-        if (ctx.DOT() != null) {
-            return new Identifier(ctx.getText(), "REFERENCE");
+        if (ctx.DOT() != null && ctx.identifier().size() >= 2) {
+            // Qualified reference: schema.table or table.column
+            ASTNode qualifierNode = visit(ctx.identifier(0));
+            ASTNode identifierNode = visit(ctx.identifier(1));
+            if (qualifierNode instanceof Identifier) {
+                return new IdentifierRef((Identifier) qualifierNode, identifierNode);
+            } else {
+                // Fallback: create IdentifierRef without qualifier
+                return new IdentifierRef(identifierNode);
+            }
         }
-        return visit(ctx.identifier(0));
+        // Simple reference: just identifier
+        ASTNode identifierNode = visit(ctx.identifier(0));
+        return new IdentifierRef(identifierNode);
     }
     @Override
     public ASTNode visitAssignment(SQLGrammarParser.AssignmentContext ctx) {

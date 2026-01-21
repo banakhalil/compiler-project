@@ -17,10 +17,13 @@ public class Expression extends ASTNode{
         this.selectStatment = selectStatment;
         this.exitPredicate = exitPredicate;
         this.scalarSubquery = scalarSubquery;
-        this.whenClauseChildren = whenClauseChildren;
+        this.whenClauseChildren = (whenClauseChildren != null) ? whenClauseChildren : new ArrayList<>();
     }
 
     public void addChild(ASTNode node){
+        if (whenClauseChildren == null) {
+            whenClauseChildren = new ArrayList<>();
+        }
         whenClauseChildren.add(node);
     }
 
@@ -29,13 +32,25 @@ public class Expression extends ASTNode{
     public String prettyPrint(String indent) {
         StringBuilder sb = new StringBuilder();
         sb.append(indent).append("EXPRESSION:\n");
-        sb.append(primaryExpression.prettyPrint(indent + "  ")).append("\n");
-        sb.append(expressionList.prettyPrint(indent + "  ")).append("\n");
-        sb.append(selectStatment.prettyPrint(indent + "  ")).append("\n");
-        sb.append(exitPredicate.prettyPrint(indent + "  ")).append("\n");
-        sb.append(scalarSubquery.prettyPrint(indent + "  ")).append("\n");
-        for (ASTNode whenClauseChild : whenClauseChildren) {
-            sb.append(whenClauseChild.prettyPrint(indent + "  ")).append("\n");
+        if (primaryExpression != null) {
+            sb.append(primaryExpression.prettyPrint(indent + "  ")).append("\n");
+        }
+        if (expressionList != null) {
+            sb.append(expressionList.prettyPrint(indent + "  ")).append("\n");
+        }
+        if (selectStatment != null) {
+            sb.append(selectStatment.prettyPrint(indent + "  ")).append("\n");
+        }
+        if (exitPredicate != null) {
+            sb.append(exitPredicate.prettyPrint(indent + "  ")).append("\n");
+        }
+        if (scalarSubquery != null) {
+            sb.append(scalarSubquery.prettyPrint(indent + "  ")).append("\n");
+        }
+        if (whenClauseChildren != null) {
+            for (ASTNode whenClauseChild : whenClauseChildren) {
+                sb.append(whenClauseChild.prettyPrint(indent + "  ")).append("\n");
+            }
         }
         return sb.toString().trim();
     }
