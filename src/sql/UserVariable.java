@@ -10,6 +10,6 @@ public class UserVariable extends ASTNode {
     
     @Override
     public String prettyPrint(String indent) {
-        return indent + "User variable: " + variableName;
+        return indent + "User variable: " + variableName + "\n";
     }
 }

@@ -25,8 +25,7 @@ public class JoinClause extends ASTNode{
             sb.append(indent).append("  JOIN (INNER/LEFT/RIGHT/FULL)\n");
         }
         
-        sb.append(indent).append("  Table Source:\n");
-        String tableOutput = tableSource.prettyPrint(indent + "    ");
+        String tableOutput = tableSource.prettyPrint(indent + "  ");
         sb.append(tableOutput);
         if (!tableOutput.endsWith("\n")) {
             sb.append("\n");

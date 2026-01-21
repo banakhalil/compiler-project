@@ -20,13 +20,29 @@ public class VariableDeclaration extends ASTNode {
     @Override
     public String prettyPrint(String indent) {
         StringBuilder sb = new StringBuilder();
-        sb.append(indent).append("VariableDeclaration: ");
-        sb.append(variable.prettyPrint(""));
-        sb.append(" ").append(dataType.prettyPrint(""));
+        sb.append(indent).append("VariableDeclaration:\n");
+        
+        sb.append(indent).append("  Variable:\n");
+        String varOutput = variable.prettyPrint(indent + "    ");
+        sb.append(varOutput);
+        if (!varOutput.endsWith("\n")) {
+            sb.append("\n");
+        }
+        
+        sb.append(indent).append("  DataType:\n");
+        String typeOutput = dataType.prettyPrint(indent + "    ");
+        sb.append(typeOutput);
+        if (!typeOutput.endsWith("\n")) {
+            sb.append("\n");
+        }
         
         if (expression != null) {
-            sb.append(" = ");
-            sb.append(expression.prettyPrint(""));
+            sb.append(indent).append("  Initial Value:\n");
+            String exprOutput = expression.prettyPrint(indent + "    ");
+            sb.append(exprOutput);
+            if (!exprOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
         
         return sb.toString();

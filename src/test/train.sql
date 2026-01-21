@@ -1,6 +1,5 @@
 -- Using a subquery that uses the MAX() function
-
-SELECT 
+SELECT
     productid, productname, unitprice
 FROM
     products

@@ -57,9 +57,11 @@ public class DataType extends ASTNode {
         
         if (collateName != null) {
             sb.append(" COLLATE ");
-            sb.append(collateName.prettyPrint(""));
+            String collateOutput = collateName.prettyPrint("");
+            sb.append(collateOutput);
         }
         
+        sb.append("\n");
         return sb.toString();
     }
 }
