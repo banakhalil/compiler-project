@@ -20,6 +20,6 @@ public class Identifier extends ASTNode {
     
     @Override
     public String prettyPrint(String indent) {
-        return indent + "Identifier: " + name + (type.equals("REGULAR") ? "" : " [" + type + "]");
+        return indent + "Identifier: " + name + (type.equals("REGULAR") ? "" : " [" + type + "]") + "\n";
     }
 }

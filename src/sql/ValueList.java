@@ -24,10 +24,14 @@ public class ValueList extends ASTNode {
 
         for (ASTNode val : values) {
             if (val != null) {
-                sb.append(val.prettyPrint(indent + "  ")).append("\n");
+                String valOutput = val.prettyPrint(indent + "  ");
+                sb.append(valOutput);
+                if (!valOutput.endsWith("\n")) {
+                    sb.append("\n");
+                }
             }
         }
 
-        return sb.toString().trim();
+        return sb.toString();
     }
 }

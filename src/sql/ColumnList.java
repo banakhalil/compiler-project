@@ -17,8 +17,12 @@ public class ColumnList extends ASTNode{
         StringBuilder sb = new StringBuilder();
         sb.append(indent).append("COLUMN LIST:\n");
         for (ASTNode child : chlidren) {
-            sb.append(child.prettyPrint(indent + "  ")).append("\n");
+            String childOutput = child.prettyPrint(indent + "  ");
+            sb.append(childOutput);
+            if (!childOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
-        return sb.toString().trim();
+        return sb.toString();
     }
 }

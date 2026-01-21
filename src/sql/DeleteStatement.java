@@ -21,10 +21,18 @@ public class DeleteStatement extends ASTNode{
         StringBuilder sb = new StringBuilder();
         sb.append(indent).append("Delete Statement:\n");
         sb.append(indent).append("  Table Name:\n");
-        sb.append(tableName.prettyPrint(indent + "    ")).append("\n");
+        String tableNameOutput = tableName.prettyPrint(indent + "    ");
+        sb.append(tableNameOutput);
+        if (!tableNameOutput.endsWith("\n")) {
+            sb.append("\n");
+        }
         if (hasWhere) {
             sb.append(indent).append("  WHERE:\n");
-            sb.append(WhereClause.prettyPrint(indent + "    ")).append("\n");
+            String whereOutput = WhereClause.prettyPrint(indent + "    ");
+            sb.append(whereOutput);
+            if (!whereOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
         return sb.toString();
     }

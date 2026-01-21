@@ -11,6 +11,13 @@ public class GroupByItem extends ASTNode {
 
     @Override
     public String prettyPrint(String indent) {
-        return indent + type + " (" + content.prettyPrint("") + ")";
+        StringBuilder sb = new StringBuilder();
+        sb.append(indent).append("GroupByItem: ").append(type).append("\n");
+        String contentOutput = content.prettyPrint(indent + "  ");
+        sb.append(contentOutput);
+        if (!contentOutput.endsWith("\n")) {
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 }

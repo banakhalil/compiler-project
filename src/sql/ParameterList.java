@@ -27,8 +27,12 @@ public class ParameterList extends ASTNode {
         StringBuilder sb = new StringBuilder();
         sb.append(indent).append("ParameterList:\n");
         for (ASTNode param : parameters) {
-            sb.append(param.prettyPrint(indent + "  ")).append("\n");
+            String paramOutput = param.prettyPrint(indent + "  ");
+            sb.append(paramOutput);
+            if (!paramOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
-        return sb.toString().trim();
+        return sb.toString();
     }
 }

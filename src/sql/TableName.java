@@ -10,7 +10,14 @@ public class TableName extends ASTNode {
     @Override
     public String prettyPrint(String indent) {
         StringBuilder sb = new StringBuilder();
-        sb.append(indent).append("TableName: ").append(identifierRef.prettyPrint("")).append("\n");
+        sb.append(indent).append("TableName:\n");
+        if (identifierRef != null) {
+            String idRefOutput = identifierRef.prettyPrint(indent + "  ");
+            sb.append(idRefOutput);
+            if (!idRefOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
+        }
         return sb.toString();
     }
 }

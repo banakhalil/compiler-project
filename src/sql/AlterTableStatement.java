@@ -20,9 +20,13 @@ public class AlterTableStatement extends DDLStatement {
         sb.append(indent).append("ALTER_TABLE: ").append(this.tableName).append("\n");
         sb.append(indent).append("ACTIONS:\n");
         for (ASTNode action : this.actions) {
-            sb.append(action.prettyPrint(indent + "  ")).append("\n");
+            String actionOutput = action.prettyPrint(indent + "  ");
+            sb.append(actionOutput);
+            if (!actionOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
-        return sb.toString().trim();
+        return sb.toString();
     }
 }
 

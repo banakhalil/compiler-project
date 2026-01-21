@@ -78,7 +78,11 @@ public class TableConstraint extends ASTNode {
         
         if (constraintName != null) {
             sb.append(indent).append("  Constraint Name:\n");
-            sb.append(constraintName.prettyPrint(indent + "    ")).append("\n");
+            String nameOutput = constraintName.prettyPrint(indent + "    ");
+            sb.append(nameOutput);
+            if (!nameOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
         
         if (clustered) {
@@ -90,37 +94,61 @@ public class TableConstraint extends ASTNode {
         if (!columns.isEmpty()) {
             sb.append(indent).append("  Columns:\n");
             for (ASTNode col : columns) {
-                sb.append(col.prettyPrint(indent + "    ")).append("\n");
+                String colOutput = col.prettyPrint(indent + "    ");
+                sb.append(colOutput);
+                if (!colOutput.endsWith("\n")) {
+                    sb.append("\n");
+                }
             }
         }
         
         if (checkExpression != null) {
             sb.append(indent).append("  Check Expression:\n");
-            sb.append(checkExpression.prettyPrint(indent + "    ")).append("\n");
+            String checkOutput = checkExpression.prettyPrint(indent + "    ");
+            sb.append(checkOutput);
+            if (!checkOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
         
         if (referencesTable != null) {
             sb.append(indent).append("  References Table:\n");
-            sb.append(referencesTable.prettyPrint(indent + "    ")).append("\n");
+            String refTableOutput = referencesTable.prettyPrint(indent + "    ");
+            sb.append(refTableOutput);
+            if (!refTableOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
         
         if (referencedColumns != null && !referencedColumns.isEmpty()) {
             sb.append(indent).append("  Referenced Columns:\n");
             for (ASTNode col : referencedColumns) {
-                sb.append(col.prettyPrint(indent + "    ")).append("\n");
+                String colOutput = col.prettyPrint(indent + "    ");
+                sb.append(colOutput);
+                if (!colOutput.endsWith("\n")) {
+                    sb.append("\n");
+                }
             }
         }
         
         if (onDeleteAction != null) {
             sb.append(indent).append("  ON DELETE:\n");
-            sb.append(onDeleteAction.prettyPrint(indent + "    ")).append("\n");
+            String deleteOutput = onDeleteAction.prettyPrint(indent + "    ");
+            sb.append(deleteOutput);
+            if (!deleteOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
         
         if (onUpdateAction != null) {
             sb.append(indent).append("  ON UPDATE:\n");
-            sb.append(onUpdateAction.prettyPrint(indent + "    "));
+            String updateOutput = onUpdateAction.prettyPrint(indent + "    ");
+            sb.append(updateOutput);
+            if (!updateOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
         
-        return sb.toString().trim();
+        return sb.toString();
     }
 }

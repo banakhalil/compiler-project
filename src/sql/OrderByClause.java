@@ -15,8 +15,12 @@ public class OrderByClause extends ASTNode {
         StringBuilder sb = new StringBuilder();
         sb.append(indent).append("ORDER_BY:\n");
         for (ASTNode expr : expressions) {
-            sb.append(expr.prettyPrint(indent + "  ")).append("\n");
+            String exprOutput = expr.prettyPrint(indent + "  ");
+            sb.append(exprOutput);
+            if (!exprOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
-        return sb.toString().trim();
+        return sb.toString();
     }
 }

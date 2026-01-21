@@ -17,6 +17,6 @@ public class DropTableStatement extends DDLStatement {
         for (String name : tableNames) {
             sb.append(indent).append("  ").append(name).append("\n");
         }
-        return sb.toString().trim();
+        return sb.toString();
     }
 }

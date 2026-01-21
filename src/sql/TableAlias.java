@@ -9,6 +9,6 @@ public class TableAlias extends ASTNode {
     
     @Override
     public String prettyPrint(String indent) {
-        return indent + "Table alias: " + alias;
+        return indent + "Table alias: " + alias + "\n";
     }
 }

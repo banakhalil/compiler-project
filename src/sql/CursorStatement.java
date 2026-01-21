@@ -18,6 +18,6 @@ public class CursorStatement extends ASTNode {
         sb.append(declareCursor.prettyPrint(indent + "  ")).append("\n");
         sb.append(openCursor.prettyPrint(indent + "  ")).append("\n");
         sb.append(fetchStatement.prettyPrint(indent + "  ")).append("\n");
-        return sb.toString().trim();
+        return sb.toString();
     }
 }

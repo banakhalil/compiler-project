@@ -15,8 +15,12 @@ public class GroupByClause extends ASTNode {
         StringBuilder sb = new StringBuilder();
         sb.append(indent).append("GROUP_BY:\n");
         for (ASTNode item : items) {
-            sb.append(item.prettyPrint(indent + "  ")).append("\n");
+            String itemOutput = item.prettyPrint(indent + "  ");
+            sb.append(itemOutput);
+            if (!itemOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
-        return sb.toString().trim();
+        return sb.toString();
     }
 }

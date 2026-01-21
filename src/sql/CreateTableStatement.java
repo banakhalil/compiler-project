@@ -15,15 +15,19 @@ public class CreateTableStatement extends DDLStatement {
     @Override
     public String prettyPrint(String indent) {
         StringBuilder sb = new StringBuilder();
-        sb.append(indent).append("CREATE_TABLE\n");
+        sb.append(indent).append("CREATE_TABLE:\n");
         sb.append(indent).append("  TABLE: ").append(tableName).append("\n");
-        sb.append(indent).append("  COLUMNS:\n");
-
-        for (ASTNode col : columns) {
-            sb.append(col.prettyPrint(indent + "    ")).append("\n");
+        if (columns != null && !columns.isEmpty()) {
+            sb.append(indent).append("  COLUMNS:\n");
+            for (ASTNode col : columns) {
+                String colOutput = col.prettyPrint(indent + "    ");
+                sb.append(colOutput);
+                if (!colOutput.endsWith("\n")) {
+                    sb.append("\n");
+                }
+            }
         }
-
-        return sb.toString().trim();
+        return sb.toString();
     }
 }
 

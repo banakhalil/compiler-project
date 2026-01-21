@@ -30,7 +30,11 @@ public class IndexColumn extends ASTNode {
     public String prettyPrint(String indent) {
         StringBuilder sb = new StringBuilder();
         sb.append(indent).append("INDEX_COLUMN (Order: ").append(sortOrder).append("):\n");
-        sb.append(identifier.prettyPrint(indent + "  "));
+        String idOutput = identifier.prettyPrint(indent + "  ");
+        sb.append(idOutput);
+        if (!idOutput.endsWith("\n")) {
+            sb.append("\n");
+        }
         return sb.toString();
     }
 }

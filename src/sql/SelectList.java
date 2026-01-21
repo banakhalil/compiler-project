@@ -16,12 +16,18 @@ public class SelectList extends ASTNode {
 
     @Override
     public String prettyPrint(String indent) {
-        if (isStar) return indent + "SelectList: *";
+        if (isStar) {
+            return indent + "SelectList: *\n";
+        }
         StringBuilder sb = new StringBuilder();
         sb.append(indent).append("SELECT_LIST:\n");
         for (ASTNode node : elements) {
-            sb.append(node.prettyPrint(indent + "  ")).append("\n");
+            String elementOutput = node.prettyPrint(indent + "  ");
+            sb.append(elementOutput);
+            if (!elementOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
-        return sb.toString().trim();
+        return sb.toString();
     }
 }

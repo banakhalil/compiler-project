@@ -34,26 +34,46 @@ public class UpdateStatement extends ASTNode {
     public String prettyPrint(String indent) {
         StringBuilder sb = new StringBuilder();
         sb.append(indent).append("UPDATE_STATEMENT:\n");
-        sb.append(tableName.prettyPrint(indent + "  ")).append("\n");
+        String tableNameOutput = tableName.prettyPrint(indent + "  ");
+        sb.append(tableNameOutput);
+        if (!tableNameOutput.endsWith("\n")) {
+            sb.append("\n");
+        }
 
         sb.append(indent).append("  SET:\n");
         for (ASTNode assign : assignments) {
-            sb.append(assign.prettyPrint(indent + "    ")).append("\n");
+            String assignOutput = assign.prettyPrint(indent + "    ");
+            sb.append(assignOutput);
+            if (!assignOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
 
         if (fromSource != null) {
             sb.append(indent).append("  FROM_SOURCE:\n");
-            sb.append(fromSource.prettyPrint(indent + "    ")).append("\n");
+            String fromOutput = fromSource.prettyPrint(indent + "    ");
+            sb.append(fromOutput);
+            if (!fromOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
 
         for (ASTNode join : joinClauses) {
-            sb.append(join.prettyPrint(indent + "  ")).append("\n");
+            String joinOutput = join.prettyPrint(indent + "  ");
+            sb.append(joinOutput);
+            if (!joinOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
 
         if (whereClause != null) {
-            sb.append(whereClause.prettyPrint(indent + "  "));
+            String whereOutput = whereClause.prettyPrint(indent + "  ");
+            sb.append(whereOutput);
+            if (!whereOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
 
-        return sb.toString().trim();
+        return sb.toString();
     }
 }

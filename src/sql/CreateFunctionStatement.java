@@ -24,15 +24,23 @@ public class CreateFunctionStatement extends DDLStatement {
         sb.append(indent).append("  RETURNS: ").append(this.returnType).append("\n");
 
         if (this.parameters != null) {
-            sb.append(this.parameters.prettyPrint(indent + "  ")).append("\n");
+            String paramsOutput = this.parameters.prettyPrint(indent + "  ");
+            sb.append(paramsOutput);
+            if (!paramsOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
 
         sb.append(indent).append("BODY:\n");
         for (ASTNode stmt : this.body) {
-            sb.append(stmt.prettyPrint(indent + "  ")).append("\n");
+            String stmtOutput = stmt.prettyPrint(indent + "  ");
+            sb.append(stmtOutput);
+            if (!stmtOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
 
-        return sb.toString().trim();
+        return sb.toString();
     }
 }
 

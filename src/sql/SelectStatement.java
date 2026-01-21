@@ -40,24 +40,66 @@ public class SelectStatement extends ASTNode {
 
         if (topNumber != null) {
             sb.append(indent).append("  TOP:\n");
-            sb.append(topNumber.prettyPrint(indent + "    ")).append("\n");
+            String topOutput = topNumber.prettyPrint(indent + "    ");
+            sb.append(topOutput);
+            if (!topOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
 
-        sb.append(selectList.prettyPrint(indent + "  ")).append("\n");
+        if (selectList != null) {
+            String selectListOutput = selectList.prettyPrint(indent + "  ");
+            sb.append(selectListOutput);
+            if (!selectListOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
+        }
 
         if (fromTable != null) {
-            sb.append(fromTable.prettyPrint(indent + "  ")).append("\n");
+            String fromTableOutput = fromTable.prettyPrint(indent + "  ");
+            sb.append(fromTableOutput);
+            if (!fromTableOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
 
         for (ASTNode join : joinClauses) {
-            sb.append(join.prettyPrint(indent + "  ")).append("\n");
+            String joinOutput = join.prettyPrint(indent + "  ");
+            sb.append(joinOutput);
+            if (!joinOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
 
-        if (whereClause != null) sb.append(whereClause.prettyPrint(indent + "  ")).append("\n");
-        if (groupByClause != null) sb.append(groupByClause.prettyPrint(indent + "  ")).append("\n");
-        if (havingClause != null) sb.append(havingClause.prettyPrint(indent + "  ")).append("\n");
-        if (orderByClause != null) sb.append(orderByClause.prettyPrint(indent + "  ")).append("\n");
+        if (whereClause != null) {
+            String whereOutput = whereClause.prettyPrint(indent + "  ");
+            sb.append(whereOutput);
+            if (!whereOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
+        }
+        if (groupByClause != null) {
+            String groupByOutput = groupByClause.prettyPrint(indent + "  ");
+            sb.append(groupByOutput);
+            if (!groupByOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
+        }
+        if (havingClause != null) {
+            String havingOutput = havingClause.prettyPrint(indent + "  ");
+            sb.append(havingOutput);
+            if (!havingOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
+        }
+        if (orderByClause != null) {
+            String orderByOutput = orderByClause.prettyPrint(indent + "  ");
+            sb.append(orderByOutput);
+            if (!orderByOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
+        }
 
-        return sb.toString().trim();
+        return sb.toString();
     }
 }

@@ -9,7 +9,13 @@ public class Subquery extends ASTNode{
     public String prettyPrint(String indent) {
         StringBuilder sb = new StringBuilder();
         sb.append(indent).append("SUBQUERY:\n");
-        sb.append(selectStatement.prettyPrint(indent + "  ")).append("\n");
-        return sb.toString().trim();
+        if (selectStatement != null) {
+            String selectOutput = selectStatement.prettyPrint(indent + "  ");
+            sb.append(selectOutput);
+            if (!selectOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
+        }
+        return sb.toString();
     }
 }

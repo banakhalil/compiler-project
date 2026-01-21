@@ -52,15 +52,16 @@ public class ColumnDefinition extends ASTNode {
         sb.append(indent).append("COLUMN: ").append(columnName).append(" TYPE: ").append(dataType);
 
         if (!constraints.isEmpty()) {
-            sb.append("[");
+            sb.append(" [");
             for (int i = 0; i < constraints.size(); i++) {
                 sb.append(constraints.get(i));
                 if (i < constraints.size() - 1) {
-                    sb.append(",");
+                    sb.append(", ");
                 }
             }
             sb.append("]");
         }
+        sb.append("\n");
         return sb.toString();
     }
 }

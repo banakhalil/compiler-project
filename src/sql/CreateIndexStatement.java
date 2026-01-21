@@ -25,9 +25,13 @@ public class CreateIndexStatement extends DDLStatement {
         sb.append(indent).append("  ON TABLE: ").append(this.tableName).append("\n");
         sb.append(indent).append("  COLUMNS:\n");
         for (ASTNode col : this.columns) {
-            sb.append(col.prettyPrint(indent + "    ")).append("\n");
+            String colOutput = col.prettyPrint(indent + "    ");
+            sb.append(colOutput);
+            if (!colOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
-        return sb.toString().trim();
+        return sb.toString();
     }
 }
 

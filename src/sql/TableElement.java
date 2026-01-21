@@ -23,7 +23,11 @@ public class TableElement extends ASTNode {
     public String prettyPrint(String indent) {
         StringBuilder sb = new StringBuilder();
         sb.append(indent).append("TableElement:\n");
-        sb.append(element.prettyPrint(indent + "  "));
+        String elementOutput = element.prettyPrint(indent + "  ");
+        sb.append(elementOutput);
+        if (!elementOutput.endsWith("\n")) {
+            sb.append("\n");
+        }
         return sb.toString();
     }
 }

@@ -43,19 +43,31 @@ public class IfStatement extends ASTNode {
         // Condition
         sb.append(indent).append("  Condition:\n");
         if (expression != null) {
-            sb.append(expression.prettyPrint(indent + "    ")).append("\n");
+            String exprOutput = expression.prettyPrint(indent + "    ");
+            sb.append(exprOutput);
+            if (!exprOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
         
-        // If body (optional)
+        // If body 
         if (ifStatement != null) {
             sb.append(indent).append("  If Body:\n");
-            sb.append(ifStatement.prettyPrint(indent + "    ")).append("\n");
+            String ifBodyOutput = ifStatement.prettyPrint(indent + "    ");
+            sb.append(ifBodyOutput);
+            if (!ifBodyOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
         
-        // Else body (optional)
+        // Else body 
         if (elseStatement != null) {
             sb.append(indent).append("  Else Body:\n");
-            sb.append(elseStatement.prettyPrint(indent + "    "));
+            String elseBodyOutput = elseStatement.prettyPrint(indent + "    ");
+            sb.append(elseBodyOutput);
+            if (!elseBodyOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
         
         return sb.toString();

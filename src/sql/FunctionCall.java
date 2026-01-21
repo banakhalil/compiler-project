@@ -20,10 +20,18 @@ public class FunctionCall extends ASTNode{
     public String prettyPrint(String indent) {
         StringBuilder sb = new StringBuilder();
         sb.append(indent).append("FUNCTION CALL:\n");
-        sb.append(functionName.prettyPrint(indent + "  ")).append("\n");
-        for (ASTNode expression : expressionsList) {
-            sb.append(expression.prettyPrint(indent + "  ")).append("\n");
+        String funcNameOutput = functionName.prettyPrint(indent + "  ");
+        sb.append(funcNameOutput);
+        if (!funcNameOutput.endsWith("\n")) {
+            sb.append("\n");
         }
-        return sb.toString().trim();
+        for (ASTNode expression : expressionsList) {
+            String exprOutput = expression.prettyPrint(indent + "  ");
+            sb.append(exprOutput);
+            if (!exprOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
+        }
+        return sb.toString();
     }
 }

@@ -16,11 +16,19 @@ public class WhenStatement extends ASTNode{
         StringBuilder sb = new StringBuilder();
         sb.append(indent).append("WHEN STATEMENT:\n");
         sb.append(indent).append("  WHEN:\n");
-        sb.append(whenExpression.prettyPrint(indent + "    ")).append("\n");
+        String whenOutput = whenExpression.prettyPrint(indent + "    ");
+        sb.append(whenOutput);
+        if (!whenOutput.endsWith("\n")) {
+            sb.append("\n");
+        }
         if (thenExpression != null) {
             sb.append(indent).append("  THEN:\n");
-            sb.append(thenExpression.prettyPrint(indent + "    ")).append("\n");
+            String thenOutput = thenExpression.prettyPrint(indent + "    ");
+            sb.append(thenOutput);
+            if (!thenOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
-        return sb.toString().trim();
+        return sb.toString();
     }
 }

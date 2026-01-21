@@ -26,11 +26,19 @@ public class JoinClause extends ASTNode{
         }
         
         sb.append(indent).append("  Table Source:\n");
-        sb.append(tableSource.prettyPrint(indent + "    ")).append("\n");
+        String tableOutput = tableSource.prettyPrint(indent + "    ");
+        sb.append(tableOutput);
+        if (!tableOutput.endsWith("\n")) {
+            sb.append("\n");
+        }
         
         if (expression != null) {
             sb.append(indent).append("  ON Condition:\n");
-            sb.append(expression.prettyPrint(indent + "    "));
+            String exprOutput = expression.prettyPrint(indent + "    ");
+            sb.append(exprOutput);
+            if (!exprOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
         
         return sb.toString();

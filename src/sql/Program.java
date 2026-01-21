@@ -17,12 +17,16 @@ public class Program extends ASTNode {
     @Override
     public String prettyPrint(String indent) {
         StringBuilder sb = new StringBuilder();
-        sb.append(indent).append("Program:\n");
+        sb.append("Program:\n");
         if (!statements.isEmpty()) {
             for (ASTNode stmt : statements) {
-                sb.append(stmt.prettyPrint(indent + "  ")).append("\n");
+                String stmtOutput = stmt.prettyPrint("  ");
+                sb.append(stmtOutput);
+                if (!stmtOutput.endsWith("\n")) {
+                    sb.append("\n");
+                }
             }
         }
-        return sb.toString().trim();
+        return sb.toString();
     }
 }

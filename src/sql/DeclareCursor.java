@@ -33,6 +33,6 @@ public class DeclareCursor extends ASTNode {
                 sb.append(column.prettyPrint(indent + "  ")).append("\n");
             }
         }
-        return sb.toString().trim();
+        return sb.toString();
     }
 }

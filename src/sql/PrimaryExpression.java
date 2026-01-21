@@ -23,24 +23,48 @@ public class PrimaryExpression extends ASTNode{
         StringBuilder sb = new StringBuilder();
         sb.append(indent).append("PRIMARY EXPRESSION:\n");
         if (columnName != null) {
-            sb.append(columnName.prettyPrint(indent + "  ")).append("\n");
+            String colOutput = columnName.prettyPrint(indent + "  ");
+            sb.append(colOutput);
+            if (!colOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
         if (constant != null) {
-            sb.append(constant.prettyPrint(indent + "  ")).append("\n");
+            String constOutput = constant.prettyPrint(indent + "  ");
+            sb.append(constOutput);
+            if (!constOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
         if (identifier != null) {
-            sb.append(identifier.prettyPrint(indent + "  ")).append("\n");
+            String idOutput = identifier.prettyPrint(indent + "  ");
+            sb.append(idOutput);
+            if (!idOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
         if (functionCall != null) {
-            sb.append(functionCall.prettyPrint(indent + "  ")).append("\n");
+            String funcOutput = functionCall.prettyPrint(indent + "  ");
+            sb.append(funcOutput);
+            if (!funcOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
         if (expression != null) {
-            sb.append(expression.prettyPrint(indent + "  ")).append("\n");
+            String exprOutput = expression.prettyPrint(indent + "  ");
+            sb.append(exprOutput);
+            if (!exprOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
         if (subquery != null) {
-            sb.append(subquery.prettyPrint(indent + "  ")).append("\n");
+            String subqueryOutput = subquery.prettyPrint(indent + "  ");
+            sb.append(subqueryOutput);
+            if (!subqueryOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
-        return sb.toString().trim();
+        return sb.toString();
     }
 
 }

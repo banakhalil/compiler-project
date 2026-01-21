@@ -6,6 +6,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
 //        String fileName = "src/test/test.txt";
         String fileName = "src/test/train.sql";
+        // String fileName = "src/test/train2-1.sql";
         SQLGrammarParser parser = getParser(fileName);
         
         if (parser == null) {

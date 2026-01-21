@@ -43,20 +43,32 @@ public class Parameter extends ASTNode {
         sb.append(indent).append("Parameter:\n");
         
         sb.append(indent).append("  Name:\n");
-        sb.append(parameterName.prettyPrint(indent + "    ")).append("\n");
+        String nameOutput = parameterName.prettyPrint(indent + "    ");
+        sb.append(nameOutput);
+        if (!nameOutput.endsWith("\n")) {
+            sb.append("\n");
+        }
         
         sb.append(indent).append("  Data Type:\n");
-        sb.append(dataType.prettyPrint(indent + "    ")).append("\n");
+        String typeOutput = dataType.prettyPrint(indent + "    ");
+        sb.append(typeOutput);
+        if (!typeOutput.endsWith("\n")) {
+            sb.append("\n");
+        }
         
         if (defaultValue != null) {
             sb.append(indent).append("  Default Value:\n");
-            sb.append(defaultValue.prettyPrint(indent + "    ")).append("\n");
+            String defaultOutput = defaultValue.prettyPrint(indent + "    ");
+            sb.append(defaultOutput);
+            if (!defaultOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
         
         if (isOutput) {
-            sb.append(indent).append("  OUTPUT");
+            sb.append(indent).append("  OUTPUT\n");
         }
         
-        return sb.toString().trim();
+        return sb.toString();
     }
 }

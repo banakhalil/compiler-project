@@ -29,6 +29,6 @@ public class AlterFunctionStatement extends DDLStatement {
         for (ASTNode stmt : this.body) {
             sb.append(stmt.prettyPrint(indent + "  ")).append("\n");
         }
-        return sb.toString().trim();
+        return sb.toString();
     }
 }

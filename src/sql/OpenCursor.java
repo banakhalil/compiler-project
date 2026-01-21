@@ -31,6 +31,6 @@ public class OpenCursor extends ASTNode {
             sb.append(cursorName.prettyPrint(indent + "  ")).append("\n");
         }
         
-        return sb.toString().trim();
+        return sb.toString();
     }
 }

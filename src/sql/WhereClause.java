@@ -10,7 +10,13 @@ public class WhereClause extends ASTNode{
     public String prettyPrint(String indent) {
         StringBuilder sb = new StringBuilder();
         sb.append(indent).append("WHERE CLAUSE:\n");
-        sb.append(expression.prettyPrint(indent + "  ")).append("\n");
+        if (expression != null) {
+            String exprOutput = expression.prettyPrint(indent + "  ");
+            sb.append(exprOutput);
+            if (!exprOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
+        }
         return sb.toString();
     }
 }

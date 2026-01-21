@@ -23,9 +23,27 @@ public class IdentifierRef extends ASTNode {
     public String prettyPrint(String indent) {
         StringBuilder sb = new StringBuilder();
         if (isQualified()) {
-            sb.append(indent).append("IdentifierRef: ").append(qualifier.prettyPrint("")).append(".").append(identifier.prettyPrint("")).append("\n");
+            sb.append(indent).append("IdentifierRef:\n");
+            String qualifierOutput = qualifier.prettyPrint(indent + "  ");
+            sb.append(qualifierOutput);
+            if (!qualifierOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
+            sb.append(indent).append("  .\n");
+            String idOutput = identifier.prettyPrint(indent + "  ");
+            sb.append(idOutput);
+            if (!idOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         } else {
-            sb.append(indent).append("IdentifierRef: ").append(identifier.prettyPrint("")).append("\n");
+            sb.append(indent).append("IdentifierRef:\n");
+            if (identifier != null) {
+                String idOutput = identifier.prettyPrint(indent + "  ");
+                sb.append(idOutput);
+                if (!idOutput.endsWith("\n")) {
+                    sb.append("\n");
+                }
+            }
         }
         return sb.toString();
     }

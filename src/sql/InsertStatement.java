@@ -18,18 +18,30 @@ public class InsertStatement extends ASTNode {
     public String prettyPrint(String indent) {
         StringBuilder sb = new StringBuilder();
         sb.append(indent).append("INSERT_STATEMENT:\n");
-        sb.append(tableName.prettyPrint(indent + "  ")).append("\n");
+        String tableNameOutput = tableName.prettyPrint(indent + "  ");
+        sb.append(tableNameOutput);
+        if (!tableNameOutput.endsWith("\n")) {
+            sb.append("\n");
+        }
 
         if (columnList != null) {
             sb.append(indent).append("  TARGET_COLUMNS:\n");
-            sb.append(columnList.prettyPrint(indent + "    ")).append("\n");
+            String colListOutput = columnList.prettyPrint(indent + "    ");
+            sb.append(colListOutput);
+            if (!colListOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
 
         if (isDefaultValues) {
-            sb.append(indent).append("  SOURCE: DEFAULT VALUES");
+            sb.append(indent).append("  SOURCE: DEFAULT VALUES\n");
         } else if (insertSource != null) {
             sb.append(indent).append("  SOURCE:\n");
-            sb.append(insertSource.prettyPrint(indent + "    "));
+            String sourceOutput = insertSource.prettyPrint(indent + "    ");
+            sb.append(sourceOutput);
+            if (!sourceOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
 
         return sb.toString();

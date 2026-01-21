@@ -15,6 +15,6 @@ public class DeallocateCursor extends ASTNode {
         sb.append(indent).append("DEALLOCATE CURSOR:\n");
         sb.append(identifierRef.prettyPrint(indent + "  ")).append("\n");
         
-        return sb.toString().trim();
+        return sb.toString();
     }
 }

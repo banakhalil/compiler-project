@@ -43,6 +43,6 @@ public class FetchStatement extends ASTNode {
                 sb.append(var.prettyPrint(indent + "    ")).append("\n");
             }
         }
-        return sb.toString().trim();
+        return sb.toString();
     }
 }

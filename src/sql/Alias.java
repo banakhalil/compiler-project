@@ -27,6 +27,6 @@ public class Alias extends ASTNode {
         } else {
             sb.append(indent).append("Alias:\n").append(identifier.prettyPrint(indent + "  "));
         }
-        return sb.toString().trim();
+        return sb.toString();
     }
 }

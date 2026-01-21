@@ -23,14 +23,36 @@ public class SelectElement extends ASTNode {
         StringBuilder sb = new StringBuilder();
         if (isAssignment) {
             sb.append(indent).append("SELECT_ELEMENT (Assignment Style):\n");
-            if (identifier != null) sb.append(identifier.prettyPrint(indent + "  ")).append("\n");
+            if (identifier != null) {
+                String idOutput = identifier.prettyPrint(indent + "  ");
+                sb.append(idOutput);
+                if (!idOutput.endsWith("\n")) {
+                    sb.append("\n");
+                }
+            }
             sb.append(indent).append("  =\n");
-            if (expression != null) sb.append(expression.prettyPrint(indent + "  "));
+            if (expression != null) {
+                String exprOutput = expression.prettyPrint(indent + "  ");
+                sb.append(exprOutput);
+                if (!exprOutput.endsWith("\n")) {
+                    sb.append("\n");
+                }
+            }
         } else {
             sb.append(indent).append("SELECT_ELEMENT:\n");
-            if (expression != null) sb.append(expression.prettyPrint(indent + "  "));
+            if (expression != null) {
+                String exprOutput = expression.prettyPrint(indent + "  ");
+                sb.append(exprOutput);
+                if (!exprOutput.endsWith("\n")) {
+                    sb.append("\n");
+                }
+            }
             if (alias != null) {
-                sb.append("\n").append(alias.prettyPrint(indent + "  "));
+                String aliasOutput = alias.prettyPrint(indent + "  ");
+                sb.append(aliasOutput);
+                if (!aliasOutput.endsWith("\n")) {
+                    sb.append("\n");
+                }
             }
         }
         return sb.toString();

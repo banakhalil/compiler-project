@@ -19,15 +19,27 @@ public class TableSource extends ASTNode{
         
         if (identifierRef != null) {
             sb.append(indent).append("  IdentifierRef:\n");
-            sb.append(identifierRef.prettyPrint(indent + "    ")).append("\n");
+            String idRefOutput = identifierRef.prettyPrint(indent + "    ");
+            sb.append(idRefOutput);
+            if (!idRefOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         } else if (selectStatement != null) {
             sb.append(indent).append("  Subquery:\n");
-            sb.append(selectStatement.prettyPrint(indent + "    ")).append("\n");
+            String subqueryOutput = selectStatement.prettyPrint(indent + "    ");
+            sb.append(subqueryOutput);
+            if (!subqueryOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
         
         if (tableAlias != null) {
             sb.append(indent).append("  Alias:\n");
-            sb.append(tableAlias.prettyPrint(indent + "    "));
+            String aliasOutput = tableAlias.prettyPrint(indent + "    ");
+            sb.append(aliasOutput);
+            if (!aliasOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
         
         return sb.toString();

@@ -20,8 +20,12 @@ public class ExpressionList extends ASTNode{
         StringBuilder sb = new StringBuilder();
         sb.append(indent).append("EXPRESSION LIST:\n");
         for (ASTNode child : children) {
-            sb.append(child.prettyPrint(indent + "  ")).append("\n");
+            String childOutput = child.prettyPrint(indent + "  ");
+            sb.append(childOutput);
+            if (!childOutput.endsWith("\n")) {
+                sb.append("\n");
+            }
         }
-        return sb.toString().trim();
+        return sb.toString();
     }
 }

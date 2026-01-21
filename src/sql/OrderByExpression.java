@@ -11,6 +11,13 @@ public class OrderByExpression extends ASTNode {
 
     @Override
     public String prettyPrint(String indent) {
-        return indent + expression.prettyPrint("") + " [" + direction + "]";
+        StringBuilder sb = new StringBuilder();
+        sb.append(indent).append("OrderByExpression [").append(direction).append("]:\n");
+        String exprOutput = expression.prettyPrint(indent + "  ");
+        sb.append(exprOutput);
+        if (!exprOutput.endsWith("\n")) {
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 }

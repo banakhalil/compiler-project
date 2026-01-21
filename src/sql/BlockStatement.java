@@ -20,9 +20,13 @@ public class BlockStatement extends ASTNode {
         sb.append(indent).append("BlockStatement:\n");
         if (!statements.isEmpty()) {
             for (ASTNode stmt : statements) {
-                sb.append(stmt.prettyPrint(indent + "  ")).append("\n");
+                String stmtOutput = stmt.prettyPrint(indent + "  ");
+                sb.append(stmtOutput);
+                if (!stmtOutput.endsWith("\n")) {
+                    sb.append("\n");
+                }
             }
         }
-        return sb.toString().trim();
+        return sb.toString();
     }
 }
